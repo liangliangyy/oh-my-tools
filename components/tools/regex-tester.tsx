@@ -164,7 +164,7 @@ export function RegexTester() {
 
       <div className="flex gap-2 pt-2">
         <Button
-          variant="secondary"
+          variant="ghost"
           onClick={() => { setPattern(""); setTestString(""); }}
           className="gap-2"
         >

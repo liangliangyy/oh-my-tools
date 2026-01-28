@@ -214,13 +214,13 @@ export function PasswordGenerator() {
             placeholder="点击生成密码"
             className="font-mono"
           />
-          <Button onClick={handleGenerate} size="icon" variant="secondary">
+          <Button onClick={handleGenerate} size="icon" variant="ghost">
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button
             onClick={() => copyPassword(password, "single")}
             size="icon"
-            variant="secondary"
+            variant="ghost"
             disabled={!password}
           >
             {copied === "single" ? (
@@ -249,7 +249,7 @@ export function PasswordGenerator() {
             min={1}
             max={20}
           />
-          <Button variant="secondary" onClick={handleBatchGenerate} size="sm">
+          <Button variant="ghost" onClick={handleBatchGenerate} size="sm">
             生成
           </Button>
         </div>

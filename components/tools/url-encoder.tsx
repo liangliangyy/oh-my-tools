@@ -82,10 +82,10 @@ export function UrlEncoder() {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="flex gap-2">
-        <Button variant="secondary" onClick={process}>
+        <Button variant="ghost" onClick={process}>
           {mode === "encode" ? "编码" : "解码"}
         </Button>
-        <Button variant="secondary" onClick={() => { setInput(""); setOutput(""); setError("") }}>
+        <Button variant="ghost" onClick={() => { setInput(""); setOutput(""); setError("") }}>
           清空
         </Button>
       </div>

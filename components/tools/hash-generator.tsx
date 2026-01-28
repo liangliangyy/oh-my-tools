@@ -61,7 +61,7 @@ export function HashGenerator() {
         />
       </div>
 
-      <Button variant="secondary" onClick={generateHashes} disabled={!input || loading}>
+      <Button variant="ghost" onClick={generateHashes} disabled={!input || loading}>
         {loading ? "生成中..." : "生成 Hash"}
       </Button>
 

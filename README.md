@@ -6,7 +6,7 @@
 
 一个免费、开源的开发者工具集合，所有处理均在浏览器本地进行，保护您的数据隐私。
 
-[在线体验](#) | [功能列表](#功能列表) | [本地运行](#本地开发)
+[在线体验](https://tools.lylinux.net/) | [功能列表](#功能列表) | [本地运行](#本地开发)
 
 </div>
 
@@ -22,35 +22,41 @@
 
 ## 🧰 功能列表
 
-### 数据格式工具
+### 格式化工具 (5个)
 
 - **JSON 格式化** - 格式化、压缩、验证 JSON 数据
-- **JSON 转代码** - 将 JSON 转换为 TypeScript、Go、Python 等语言的类型定义
+- **JSON 转代码** - 将 JSON 转换为 TypeScript、Go、Python、Java、Rust 类型定义
+- **Markdown 预览** - 实时预览 Markdown 渲染效果，支持 Mermaid 流程图
 - **YAML ↔ JSON** - YAML 与 JSON 格式双向转换
+- **文件 Diff** - 对比两个文件的差异，支持并排/内联视图
 
-### 开发工具
-
-- **文件 Diff** - 对比两个文件的差异，高亮显示变更
-- **正则测试** - 实时测试正则表达式匹配结果
-- **JWT 解码器** - 解析 JWT Token，查看 header、payload 内容
-- **Cron 表达式** - 可视化生成和解析 Cron 定时任务表达式
-
-### 编码/解码
+### 编码解码 (5个)
 
 - **Base64 编解码** - Base64 编码与解码转换
 - **URL 编解码** - URL 编码与解码处理
 - **Hash 生成** - 生成 SHA-1、SHA-256、SHA-384、SHA-512 哈希值
+- **图片转 Base64** - 图片文件转 Base64 编码，支持拖拽上传
+- **JWT 解码器** - 解析 JWT Token，查看 header、payload 内容
 
-### 转换工具
+### 生成器 (3个)
+
+- **UUID 生成** - 批量生成 UUID (支持 v1/v4/v5)
+- **密码生成器** - 生成安全的随机密码，支持自定义规则
+- **二维码生成** - 生成自定义二维码图片，可调整颜色和尺寸
+
+### 转换器 (4个)
 
 - **时间戳转换** - Unix 时间戳与日期时间互相转换
 - **颜色转换** - HEX、RGB、HSL 颜色格式互转
 - **进制转换** - 二进制、八进制、十进制、十六进制互转
+- **日期计算器** - 日期差计算、日期加减运算、工作日统计
 
-### 生成器
+### 开发工具 (2个)
 
-- **UUID 生成** - 批量生成随机 UUID (v4)
-- **密码生成器** - 生成安全的随机密码，支持自定义规则
+- **正则测试** - 实时测试正则表达式匹配结果
+- **Cron 表达式** - 可视化生成和解析 Cron 定时任务表达式
+
+**总计: 19 个工具**
 
 ## 🚀 技术栈
 
@@ -74,7 +80,7 @@
 1. 克隆仓库
 
 ```bash
-git clone https://github.com/yourusername/oh-my-tools.git
+git clone https://github.com/liangliangyy/oh-my-tools.git
 cd oh-my-tools
 ```
 
@@ -108,9 +114,12 @@ pnpm start
 ## 🔧 添加新工具
 
 1. 在 `components/tools/` 目录下创建新工具组件
-2. 在 `app/page.tsx` 中注册工具（首页展示）
-3. 在 `app/tools/page.tsx` 中注册工具（工具页面）
-4. 确保使用统一的按钮样式 `variant="secondary"`
+2. 在 `app/page.tsx` 中注册工具（首页展示），指定 `category` 分类
+3. 在 `app/tools/page.tsx` 中注册工具（工具页面），指定 `category` 分类
+4. 确保使用统一的按钮样式：
+   - 操作按钮: `variant="ghost"`
+   - 切换按钮(选中): `variant="default"`
+   - 切换按钮(未选中): `variant="ghost"`
 
 示例：
 
@@ -121,9 +130,22 @@ pnpm start
 import { Button } from "@/components/ui/button"
 
 export function MyTool() {
+  const [mode, setMode] = useState("encode")
+
   return (
-    <div>
-      <Button variant="secondary">操作</Button>
+    <div className="space-y-4">
+      {/* 切换按钮 */}
+      <div className="flex gap-2">
+        <Button
+          variant={mode === "encode" ? "default" : "ghost"}
+          onClick={() => setMode("encode")}
+        >
+          编码
+        </Button>
+      </div>
+
+      {/* 操作按钮 */}
+      <Button variant="ghost">执行操作</Button>
     </div>
   )
 }

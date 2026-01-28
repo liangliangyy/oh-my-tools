@@ -354,14 +354,9 @@ export function JsonToCode() {
         {languages.map((lang) => (
           <Button
             key={lang.id}
-            variant={language === lang.id ? "default" : "outline"}
+            variant={language === lang.id ? "default" : "ghost"}
             size="sm"
             onClick={() => setLanguage(lang.id)}
-            className={cn(
-              language === lang.id 
-                ? "bg-foreground text-background hover:bg-foreground/90" 
-                : ""
-            )}
           >
             {lang.name}
           </Button>

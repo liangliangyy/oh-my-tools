@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
-import { Copy, Check, AlertCircle, Info } from "lucide-react"
+import { Copy, Check, AlertCircle, Info, Clock, ArrowUpDown } from "lucide-react"
 
 const MINUTE_OPTIONS = ["*", "0", "15", "30", "45"]
 const HOUR_OPTIONS = ["*", "0", "1", "6", "12", "18"]
@@ -21,10 +21,14 @@ export function CronExpression() {
   const [week, setWeek] = useState("*")
   const [customInput, setCustomInput] = useState("")
   const [copied, setCopied] = useState(false)
+  const [nextExecutions, setNextExecutions] = useState<string[]>([])
+  const [parseError, setParseError] = useState("")
 
   const cronExpression = `${minute} ${hour} ${day} ${month} ${week}`
 
   const parseCron = (expression: string) => {
+    if (!expression.trim()) return
+
     const parts = expression.trim().split(/\s+/)
     if (parts.length === 5) {
       setMinute(parts[0])
@@ -33,7 +37,102 @@ export function CronExpression() {
       setMonth(parts[3])
       setWeek(parts[4])
       setCustomInput("")
+    } else {
+      alert("Cron 表达式格式错误，应为 5 个部分（分 时 日 月 周）")
     }
+  }
+
+  // 计算未来执行时间
+  const calculateNextExecutions = (cronExpr: string) => {
+    try {
+      const parts = cronExpr.trim().split(/\s+/)
+      if (parts.length !== 5) {
+        setParseError("Cron 表达式格式错误")
+        setNextExecutions([])
+        return
+      }
+
+      const [m, h, d, mon, w] = parts
+      const executions: string[] = []
+      const now = new Date()
+      let currentDate = new Date(now)
+
+      // 简化实现：计算未来10次执行时间
+      let count = 0
+      while (count < 10 && executions.length < 10) {
+        if (matchesCron(currentDate, m, h, d, mon, w)) {
+          executions.push(
+            currentDate.toLocaleString("zh-CN", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+            })
+          )
+          count++
+        }
+        currentDate.setMinutes(currentDate.getMinutes() + 1)
+
+        // 防止无限循环
+        if (currentDate.getTime() - now.getTime() > 1000 * 60 * 60 * 24 * 365) {
+          break
+        }
+      }
+
+      setNextExecutions(executions)
+      setParseError("")
+    } catch (e) {
+      setParseError("解析失败：" + (e as Error).message)
+      setNextExecutions([])
+    }
+  }
+
+  // 匹配 Cron 规则
+  const matchesCron = (date: Date, m: string, h: string, d: string, mon: string, w: string): boolean => {
+    const minute = date.getMinutes()
+    const hour = date.getHours()
+    const dayOfMonth = date.getDate()
+    const month = date.getMonth() + 1
+    const dayOfWeek = date.getDay()
+
+    if (!matchValue(minute, m, 0, 59)) return false
+    if (!matchValue(hour, h, 0, 23)) return false
+    if (!matchValue(dayOfMonth, d, 1, 31)) return false
+    if (!matchValue(month, mon, 1, 12)) return false
+    if (w !== "*" && !matchValue(dayOfWeek, w, 0, 6)) return false
+
+    return true
+  }
+
+  // 匹配单个值
+  const matchValue = (value: number, pattern: string, min: number, max: number): boolean => {
+    if (pattern === "*") return true
+
+    // 处理 */n 格式
+    if (pattern.includes("/")) {
+      const [base, step] = pattern.split("/")
+      const stepNum = parseInt(step)
+      if (base === "*") {
+        return value % stepNum === 0
+      }
+    }
+
+    // 处理逗号分隔
+    if (pattern.includes(",")) {
+      return pattern.split(",").some(p => parseInt(p) === value)
+    }
+
+    // 处理范围
+    if (pattern.includes("-")) {
+      const [start, end] = pattern.split("-").map(Number)
+      return value >= start && value <= end
+    }
+
+    // 处理单个值
+    return parseInt(pattern) === value
   }
 
   const getDescription = () => {
@@ -215,41 +314,99 @@ export function CronExpression() {
 
       {/* 或者输入自定义表达式 */}
       <div className="space-y-2">
-        <Label className="text-sm">或者输入自定义表达式</Label>
+        <Label className="text-sm">或者直接输入 Cron 表达式</Label>
         <div className="flex gap-2">
           <Input
             placeholder="例如: 0 9 * * 1-5"
             value={customInput}
             onChange={(e) => setCustomInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && customInput) {
+                calculateNextExecutions(customInput)
+              }
+            }}
             className="font-mono"
           />
           <Button
-            variant="secondary"
-            onClick={() => parseCron(customInput)}
+            variant="default"
+            size="sm"
+            onClick={() => calculateNextExecutions(customInput)}
             disabled={!customInput}
           >
+            <Clock className="h-4 w-4 mr-1" />
             解析
           </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => parseCron(customInput)}
+            disabled={!customInput}
+            title="加载到生成器"
+          >
+            <ArrowUpDown className="h-4 w-4" />
+          </Button>
         </div>
+        <p className="text-xs text-muted-foreground">
+          输入后按 Enter 或点击"解析"查看执行时间
+        </p>
       </div>
 
       {/* 表达式结果 */}
       <div className="rounded-lg border border-border bg-secondary/30 overflow-hidden">
         <div className="flex items-center justify-between px-4 py-2 bg-secondary border-b border-border">
-          <span className="text-sm font-medium">Cron 表达式</span>
-          <Button variant="ghost" size="sm" onClick={copyExpression}>
-            {copied ? (
-              <Check className="h-3.5 w-3.5 text-green-500" />
-            ) : (
-              <Copy className="h-3.5 w-3.5" />
-            )}
-          </Button>
+          <span className="text-sm font-medium">当前表达式</span>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => calculateNextExecutions(cronExpression)}
+            >
+              <Clock className="h-3.5 w-3.5 mr-1" />
+              计算执行时间
+            </Button>
+            <Button variant="ghost" size="sm" onClick={copyExpression}>
+              {copied ? (
+                <Check className="h-3.5 w-3.5 text-green-500" />
+              ) : (
+                <Copy className="h-3.5 w-3.5" />
+              )}
+            </Button>
+          </div>
         </div>
         <div className="p-4">
           <code className="text-lg font-mono">{cronExpression}</code>
           <p className="text-sm text-muted-foreground mt-3">{getDescription()}</p>
         </div>
       </div>
+
+      {/* 未来执行时间列表 */}
+      {nextExecutions.length > 0 && (
+        <div className="rounded-lg border border-border bg-card overflow-hidden">
+          <div className="px-4 py-2 bg-secondary border-b border-border">
+            <span className="text-sm font-medium">未来 {nextExecutions.length} 次执行时间</span>
+          </div>
+          <div className="p-4 space-y-2 max-h-80 overflow-y-auto">
+            {nextExecutions.map((time, index) => (
+              <div
+                key={index}
+                className="flex items-center gap-3 p-2.5 rounded-lg bg-secondary/50 hover:bg-secondary transition-colors"
+              >
+                <span className="flex items-center justify-center w-7 h-7 rounded-full bg-accent/10 text-accent text-xs font-semibold flex-shrink-0">
+                  {index + 1}
+                </span>
+                <span className="font-mono text-sm">{time}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {parseError && (
+        <div className="flex items-start gap-2 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
+          <AlertCircle className="h-4 w-4 mt-0.5 flex-shrink-0" />
+          <span>{parseError}</span>
+        </div>
+      )}
 
       {/* 常用表达式 */}
       <div className="space-y-3">

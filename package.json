@@ -1,7 +1,27 @@
 {
-  "name": "my-v0-project",
-  "version": "0.1.0",
-  "private": true,
+  "name": "oh-my-tools",
+  "version": "1.0.0",
+  "description": "程序员的在线工具箱 - 免费开源的开发者工具集合",
+  "author": "liangliangyy",
+  "license": "MIT",
+  "homepage": "https://tools.lylinux.net",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liangliangyy/oh-my-tools.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liangliangyy/oh-my-tools/issues"
+  },
+  "keywords": [
+    "developer-tools",
+    "online-tools",
+    "json-formatter",
+    "base64",
+    "uuid-generator",
+    "regex-tester",
+    "nextjs",
+    "typescript"
+  ],
   "scripts": {
     "build": "next build",
     "dev": "next dev",

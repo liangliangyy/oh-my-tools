@@ -253,7 +253,7 @@ export function NumberBaseConverter() {
         </div>
       </div>
 
-      <Button onClick={clear} variant="secondary" className="w-full">
+      <Button onClick={clear} variant="ghost" className="w-full">
         <Trash2 className="h-4 w-4 mr-2" />
         清空
       </Button>
@@ -265,7 +265,7 @@ export function NumberBaseConverter() {
           {commonNumbers.map((num) => (
             <Button
               key={num.decimal}
-              variant="secondary"
+              variant="ghost"
               size="sm"
               onClick={() => handleDecimalChange(num.decimal)}
               className="font-mono"

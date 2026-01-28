@@ -107,15 +107,15 @@ export function JsonFormatter() {
       )}
       
       <div className="flex flex-wrap gap-2">
-        <Button variant="secondary" onClick={formatJson} className="gap-2">
+        <Button variant="ghost" onClick={formatJson} className="gap-2">
           <Wand2 className="h-4 w-4" />
           格式化
         </Button>
-        <Button variant="secondary" onClick={minifyJson} className="gap-2">
+        <Button variant="ghost" onClick={minifyJson} className="gap-2">
           <Minimize2 className="h-4 w-4" />
           压缩
         </Button>
-        <Button variant="secondary" onClick={clearAll} className="gap-2">
+        <Button variant="ghost" onClick={clearAll} className="gap-2">
           <Trash2 className="h-4 w-4" />
           清空
         </Button>
