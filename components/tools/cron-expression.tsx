@@ -22,7 +22,7 @@ export function CronExpression() {
   const [customInput, setCustomInput] = useState("")
   const [copied, setCopied] = useState(false)
 
-  const cronExpression = customInput || `${minute} ${hour} ${day} ${month} ${week}`
+  const cronExpression = `${minute} ${hour} ${day} ${month} ${week}`
 
   const parseCron = (expression: string) => {
     const parts = expression.trim().split(/\s+/)

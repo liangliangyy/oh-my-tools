@@ -24,6 +24,10 @@ import {
   ArrowLeftRight,
   Lock,
   Calculator,
+  FileText,
+  QrCode,
+  Image,
+  CalendarDays,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Input } from "@/components/ui/input"
@@ -39,12 +43,16 @@ const tools = [
   { id: "url", name: "URL 编解码", icon: Link2, description: "URL 编码与解码处理", color: "from-cyan-500/20 to-cyan-500/5" },
   { id: "hash", name: "Hash 生成", icon: Hash, description: "生成 SHA-1/256/384/512 哈希", color: "from-violet-500/20 to-violet-500/5" },
   { id: "color", name: "颜色转换", icon: Palette, description: "HEX、RGB、HSL 格式互转", color: "from-pink-500/20 to-pink-500/5" },
-  { id: "uuid", name: "UUID 生成", icon: Fingerprint, description: "批量生成随机 UUID v4", color: "from-orange-500/20 to-orange-500/5" },
+  { id: "uuid", name: "UUID 生成", icon: Fingerprint, description: "批量生成 UUID (v1/v4/v5)", color: "from-orange-500/20 to-orange-500/5" },
   { id: "jwt", name: "JWT 解码器", icon: KeyRound, description: "解析 JWT Token 查看内容", color: "from-sky-500/20 to-sky-500/5" },
   { id: "cron", name: "Cron 表达式", icon: CalendarClock, description: "生成和解析 Cron 定时任务", color: "from-purple-500/20 to-purple-500/5" },
   { id: "yaml", name: "YAML ↔ JSON", icon: ArrowLeftRight, description: "YAML 与 JSON 格式互转", color: "from-green-500/20 to-green-500/5" },
   { id: "password", name: "密码生成器", icon: Lock, description: "生成安全随机密码", color: "from-red-500/20 to-red-500/5" },
   { id: "base-converter", name: "进制转换", icon: Calculator, description: "二/八/十/十六进制互转", color: "from-slate-500/20 to-slate-500/5" },
+  { id: "markdown", name: "Markdown 预览", icon: FileText, description: "实时预览 Markdown 渲染效果", color: "from-blue-500/20 to-blue-500/5" },
+  { id: "qrcode", name: "二维码生成", icon: QrCode, description: "生成自定义二维码图片", color: "from-indigo-500/20 to-indigo-500/5" },
+  { id: "image-base64", name: "图片转 Base64", icon: Image, description: "图片文件转 Base64 编码", color: "from-pink-500/20 to-pink-500/5" },
+  { id: "date-calc", name: "日期计算器", icon: CalendarDays, description: "日期差计算、日期加减运算", color: "from-teal-500/20 to-teal-500/5" },
 ]
 
 const features = [
