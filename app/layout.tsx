@@ -1,7 +1,7 @@
 import React from "react"
 import type { Metadata } from 'next'
 import { Geist, Geist_Mono } from 'next/font/google'
-import { Analytics } from '@vercel/analytics/next'
+import { Analytics } from '@vercel/analytics/next' // Vercel Analytics 不支持静态导出 (output: 'export') 且在非 Vercel 环境下会报 404
 import './globals.css'
 
 const _geist = Geist({ subsets: ["latin"] });
@@ -39,7 +39,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`font-sans antialiased`}>
         {children}
-        <Analytics />
+        {/* <Analytics /> */}
       </body>
     </html>
   )
