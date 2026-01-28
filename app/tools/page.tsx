@@ -23,6 +23,10 @@ import { MarkdownPreview } from "@/components/tools/markdown-preview"
 import { QrcodeGenerator } from "@/components/tools/qrcode-generator"
 import { ImageToBase64 } from "@/components/tools/image-to-base64"
 import { DateCalculator } from "@/components/tools/date-calculator"
+import { CidrCalculator } from "@/components/tools/cidr-calculator"
+import { ChmodCalculator } from "@/components/tools/chmod-calculator"
+import { PortCheckGenerator } from "@/components/tools/port-check-generator"
+import { UnitConverter } from "@/components/tools/unit-converter"
 import { ThemeToggle } from "@/components/theme-toggle"
 import {
   Braces,
@@ -49,6 +53,10 @@ import {
   QrCode,
   Image,
   CalendarDays,
+  Network,
+  Shield,
+  PcCase,
+  Scale,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -71,8 +79,10 @@ const tools = [
   { id: "cron", name: "Cron 表达式", icon: CalendarClock, component: CronExpression, description: "Cron 定时任务", category: "tool" },
   { id: "timestamp", name: "时间戳", icon: Clock, component: TimestampConverter, description: "Unix 时间戳转换", category: "converter" },
   { id: "color", name: "颜色转换", icon: Palette, component: ColorConverter, description: "HEX/RGB/HSL 互转", category: "converter" },
-  { id: "base-converter", name: "进制转换", icon: Calculator, component: NumberBaseConverter, description: "进制互转", category: "converter" },
-  { id: "date-calc", name: "日期计算器", icon: CalendarDays, component: DateCalculator, description: "日期差计算和加减", category: "converter" },
+  { id: "unit", name: "单位转换", icon: Scale, component: UnitConverter, description: "常用单位数值转换", category: "converter" },
+  { id: "cidr", name: "IP 子网计算", icon: Network, component: CidrCalculator, description: "CIDR 子网掩码计算", category: "network" },
+  { id: "chmod", name: "Chmod 计算", icon: Shield, component: ChmodCalculator, description: "Linux 文件权限计算", category: "network" },
+  { id: "port-check", name: "端口检测命令", icon: PcCase, component: PortCheckGenerator, description: "生成端口连通性检测命令", category: "network" },
 ]
 
 const categories = [
@@ -81,6 +91,7 @@ const categories = [
   { id: "generator", name: "生成器", icon: Fingerprint },
   { id: "converter", name: "转换器", icon: ArrowLeftRight },
   { id: "tool", name: "开发工具", icon: Terminal },
+  { id: "network", name: "网络工具", icon: Network },
 ]
 
 export default function ToolsPage() {

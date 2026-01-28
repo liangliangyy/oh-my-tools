@@ -28,6 +28,9 @@ import {
   QrCode,
   Image,
   CalendarDays,
+  Network,
+  PcCase,
+  Scale,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Input } from "@/components/ui/input"
@@ -51,8 +54,12 @@ const tools = [
   { id: "color", name: "颜色转换", icon: Palette, description: "HEX、RGB、HSL 格式互转", color: "from-pink-500/20 to-pink-500/5", category: "转换器" },
   { id: "base-converter", name: "进制转换", icon: Calculator, description: "二/八/十/十六进制互转", color: "from-slate-500/20 to-slate-500/5", category: "转换器" },
   { id: "date-calc", name: "日期计算器", icon: CalendarDays, description: "日期差计算、日期加减运算", color: "from-teal-500/20 to-teal-500/5", category: "转换器" },
+  { id: "unit", name: "单位转换", icon: Scale, description: "常用单位数值转换", color: "from-indigo-500/20 to-indigo-500/5", category: "转换器" },
   { id: "regex", name: "正则测试", icon: Regex, description: "实时测试正则表达式匹配结果", color: "from-blue-500/20 to-blue-500/5", category: "开发工具" },
   { id: "cron", name: "Cron 表达式", icon: CalendarClock, description: "生成和解析 Cron 定时任务", color: "from-purple-500/20 to-purple-500/5", category: "开发工具" },
+  { id: "cidr", name: "IP 子网计算", icon: Network, description: "CIDR 子网掩码计算", color: "from-blue-600/20 to-blue-600/5", category: "网络工具" },
+  { id: "chmod", name: "Chmod 计算", icon: Shield, description: "Linux 文件权限计算", color: "from-red-600/20 to-red-600/5", category: "网络工具" },
+  { id: "port-check", name: "端口检测", icon: PcCase, description: "生成端口连通性检测命令", color: "from-orange-600/20 to-orange-600/5", category: "网络工具" },
 ]
 
 const features = [
@@ -71,7 +78,7 @@ export default function HomePage() {
   )
 
   // 按分类分组
-  const categories = ["格式化工具", "编码解码", "生成器", "转换器", "开发工具"]
+  const categories = ["格式化工具", "编码解码", "生成器", "转换器", "网络工具", "开发工具"]
   const toolsByCategory = categories.map(category => ({
     name: category,
     tools: filteredTools.filter(tool => tool.category === category)
@@ -115,10 +122,10 @@ export default function HomePage() {
               <span className="text-accent">效率工具箱</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground text-balance mb-4">
-              集合 19 个常用开发工具，一站式解决日常开发需求
+              集合 23 个常用开发工具，一站式解决日常开发需求
             </p>
             <p className="text-base text-muted-foreground text-balance mb-10 max-w-2xl mx-auto">
-              JSON 格式化、代码生成、正则测试、Base64 编解码、UUID 生成、二维码生成、Markdown 预览、时间戳转换等
+              JSON 格式化、代码生成、正则测试、Base64 编解码、UUID 生成、二维码生成、Markdown 预览、时间戳转换、单位转换、CIDR 计算等
             </p>
             <Link
               href="/tools"
@@ -159,7 +166,7 @@ export default function HomePage() {
           <div className="text-center mb-12">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">适用场景</h2>
             <p className="text-muted-foreground">
-              无论是日常开发、调试排错还是数据处理，oh-my-tools 都能帮你快速解决问题
+              无论是日常开发、调试排错、网络运维还是数据处理，oh-my-tools 都能帮你快速解决问题
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
@@ -171,7 +178,7 @@ export default function HomePage() {
                 <div>
                   <h3 className="font-semibold mb-2">日常开发</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    JSON 格式化验证、代码类型生成、正则表达式测试、UUID 生成等，提升编码效率
+                    JSON 格式化验证、代码转类型、正则测试、Cron 表达式生成等，提升编码效率
                   </p>
                 </div>
               </div>
@@ -179,12 +186,12 @@ export default function HomePage() {
             <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex-shrink-0">
-                  <Search className="h-6 w-6" />
+                  <Network className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">调试排错</h3>
+                  <h3 className="font-semibold mb-2">系统运维</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    JWT Token 解码、Hash 值校验、时间戳转换、文件对比等，快速定位问题
+                    CIDR 子网计算、端口连通性检测、Chmod 权限计算、文件对比等，辅助运维排查
                   </p>
                 </div>
               </div>
@@ -195,9 +202,9 @@ export default function HomePage() {
                   <ArrowLeftRight className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">数据处理</h3>
+                  <h3 className="font-semibold mb-2">数据转换</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Base64 编解码、图片转换、进制转换、颜色格式转换等，轻松处理各类数据
+                    Base64/URL 编解码、单位转换、进制转换、颜色转换、时间戳、图片转 Base64 等
                   </p>
                 </div>
               </div>
@@ -205,12 +212,12 @@ export default function HomePage() {
             <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 flex-shrink-0">
-                  <Zap className="h-6 w-6" />
+                  <Shield className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">文档编写</h3>
+                  <h3 className="font-semibold mb-2">安全与生成</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Markdown 预览、二维码生成、Mermaid 流程图渲染等，让文档更加专业美观
+                    JWT 解码、Hash 计算、UUID/密码/二维码生成、Markdown 预览，满足多样化需求
                   </p>
                 </div>
               </div>
@@ -224,7 +231,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">19+</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">23+</div>
               <div className="text-sm text-muted-foreground">实用工具</div>
             </div>
             <div>
@@ -248,7 +255,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">全部工具</h2>
           <p className="text-muted-foreground mb-8">
-            5 大分类，19 个工具，覆盖开发者日常所需
+            6 大分类，23 个工具，覆盖开发者日常所需
           </p>
           {/* Search */}
           <div className="relative max-w-md mx-auto">
