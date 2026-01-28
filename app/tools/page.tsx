@@ -203,10 +203,10 @@ export default function ToolsPage() {
                             setSidebarOpen(false)
                           }}
                           className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all relative",
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all duration-200 relative",
                             activeTool === tool.id
-                              ? "bg-accent/10 text-foreground"
-                              : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                              ? "bg-accent/50 text-accent-foreground dark:bg-accent/30"
+                              : "text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/40 dark:hover:bg-accent/20 dark:active:bg-accent/30"
                           )}
                         >
                           {activeTool === tool.id && (
@@ -236,7 +236,7 @@ export default function ToolsPage() {
                       <div key={category.id} className="space-y-1">
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                          className="w-full flex items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/20 active:bg-accent/30 dark:hover:bg-accent/10 dark:active:bg-accent/20 rounded-md transition-all duration-200"
                         >
                           <div className="flex items-center gap-2">
                             <CategoryIcon className="h-3.5 w-3.5" />
@@ -270,10 +270,10 @@ export default function ToolsPage() {
                                     setSidebarOpen(false)
                                   }}
                                   className={cn(
-                                    "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all relative",
+                                    "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all duration-200 relative",
                                     activeTool === tool.id
-                                      ? "bg-accent/10 text-foreground"
-                                      : "text-muted-foreground hover:text-foreground hover:bg-secondary/50"
+                                      ? "bg-accent/50 text-accent-foreground dark:bg-accent/30"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/40 dark:hover:bg-accent/20 dark:active:bg-accent/30"
                                   )}
                                 >
                                   {activeTool === tool.id && (

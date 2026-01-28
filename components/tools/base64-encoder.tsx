@@ -4,6 +4,7 @@ import { useState } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy, Check, ArrowUpDown } from "lucide-react"
+import { cn } from "@/lib/utils"
 
 export function Base64Encoder() {
   const [input, setInput] = useState("")
@@ -40,11 +41,15 @@ export function Base64Encoder() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-4 p-3 rounded-lg bg-secondary">
+      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
           variant={mode === "encode" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("encode")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "encode" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           编码
         </Button>
@@ -52,6 +57,10 @@ export function Base64Encoder() {
           variant={mode === "decode" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("decode")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "decode" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           解码
         </Button>
@@ -75,8 +84,17 @@ export function Base64Encoder() {
               {mode === "encode" ? "Base64 结果" : "解码结果"}
             </label>
             {output && (
-              <Button variant="ghost" size="sm" onClick={copyOutput} className="h-7 px-2">
-                {copied ? <Check className="h-3.5 w-3.5 text-accent" /> : <Copy className="h-3.5 w-3.5" />}
+              <Button 
+                variant="ghost" 
+                size="sm" 
+                onClick={copyOutput} 
+                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
+              >
+                {copied ? (
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                ) : (
+                  <Copy className="h-3.5 w-3.5" />
+                )}
               </Button>
             )}
           </div>
@@ -92,7 +110,7 @@ export function Base64Encoder() {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="flex gap-2">
-        <Button variant="ghost" onClick={process}>
+        <Button variant="default" onClick={process}>
           {mode === "encode" ? "编码" : "解码"}
         </Button>
         <Button variant="ghost" onClick={swap} className="gap-2">

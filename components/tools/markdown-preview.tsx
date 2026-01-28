@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Copy, Check, Trash2, Eye, EyeOff } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const exampleMarkdown = `# Markdown 示例
 
@@ -61,181 +65,58 @@ graph TD
 
 export function MarkdownPreview() {
   const [input, setInput] = useState(exampleMarkdown)
-  const [html, setHtml] = useState("")
   const [copied, setCopied] = useState<"md" | "html" | null>(null)
   const [showPreview, setShowPreview] = useState(true)
   const previewRef = useRef<HTMLDivElement>(null)
 
-  // 初始化和渲染 Mermaid
+  // 渲染 Mermaid
   useEffect(() => {
-    if (typeof window !== 'undefined' && previewRef.current && showPreview) {
-      const initAndRender = async () => {
-        try {
-          // 动态导入 mermaid
-          const mermaid = (await import('mermaid')).default
+    if (!previewRef.current || !showPreview) return
 
-          // 初始化 mermaid
-          mermaid.initialize({
-            startOnLoad: false,
-            theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
-            securityLevel: 'loose',
-          })
+    const renderMermaid = async () => {
+      try {
+        const mermaid = (await import('mermaid')).default
+        
+        mermaid.initialize({
+          startOnLoad: false,
+          theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+          securityLevel: 'loose',
+        })
 
-          // 查找所有 mermaid 图表
-          const mermaidDivs = previewRef.current!.querySelectorAll('.mermaid-diagram')
+        const mermaidDivs = previewRef.current!.querySelectorAll('.mermaid')
+        
+        for (let i = 0; i < mermaidDivs.length; i++) {
+          const div = mermaidDivs[i] as HTMLElement
+          const code = div.getAttribute('data-code') || ''
+          if (!code.trim()) continue
 
-          for (let index = 0; index < mermaidDivs.length; index++) {
-            const div = mermaidDivs[index] as HTMLElement
-            const code = div.textContent || ''
-            if (!code.trim()) continue
-
-            try {
-              const id = `mermaid-${Date.now()}-${index}`
-              const { svg } = await mermaid.render(id, code)
-              div.innerHTML = svg
-            } catch (e: any) {
-              console.error('Mermaid render error:', e)
-              div.innerHTML = `<div class="text-destructive text-sm p-4">Mermaid 渲染失败: ${e.message || '语法错误'}</div>`
-            }
+          try {
+            const id = `mermaid-${Date.now()}-${i}`
+            const { svg } = await mermaid.render(id, code)
+            div.innerHTML = svg
+          } catch (e: any) {
+            console.error('Mermaid render error:', e)
+            div.innerHTML = `<div class="text-destructive text-sm p-4">Mermaid 渲染失败: ${e.message || '语法错误'}</div>`
           }
-        } catch (error) {
-          console.error('Failed to load Mermaid:', error)
         }
+      } catch (error) {
+        console.error('Failed to load Mermaid:', error)
       }
-
-      // 延迟执行，确保 DOM 已更新
-      const timer = setTimeout(initAndRender, 100)
-      return () => clearTimeout(timer)
     }
-  }, [html, showPreview])
 
-  // 简易的 Markdown 转 HTML 实现
-  const markdownToHtml = (markdown: string): string => {
-    let result = markdown
-
-    // 先保护代码块，避免被其他规则影响
-    const codeBlocks: string[] = []
-    const mermaidBlocks: string[] = []
-
-    // Mermaid 代码块
-    result = result.replace(/```mermaid\n([\s\S]*?)```/g, (match, code) => {
-      const placeholder = `__MERMAID_${mermaidBlocks.length}__`
-      mermaidBlocks.push(code.trim())
-      return placeholder
-    })
-
-    // 普通代码块
-    result = result.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
-      const placeholder = `__CODE_${codeBlocks.length}__`
-      codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${code}</code></pre>`)
-      return placeholder
-    })
-
-    // 标题
-    result = result.replace(/^### (.*$)/gim, '<h3>$1</h3>')
-    result = result.replace(/^## (.*$)/gim, '<h2>$1</h2>')
-    result = result.replace(/^# (.*$)/gim, '<h1>$1</h1>')
-
-    // 粗体和斜体
-    result = result.replace(/\*\*\*(.+?)\*\*\*/g, '<strong><em>$1</em></strong>')
-    result = result.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-    result = result.replace(/\*(.+?)\*/g, '<em>$1</em>')
-    result = result.replace(/___(.+?)___/g, '<strong><em>$1</em></strong>')
-    result = result.replace(/__(.+?)__/g, '<strong>$1</strong>')
-    result = result.replace(/_(.+?)_/g, '<em>$1</em>')
-
-    // 删除线
-    result = result.replace(/~~(.+?)~~/g, '<del>$1</del>')
-
-    // 行内代码
-    result = result.replace(/`([^`]+)`/g, '<code>$1</code>')
-
-    // 链接
-    result = result.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" target="_blank" rel="noopener noreferrer">$1</a>')
-
-    // 图片
-    result = result.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, '<img src="$2" alt="$1" />')
-
-    // 表格
-    result = result.replace(/\|(.+)\|/g, (match) => {
-      const cells = match.split('|').filter(cell => cell.trim())
-      const isHeader = /^[-:\s|]+$/.test(cells.join('|'))
-      if (isHeader) return '<tr class="table-divider"></tr>'
-      const tag = match.includes('---') ? 'th' : 'td'
-      return '<tr>' + cells.map(cell => `<${tag}>${cell.trim()}</${tag}>`).join('') + '</tr>'
-    })
-    result = result.replace(/(<tr>.*<\/tr>\n?)+/g, '<table>$&</table>')
-
-    // 任务列表
-    result = result.replace(/^- \[(x| )\] (.*)$/gim, (match, checked, text) => {
-      const isChecked = checked === 'x'
-      return `<label class="task-item"><input type="checkbox" ${isChecked ? 'checked' : ''} disabled /> ${text}</label>`
-    })
-
-    // 无序列表
-    result = result.replace(/^\- (.+)$/gim, '<li>$1</li>')
-    result = result.replace(/(<li>.*<\/li>\n?)+/g, '<ul>$&</ul>')
-
-    // 有序列表
-    result = result.replace(/^\d+\. (.+)$/gim, '<li>$1</li>')
-
-    // 引用
-    result = result.replace(/^\> (.+)$/gim, '<blockquote>$1</blockquote>')
-    result = result.replace(/(<blockquote>.*<\/blockquote>\n?)+/g, '<div class="quote-block">$&</div>')
-
-    // 水平线
-    result = result.replace(/^---$/gim, '<hr />')
-
-    // 段落
-    result = result.replace(/\n\n/g, '</p><p>')
-    result = '<p>' + result + '</p>'
-
-    // 清理
-    result = result.replace(/<p><\/p>/g, '')
-    result = result.replace(/<p>(<h[1-6]>)/g, '$1')
-    result = result.replace(/(<\/h[1-6]>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<pre>)/g, '$1')
-    result = result.replace(/(<\/pre>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<ul>)/g, '$1')
-    result = result.replace(/(<\/ul>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<table>)/g, '$1')
-    result = result.replace(/(<\/table>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<blockquote>)/g, '$1')
-    result = result.replace(/(<\/blockquote>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<div class="quote-block">)/g, '$1')
-    result = result.replace(/(<\/div>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<hr \/>)<\/p>/g, '$1')
-    result = result.replace(/<p>(<label class="task-item">)/g, '$1')
-    result = result.replace(/(<\/label>)<\/p>/g, '$1')
-
-    // 恢复代码块占位符
-    codeBlocks.forEach((code, index) => {
-      result = result.replace(`__CODE_${index}__`, code)
-    })
-
-    // 恢复 Mermaid 占位符
-    mermaidBlocks.forEach((code, index) => {
-      result = result.replace(
-        `__MERMAID_${index}__`,
-        `<div class="mermaid-diagram" style="text-align: center; margin: 1rem 0;">${code}</div>`
-      )
-    })
-
-    // 清理 Mermaid 占位符的段落标签
-    result = result.replace(/<p>(<div class="mermaid-diagram">)/g, '$1')
-    result = result.replace(/(<\/div>)<\/p>/g, '$1')
-
-    return result
-  }
-
-  useEffect(() => {
-    setHtml(markdownToHtml(input))
-  }, [input])
+    const timer = setTimeout(renderMermaid, 100)
+    return () => clearTimeout(timer)
+  }, [input, showPreview])
 
   const copyToClipboard = async (text: string, type: "md" | "html") => {
     await navigator.clipboard.writeText(text)
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
+  }
+
+  const getHtmlContent = () => {
+    if (!previewRef.current) return ""
+    return previewRef.current.innerHTML
   }
 
   const clear = () => {
@@ -271,9 +152,10 @@ export function MarkdownPreview() {
             variant="ghost"
             size="sm"
             onClick={() => copyToClipboard(input, "md")}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "md" ? (
-              <Check className="h-4 w-4 text-green-500 mr-1" />
+              <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
             ) : (
               <Copy className="h-4 w-4 mr-1" />
             )}
@@ -282,16 +164,22 @@ export function MarkdownPreview() {
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => copyToClipboard(html, "html")}
+            onClick={() => copyToClipboard(getHtmlContent(), "html")}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "html" ? (
-              <Check className="h-4 w-4 text-green-500 mr-1" />
+              <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
             ) : (
               <Copy className="h-4 w-4 mr-1" />
             )}
             复制 HTML
           </Button>
-          <Button variant="ghost" size="sm" onClick={clear}>
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={clear}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
             <Trash2 className="h-4 w-4 mr-1" />
             清空
           </Button>
@@ -318,33 +206,91 @@ export function MarkdownPreview() {
           </label>
           <div className="rounded-lg border border-border bg-card min-h-[500px] overflow-auto">
             {showPreview ? (
-              <div
-                ref={previewRef}
-                className={cn(
-                  "p-4 prose prose-sm dark:prose-invert max-w-none",
-                  "prose-headings:font-semibold",
-                  "prose-h1:text-2xl prose-h1:mb-4",
-                  "prose-h2:text-xl prose-h2:mb-3",
-                  "prose-h3:text-lg prose-h3:mb-2",
-                  "prose-p:my-2",
-                  "prose-a:text-accent hover:prose-a:text-accent/80",
-                  "prose-code:bg-secondary prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:text-sm prose-code:before:content-none prose-code:after:content-none",
-                  "prose-pre:bg-secondary prose-pre:border prose-pre:border-border",
-                  "prose-blockquote:border-l-accent prose-blockquote:bg-secondary/50 prose-blockquote:py-1",
-                  "prose-table:border-collapse prose-table:w-full",
-                  "prose-th:border prose-th:border-border prose-th:bg-secondary prose-th:p-2",
-                  "prose-td:border prose-td:border-border prose-td:p-2",
-                  "prose-ul:my-2 prose-li:my-1",
-                  "prose-img:rounded-lg prose-img:border prose-img:border-border",
-                  "[&_.task-item]:flex [&_.task-item]:items-center [&_.task-item]:gap-2 [&_.task-item]:my-1",
-                  "[&_.task-item_input]:m-0",
-                  "[&_.mermaid-diagram]:my-4"
-                )}
-                dangerouslySetInnerHTML={{ __html: html }}
-              />
+              <div ref={previewRef} className="p-6">
+                <ReactMarkdown
+                  remarkPlugins={[remarkGfm]}
+                  components={{
+                    h1: ({ children }) => (
+                      <h1 className="text-3xl font-bold mb-4 mt-6 pb-2 border-b">{children}</h1>
+                    ),
+                    h2: ({ children }) => (
+                      <h2 className="text-2xl font-bold mb-3 mt-5 pb-2 border-b">{children}</h2>
+                    ),
+                    h3: ({ children }) => (
+                      <h3 className="text-xl font-semibold mb-2 mt-4">{children}</h3>
+                    ),
+                    p: ({ children }) => (
+                      <p className="my-3 leading-7">{children}</p>
+                    ),
+                    a: ({ href, children }) => (
+                      <a href={href} className="text-primary hover:underline" target="_blank" rel="noopener noreferrer">{children}</a>
+                    ),
+                    ul: ({ children }) => (
+                      <ul className="list-disc list-inside my-3 space-y-1">{children}</ul>
+                    ),
+                    ol: ({ children }) => (
+                      <ol className="list-decimal list-inside my-3 space-y-1">{children}</ol>
+                    ),
+                    blockquote: ({ children }) => (
+                      <blockquote className="border-l-4 border-primary bg-secondary/50 py-2 px-4 my-4">{children}</blockquote>
+                    ),
+                    table: ({ children }) => (
+                      <div className="overflow-x-auto my-4">
+                        <table className="w-full border-collapse">{children}</table>
+                      </div>
+                    ),
+                    th: ({ children }) => (
+                      <th className="border border-border bg-secondary p-2 text-left font-semibold">{children}</th>
+                    ),
+                    td: ({ children }) => (
+                      <td className="border border-border p-2">{children}</td>
+                    ),
+                    code({ node, inline, className, children, ...props }: any) {
+                      const match = /language-(\w+)/.exec(className || '')
+                      const language = match ? match[1] : ''
+                      
+                      // Mermaid 特殊处理
+                      if (language === 'mermaid') {
+                        return (
+                          <div 
+                            className="mermaid my-6 flex justify-center"
+                            data-code={String(children).replace(/\n$/, '')}
+                          >
+                            {String(children)}
+                          </div>
+                        )
+                      }
+                      
+                      // 行内代码
+                      if (inline) {
+                        return (
+                          <code className="bg-secondary text-secondary-foreground px-1.5 py-0.5 rounded text-sm font-mono">
+                            {children}
+                          </code>
+                        )
+                      }
+                      
+                      // 代码块
+                      return (
+                        <SyntaxHighlighter
+                          style={vscDarkPlus}
+                          language={language || 'text'}
+                          PreTag="div"
+                          className="rounded-lg !my-4"
+                          {...props}
+                        >
+                          {String(children).replace(/\n$/, '')}
+                        </SyntaxHighlighter>
+                      )
+                    }
+                  }}
+                >
+                  {input}
+                </ReactMarkdown>
+              </div>
             ) : (
               <pre className="p-4 text-xs overflow-auto">
-                <code>{html}</code>
+                <code>{getHtmlContent()}</code>
               </pre>
             )}
           </div>

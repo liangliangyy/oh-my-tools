@@ -74,14 +74,24 @@ export function TimestampConverter() {
         <div className="grid gap-2 md:grid-cols-2">
           <div className="flex items-center gap-2">
             <code className="flex-1 p-2 rounded bg-background font-mono text-lg">{currentTimestamp}</code>
-            <Button variant="ghost" size="sm" onClick={() => copy(currentTimestamp.toString(), "current-ts")} className="h-8 px-2">
-              {copied === "current-ts" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => copy(currentTimestamp.toString(), "current-ts")} 
+              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
+            >
+              {copied === "current-ts" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
           <div className="flex items-center gap-2">
             <code className="flex-1 p-2 rounded bg-background font-mono">{formatCurrentDate()}</code>
-            <Button variant="ghost" size="sm" onClick={() => copy(formatCurrentDate(), "current-date")} className="h-8 px-2">
-              {copied === "current-date" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => copy(formatCurrentDate(), "current-date")} 
+              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
+            >
+              {copied === "current-date" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         </div>
@@ -98,13 +108,18 @@ export function TimestampConverter() {
             placeholder="输入时间戳（秒或毫秒）"
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="ghost" onClick={timestampToDate}>转换</Button>
+          <Button variant="default" onClick={timestampToDate}>转换</Button>
         </div>
         {convertedDate && (
           <div className="flex items-center gap-2">
             <code className="flex-1 p-3 rounded bg-secondary font-mono">{convertedDate}</code>
-            <Button variant="ghost" size="sm" onClick={() => copy(convertedDate, "converted-date")} className="h-8 px-2">
-              {copied === "converted-date" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => copy(convertedDate, "converted-date")} 
+              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
+            >
+              {copied === "converted-date" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         )}
@@ -120,13 +135,18 @@ export function TimestampConverter() {
             onChange={(e) => setInputDate(e.target.value)}
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="ghost" onClick={dateToTimestamp}>转换</Button>
+          <Button variant="default" onClick={dateToTimestamp}>转换</Button>
         </div>
         {convertedTimestamp && (
           <div className="flex items-center gap-2">
             <code className="flex-1 p-3 rounded bg-secondary font-mono">{convertedTimestamp}</code>
-            <Button variant="ghost" size="sm" onClick={() => copy(convertedTimestamp, "converted-ts")} className="h-8 px-2">
-              {copied === "converted-ts" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+            <Button 
+              variant="ghost" 
+              size="sm" 
+              onClick={() => copy(convertedTimestamp, "converted-ts")} 
+              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
+            >
+              {copied === "converted-ts" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         )}

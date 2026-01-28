@@ -82,7 +82,7 @@ export function JwtDecoder() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium">JWT Token</label>
-          <Button variant="ghost" size="sm" onClick={clear}>
+          <Button variant="ghost" size="sm" onClick={clear} className="hover:bg-accent/50 dark:hover:bg-accent/30">
             <Trash2 className="h-4 w-4 mr-1" />
             清空
           </Button>
@@ -95,7 +95,7 @@ export function JwtDecoder() {
         />
       </div>
 
-      <Button variant="ghost" onClick={decodeJWT} className="w-full">
+      <Button variant="default" onClick={decodeJWT} className="w-full">
         解码
       </Button>
 
@@ -116,9 +116,10 @@ export function JwtDecoder() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(JSON.stringify(decoded.header, null, 2), "header")}
+                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "header" ? (
-                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -137,9 +138,10 @@ export function JwtDecoder() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(JSON.stringify(decoded.payload, null, 2), "payload")}
+                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "payload" ? (
-                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -174,9 +176,10 @@ export function JwtDecoder() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(decoded.signature, "signature")}
+                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "signature" ? (
-                  <Check className="h-3.5 w-3.5 text-green-500" />
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}

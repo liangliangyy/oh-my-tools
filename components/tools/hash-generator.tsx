@@ -61,7 +61,7 @@ export function HashGenerator() {
         />
       </div>
 
-      <Button variant="ghost" onClick={generateHashes} disabled={!input || loading}>
+      <Button variant="default" onClick={generateHashes} disabled={!input || loading}>
         {loading ? "生成中..." : "生成 Hash"}
       </Button>
 
@@ -77,10 +77,10 @@ export function HashGenerator() {
                     variant="ghost" 
                     size="sm" 
                     onClick={() => copy(result.hash, result.algorithm)} 
-                    className="h-7 px-2"
+                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === result.algorithm ? (
-                      <Check className="h-3.5 w-3.5 text-accent" />
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
