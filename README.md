@@ -67,7 +67,7 @@
 ### 环境要求
 
 - Node.js 18.x 或更高版本
-- npm 或 pnpm
+- **pnpm** (必须使用 pnpm，不支持 npm 或 yarn)
 
 ### 安装步骤
 
@@ -78,29 +78,31 @@ git clone https://github.com/yourusername/oh-my-tools.git
 cd oh-my-tools
 ```
 
-2. 安装依赖
+2. 安装 pnpm（如果尚未安装）
 
 ```bash
-npm install
-# 或
+npm install -g pnpm
+```
+
+3. 安装依赖
+
+```bash
 pnpm install
 ```
 
-3. 启动开发服务器
+4. 启动开发服务器
 
 ```bash
-npm run dev
-# 或
 pnpm dev
 ```
 
-4. 在浏览器中打开 [http://localhost:3000](http://localhost:3000)
+5. 在浏览器中打开 [http://localhost:3000](http://localhost:3000)
 
 ### 构建部署
 
 ```bash
-npm run build
-npm run start
+pnpm build
+pnpm start
 ```
 
 ## 🔧 添加新工具
