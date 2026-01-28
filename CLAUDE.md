@@ -171,4 +171,7 @@ The `MonacoEditor` component (`components/ui/monaco-editor.tsx`):
 - No backend API or database
 - No authentication or user accounts
 - Internationalization: Chinese (Simplified) text throughout UI
-- Package manager: pnpm
+- **Package manager**: pnpm (REQUIRED - do not use npm or yarn)
+  - Lock file: `pnpm-lock.yaml` only (no `package-lock.json` or `yarn.lock`)
+  - Install dependencies: `pnpm install`
+  - Add new package: `pnpm add <package>`
