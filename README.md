@@ -1,0 +1,185 @@
+# oh-my-tools
+
+<div align="center">
+
+**🛠️ 程序员的在线工具箱**
+
+一个免费、开源的开发者工具集合，所有处理均在浏览器本地进行，保护您的数据隐私。
+
+[在线体验](#) | [功能列表](#功能列表) | [本地运行](#本地开发)
+
+</div>
+
+---
+
+## ✨ 特性
+
+- 🔒 **隐私优先** - 所有数据处理均在浏览器本地完成，不上传到任何服务器
+- 🚀 **即开即用** - 无需安装、注册，打开即可使用
+- 🎨 **现代化界面** - 支持深色/浅色主题切换，响应式设计
+- 💻 **离线可用** - 支持离线使用，随时随地完成工作
+- 🌐 **完全免费** - 开源项目，永久免费
+
+## 🧰 功能列表
+
+### 数据格式工具
+
+- **JSON 格式化** - 格式化、压缩、验证 JSON 数据
+- **JSON 转代码** - 将 JSON 转换为 TypeScript、Go、Python 等语言的类型定义
+- **YAML ↔ JSON** - YAML 与 JSON 格式双向转换
+
+### 开发工具
+
+- **文件 Diff** - 对比两个文件的差异，高亮显示变更
+- **正则测试** - 实时测试正则表达式匹配结果
+- **JWT 解码器** - 解析 JWT Token，查看 header、payload 内容
+- **Cron 表达式** - 可视化生成和解析 Cron 定时任务表达式
+
+### 编码/解码
+
+- **Base64 编解码** - Base64 编码与解码转换
+- **URL 编解码** - URL 编码与解码处理
+- **Hash 生成** - 生成 SHA-1、SHA-256、SHA-384、SHA-512 哈希值
+
+### 转换工具
+
+- **时间戳转换** - Unix 时间戳与日期时间互相转换
+- **颜色转换** - HEX、RGB、HSL 颜色格式互转
+- **进制转换** - 二进制、八进制、十进制、十六进制互转
+
+### 生成器
+
+- **UUID 生成** - 批量生成随机 UUID (v4)
+- **密码生成器** - 生成安全的随机密码，支持自定义规则
+
+## 🚀 技术栈
+
+- **框架**: [Next.js 16](https://nextjs.org/) with App Router
+- **语言**: [TypeScript](https://www.typescriptlang.org/)
+- **样式**: [Tailwind CSS v4](https://tailwindcss.com/)
+- **组件库**: [Radix UI](https://www.radix-ui.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **代码编辑器**: [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+- **图标**: [Lucide Icons](https://lucide.dev/)
+- **主题**: [next-themes](https://github.com/pacocoursey/next-themes)
+
+## 📦 本地开发
+
+### 环境要求
+
+- Node.js 18.x 或更高版本
+- npm 或 pnpm
+
+### 安装步骤
+
+1. 克隆仓库
+
+```bash
+git clone https://github.com/yourusername/oh-my-tools.git
+cd oh-my-tools
+```
+
+2. 安装依赖
+
+```bash
+npm install
+# 或
+pnpm install
+```
+
+3. 启动开发服务器
+
+```bash
+npm run dev
+# 或
+pnpm dev
+```
+
+4. 在浏览器中打开 [http://localhost:3000](http://localhost:3000)
+
+### 构建部署
+
+```bash
+npm run build
+npm run start
+```
+
+## 🔧 添加新工具
+
+1. 在 `components/tools/` 目录下创建新工具组件
+2. 在 `app/page.tsx` 中注册工具（首页展示）
+3. 在 `app/tools/page.tsx` 中注册工具（工具页面）
+4. 确保使用统一的按钮样式 `variant="secondary"`
+
+示例：
+
+```tsx
+// components/tools/my-tool.tsx
+"use client"
+
+import { Button } from "@/components/ui/button"
+
+export function MyTool() {
+  return (
+    <div>
+      <Button variant="secondary">操作</Button>
+    </div>
+  )
+}
+```
+
+## 📝 项目结构
+
+```
+oh-my-tools/
+├── app/                      # Next.js App Router
+│   ├── page.tsx             # 首页
+│   ├── layout.tsx           # 根布局
+│   ├── globals.css          # 全局样式
+│   └── tools/               # 工具页面
+│       └── page.tsx
+├── components/
+│   ├── ui/                  # 基础 UI 组件
+│   ├── tools/               # 工具组件
+│   │   ├── json-formatter.tsx
+│   │   ├── jwt-decoder.tsx
+│   │   └── ...
+│   ├── theme-provider.tsx
+│   └── theme-toggle.tsx
+├── lib/
+│   └── utils.ts             # 工具函数
+├── hooks/                   # React Hooks
+└── public/                  # 静态资源
+```
+
+## 🤝 贡献
+
+欢迎提交 Issue 和 Pull Request！
+
+1. Fork 本仓库
+2. 创建特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📄 许可证
+
+本项目采用 [MIT](LICENSE) 许可证。
+
+## 🙏 致谢
+
+- [Next.js](https://nextjs.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [shadcn/ui](https://ui.shadcn.com/)
+- [Radix UI](https://www.radix-ui.com/)
+- [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+- [Lucide Icons](https://lucide.dev/)
+
+---
+
+<div align="center">
+
+Made with ❤️ by developers, for developers
+
+⭐ 如果这个项目对你有帮助，请给个 Star！
+
+</div>
