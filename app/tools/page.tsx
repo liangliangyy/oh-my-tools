@@ -1,7 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
-import { useSearchParams } from "next/navigation"
+import { useSearchParams, useRouter, usePathname } from "next/navigation"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { JsonFormatter } from "@/components/tools/json-formatter"
@@ -84,6 +84,8 @@ const categories = [
 ]
 
 export default function ToolsPage() {
+  const router = useRouter()
+  const pathname = usePathname()
   const searchParams = useSearchParams()
   const toolParam = searchParams.get("tool")
 
@@ -108,6 +110,18 @@ export default function ToolsPage() {
       newExpanded.add(categoryId)
     }
     setExpandedCategories(newExpanded)
+  }
+
+  const handleToolChange = (toolId: string) => {
+    setActiveTool(toolId)
+    setSidebarOpen(false)
+    const params = new URLSearchParams(searchParams.toString())
+    if (toolId) {
+      params.set("tool", toolId)
+    } else {
+      params.delete("tool")
+    }
+    router.replace(`${pathname}?${params.toString()}`, { scroll: false })
   }
 
   const filteredTools = tools.filter(
@@ -198,10 +212,7 @@ export default function ToolsPage() {
                       return (
                         <button
                           key={tool.id}
-                          onClick={() => {
-                            setActiveTool(tool.id)
-                            setSidebarOpen(false)
-                          }}
+                          onClick={() => handleToolChange(tool.id)}
                           className={cn(
                             "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all duration-200 relative",
                             activeTool === tool.id
@@ -265,10 +276,7 @@ export default function ToolsPage() {
                               return (
                                 <button
                                   key={tool.id}
-                                  onClick={() => {
-                                    setActiveTool(tool.id)
-                                    setSidebarOpen(false)
-                                  }}
+                                  onClick={() => handleToolChange(tool.id)}
                                   className={cn(
                                     "w-full flex items-center gap-3 px-3 py-2 rounded-lg text-left transition-all duration-200 relative",
                                     activeTool === tool.id
