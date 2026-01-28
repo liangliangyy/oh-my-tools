@@ -64,84 +64,72 @@ export function MarkdownPreview() {
   const [html, setHtml] = useState("")
   const [copied, setCopied] = useState<"md" | "html" | null>(null)
   const [showPreview, setShowPreview] = useState(true)
-  const [mermaidLoaded, setMermaidLoaded] = useState(false)
   const previewRef = useRef<HTMLDivElement>(null)
 
-  // 加载 Mermaid
+  // 初始化和渲染 Mermaid
   useEffect(() => {
-    if (typeof window !== 'undefined' && !mermaidLoaded) {
-      // 检查是否已经加载
-      // @ts-ignore
-      if (window.mermaid) {
-        setMermaidLoaded(true)
-        return
-      }
+    if (typeof window !== 'undefined' && previewRef.current && showPreview) {
+      const initAndRender = async () => {
+        try {
+          // 动态导入 mermaid
+          const mermaid = (await import('mermaid')).default
 
-      const script = document.createElement('script')
-      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js'
-      script.type = 'module'
-      script.onload = () => {
-        // 等待mermaid完全初始化
-        setTimeout(() => {
-          // @ts-ignore
-          if (window.mermaid) {
+          // 初始化 mermaid
+          mermaid.initialize({
+            startOnLoad: false,
+            theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+            securityLevel: 'loose',
+          })
+
+          // 查找所有 mermaid 图表
+          const mermaidDivs = previewRef.current!.querySelectorAll('.mermaid-diagram')
+
+          for (let index = 0; index < mermaidDivs.length; index++) {
+            const div = mermaidDivs[index] as HTMLElement
+            const code = div.textContent || ''
+            if (!code.trim()) continue
+
             try {
-              // @ts-ignore
-              window.mermaid.initialize({
-                startOnLoad: false,
-                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
-                securityLevel: 'loose',
-              })
-              setMermaidLoaded(true)
-            } catch (e) {
-              console.error('Mermaid initialization failed:', e)
+              const id = `mermaid-${Date.now()}-${index}`
+              const { svg } = await mermaid.render(id, code)
+              div.innerHTML = svg
+            } catch (e: any) {
+              console.error('Mermaid render error:', e)
+              div.innerHTML = `<div class="text-destructive text-sm p-4">Mermaid 渲染失败: ${e.message || '语法错误'}</div>`
             }
           }
-        }, 100)
-      }
-      script.onerror = () => {
-        console.error('Failed to load Mermaid')
-      }
-      document.head.appendChild(script)
-    }
-  }, [mermaidLoaded])
-
-  // 渲染 Mermaid 图表
-  useEffect(() => {
-    if (mermaidLoaded && previewRef.current && showPreview) {
-      const mermaidDivs = previewRef.current.querySelectorAll('.mermaid-diagram')
-
-      mermaidDivs.forEach(async (div, index) => {
-        const code = div.textContent || ''
-        if (!code.trim()) return
-
-        try {
-          // @ts-ignore
-          if (window.mermaid && typeof window.mermaid.render === 'function') {
-            const id = `mermaid-${Date.now()}-${index}`
-            // @ts-ignore
-            const { svg } = await window.mermaid.render(id, code)
-            div.innerHTML = svg
-          } else {
-            div.innerHTML = `<div class="text-muted-foreground text-sm">正在加载 Mermaid...</div>`
-          }
-        } catch (e: any) {
-          console.error('Mermaid render error:', e)
-          div.innerHTML = `<div class="text-destructive text-sm">Mermaid 渲染失败: ${e.message || e}</div>`
+        } catch (error) {
+          console.error('Failed to load Mermaid:', error)
         }
-      })
+      }
+
+      // 延迟执行，确保 DOM 已更新
+      const timer = setTimeout(initAndRender, 100)
+      return () => clearTimeout(timer)
     }
-  }, [html, mermaidLoaded, showPreview])
+  }, [html, showPreview])
 
   // 简易的 Markdown 转 HTML 实现
   const markdownToHtml = (markdown: string): string => {
     let result = markdown
 
-    // Mermaid 代码块
-    result = result.replace(/```mermaid\n([\s\S]*?)```/g, '<div class="mermaid-diagram" style="text-align: center; margin: 1rem 0;">$1</div>')
+    // 先保护代码块，避免被其他规则影响
+    const codeBlocks: string[] = []
+    const mermaidBlocks: string[] = []
 
-    // 代码块
-    result = result.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
+    // Mermaid 代码块
+    result = result.replace(/```mermaid\n([\s\S]*?)```/g, (match, code) => {
+      const placeholder = `__MERMAID_${mermaidBlocks.length}__`
+      mermaidBlocks.push(code.trim())
+      return placeholder
+    })
+
+    // 普通代码块
+    result = result.replace(/```(\w+)?\n([\s\S]*?)```/g, (match, lang, code) => {
+      const placeholder = `__CODE_${codeBlocks.length}__`
+      codeBlocks.push(`<pre><code class="language-${lang || 'plaintext'}">${code}</code></pre>`)
+      return placeholder
+    })
 
     // 标题
     result = result.replace(/^### (.*$)/gim, '<h3>$1</h3>')
@@ -219,6 +207,23 @@ export function MarkdownPreview() {
     result = result.replace(/<p>(<hr \/>)<\/p>/g, '$1')
     result = result.replace(/<p>(<label class="task-item">)/g, '$1')
     result = result.replace(/(<\/label>)<\/p>/g, '$1')
+
+    // 恢复代码块占位符
+    codeBlocks.forEach((code, index) => {
+      result = result.replace(`__CODE_${index}__`, code)
+    })
+
+    // 恢复 Mermaid 占位符
+    mermaidBlocks.forEach((code, index) => {
+      result = result.replace(
+        `__MERMAID_${index}__`,
+        `<div class="mermaid-diagram" style="text-align: center; margin: 1rem 0;">${code}</div>`
+      )
+    })
+
+    // 清理 Mermaid 占位符的段落标签
+    result = result.replace(/<p>(<div class="mermaid-diagram">)/g, '$1')
+    result = result.replace(/(<\/div>)<\/p>/g, '$1')
 
     return result
   }
