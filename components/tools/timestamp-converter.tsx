@@ -98,7 +98,7 @@ export function TimestampConverter() {
             placeholder="输入时间戳（秒或毫秒）"
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="secondary" onClick={timestampToDate}>转换</Button>
+          <Button variant="ghost" onClick={timestampToDate}>转换</Button>
         </div>
         {convertedDate && (
           <div className="flex items-center gap-2">
@@ -120,7 +120,7 @@ export function TimestampConverter() {
             onChange={(e) => setInputDate(e.target.value)}
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="secondary" onClick={dateToTimestamp}>转换</Button>
+          <Button variant="ghost" onClick={dateToTimestamp}>转换</Button>
         </div>
         {convertedTimestamp && (
           <div className="flex items-center gap-2">

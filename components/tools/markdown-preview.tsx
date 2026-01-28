@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Trash2, Eye, EyeOff } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
@@ -18,6 +18,17 @@ const exampleMarkdown = `# Markdown 示例
 function hello() {
   console.log("Hello, World!");
 }
+\`\`\`
+
+### Mermaid 流程图
+
+\`\`\`mermaid
+graph TD
+    A[开始] --> B{是否登录?}
+    B -->|是| C[显示首页]
+    B -->|否| D[跳转登录]
+    C --> E[结束]
+    D --> E
 \`\`\`
 
 ### 列表
@@ -53,10 +64,81 @@ export function MarkdownPreview() {
   const [html, setHtml] = useState("")
   const [copied, setCopied] = useState<"md" | "html" | null>(null)
   const [showPreview, setShowPreview] = useState(true)
+  const [mermaidLoaded, setMermaidLoaded] = useState(false)
+  const previewRef = useRef<HTMLDivElement>(null)
+
+  // 加载 Mermaid
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !mermaidLoaded) {
+      // 检查是否已经加载
+      // @ts-ignore
+      if (window.mermaid) {
+        setMermaidLoaded(true)
+        return
+      }
+
+      const script = document.createElement('script')
+      script.src = 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js'
+      script.type = 'module'
+      script.onload = () => {
+        // 等待mermaid完全初始化
+        setTimeout(() => {
+          // @ts-ignore
+          if (window.mermaid) {
+            try {
+              // @ts-ignore
+              window.mermaid.initialize({
+                startOnLoad: false,
+                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                securityLevel: 'loose',
+              })
+              setMermaidLoaded(true)
+            } catch (e) {
+              console.error('Mermaid initialization failed:', e)
+            }
+          }
+        }, 100)
+      }
+      script.onerror = () => {
+        console.error('Failed to load Mermaid')
+      }
+      document.head.appendChild(script)
+    }
+  }, [mermaidLoaded])
+
+  // 渲染 Mermaid 图表
+  useEffect(() => {
+    if (mermaidLoaded && previewRef.current && showPreview) {
+      const mermaidDivs = previewRef.current.querySelectorAll('.mermaid-diagram')
+
+      mermaidDivs.forEach(async (div, index) => {
+        const code = div.textContent || ''
+        if (!code.trim()) return
+
+        try {
+          // @ts-ignore
+          if (window.mermaid && typeof window.mermaid.render === 'function') {
+            const id = `mermaid-${Date.now()}-${index}`
+            // @ts-ignore
+            const { svg } = await window.mermaid.render(id, code)
+            div.innerHTML = svg
+          } else {
+            div.innerHTML = `<div class="text-muted-foreground text-sm">正在加载 Mermaid...</div>`
+          }
+        } catch (e: any) {
+          console.error('Mermaid render error:', e)
+          div.innerHTML = `<div class="text-destructive text-sm">Mermaid 渲染失败: ${e.message || e}</div>`
+        }
+      })
+    }
+  }, [html, mermaidLoaded, showPreview])
 
   // 简易的 Markdown 转 HTML 实现
   const markdownToHtml = (markdown: string): string => {
     let result = markdown
+
+    // Mermaid 代码块
+    result = result.replace(/```mermaid\n([\s\S]*?)```/g, '<div class="mermaid-diagram" style="text-align: center; margin: 1rem 0;">$1</div>')
 
     // 代码块
     result = result.replace(/```(\w+)?\n([\s\S]*?)```/g, '<pre><code class="language-$1">$2</code></pre>')
@@ -161,7 +243,7 @@ export function MarkdownPreview() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Button
-            variant={showPreview ? "default" : "secondary"}
+            variant={showPreview ? "default" : "ghost"}
             size="sm"
             onClick={() => setShowPreview(true)}
             className="gap-2"
@@ -170,7 +252,7 @@ export function MarkdownPreview() {
             预览
           </Button>
           <Button
-            variant={!showPreview ? "default" : "secondary"}
+            variant={!showPreview ? "default" : "ghost"}
             size="sm"
             onClick={() => setShowPreview(false)}
             className="gap-2"
@@ -232,6 +314,7 @@ export function MarkdownPreview() {
           <div className="rounded-lg border border-border bg-card min-h-[500px] overflow-auto">
             {showPreview ? (
               <div
+                ref={previewRef}
                 className={cn(
                   "p-4 prose prose-sm dark:prose-invert max-w-none",
                   "prose-headings:font-semibold",
@@ -249,7 +332,8 @@ export function MarkdownPreview() {
                   "prose-ul:my-2 prose-li:my-1",
                   "prose-img:rounded-lg prose-img:border prose-img:border-border",
                   "[&_.task-item]:flex [&_.task-item]:items-center [&_.task-item]:gap-2 [&_.task-item]:my-1",
-                  "[&_.task-item_input]:m-0"
+                  "[&_.task-item_input]:m-0",
+                  "[&_.mermaid-diagram]:my-4"
                 )}
                 dangerouslySetInnerHTML={{ __html: html }}
               />

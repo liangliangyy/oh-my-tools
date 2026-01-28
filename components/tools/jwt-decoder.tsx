@@ -95,7 +95,7 @@ export function JwtDecoder() {
         />
       </div>
 
-      <Button variant="secondary" onClick={decodeJWT} className="w-full">
+      <Button variant="ghost" onClick={decodeJWT} className="w-full">
         解码
       </Button>
 

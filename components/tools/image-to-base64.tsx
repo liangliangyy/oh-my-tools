@@ -216,7 +216,7 @@ export function ImageToBase64() {
             />
           </div>
 
-          <Button variant="secondary" onClick={clear} className="w-full gap-2">
+          <Button variant="ghost" onClick={clear} className="w-full gap-2">
             <Trash2 className="h-4 w-4" />
             清空
           </Button>

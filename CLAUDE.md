@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 oh-my-tools is a Next.js 16 web application providing free online developer utilities. It's a collection of client-side tools including JSON formatters, regex testers, encoders/decoders, and other common developer utilities. All processing happens client-side for privacy.
 
+- **Official Website**: https://tools.lylinux.net/
+- **GitHub Repository**: https://github.com/liangliangyy/oh-my-tools
+- **Total Tools**: 19 tools across 5 categories
+
 ## Development Commands
 
 ```bash
@@ -115,9 +119,13 @@ const tools = [
 ### Adding New Tools
 
 1. Create tool component in `components/tools/{tool-name}.tsx`
-2. Add tool definition to both `app/page.tsx` and `app/tools/page.tsx` arrays
+2. Add tool definition to both `app/page.tsx` and `app/tools/page.tsx` arrays with proper `category`
 3. Import the component in `app/tools/page.tsx`
-4. Follow existing patterns: client-side processing, Monaco Editor for code, copy/clear buttons
+4. Follow existing patterns:
+   - Client-side processing
+   - Monaco Editor for code input/output
+   - Unified button styles: `variant="ghost"` for actions, `variant="default"` for selected state
+   - Category-based organization (format, encode, generator, converter, tool)
 
 ### Monaco Editor Usage
 
@@ -128,32 +136,36 @@ The `MonacoEditor` component (`components/ui/monaco-editor.tsx`):
 - Typical height: 280px (can be customized with height prop)
 - Always include `placeholder` prop for empty state UX
 
-## Available Tools (15 total)
+## Available Tools (19 total)
 
-### Data Format Tools
+### Format Tools (5)
 - **JSON 格式化**: Format, compress, validate JSON
-- **JSON 转代码**: Convert JSON to TypeScript/Go/Python types
+- **JSON 转代码**: Convert JSON to TypeScript/Go/Python/Java/Rust types
+- **Markdown 预览**: Real-time Markdown preview with Mermaid support
 - **YAML ↔ JSON**: Bidirectional YAML/JSON converter
+- **文件 Diff**: Compare two files with side-by-side/inline diff view
 
-### Development Tools
-- **文件 Diff**: Compare two files with diff visualization
-- **正则测试**: Test regex patterns with live matching
-- **JWT 解码器**: Parse JWT tokens and display header/payload
-- **Cron 表达式**: Generate and parse cron expressions with visual builder
-
-### Encoding/Decoding
+### Encode/Decode (5)
 - **Base64 编解码**: Encode/decode Base64 strings
 - **URL 编解码**: URL encode/decode
 - **Hash 生成**: Generate SHA-1/256/384/512 hashes
+- **图片转 Base64**: Convert images to Base64 with drag-and-drop
+- **JWT 解码器**: Parse JWT tokens (decode only, no verification)
 
-### Converters
+### Generators (3)
+- **UUID 生成**: Generate batch UUIDs (v1/v4/v5)
+- **密码生成器**: Generate secure random passwords with customizable options
+- **二维码生成**: Generate customizable QR codes with color/size options
+
+### Converters (4)
 - **时间戳转换**: Unix timestamp ↔ date/time converter
 - **颜色转换**: HEX ↔ RGB ↔ HSL color converter
 - **进制转换**: Binary/Octal/Decimal/Hexadecimal converter
+- **日期计算器**: Date diff calculator, date add/subtract, workday calculator
 
-### Generators
-- **UUID 生成**: Generate batch UUIDs (v4)
-- **密码生成器**: Generate secure random passwords with customizable options
+### Development Tools (2)
+- **正则测试**: Test regex patterns with live matching
+- **Cron 表达式**: Generate and parse cron expressions with visual builder
 
 ## Build Configuration
 

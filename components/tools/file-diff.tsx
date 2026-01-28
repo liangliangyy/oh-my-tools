@@ -171,40 +171,32 @@ export function FileDiff() {
 
         <div className="flex items-center gap-2">
           <Label className="text-sm text-muted-foreground">视图:</Label>
-          <div className="flex rounded-lg border border-border overflow-hidden">
-            <button
+          <div className="flex gap-2">
+            <Button
+              variant={renderSideBySide ? "default" : "ghost"}
+              size="sm"
               onClick={() => setRenderSideBySide(true)}
-              className={cn(
-                "px-3 py-1.5 text-sm transition-colors",
-                renderSideBySide
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
-              )}
             >
               并排
-            </button>
-            <button
+            </Button>
+            <Button
+              variant={!renderSideBySide ? "default" : "ghost"}
+              size="sm"
               onClick={() => setRenderSideBySide(false)}
-              className={cn(
-                "px-3 py-1.5 text-sm transition-colors",
-                !renderSideBySide
-                  ? "bg-accent text-accent-foreground"
-                  : "bg-secondary text-muted-foreground hover:text-foreground"
-              )}
             >
               内联
-            </button>
+            </Button>
           </div>
         </div>
 
         <div className="flex-1" />
 
         <div className="flex items-center gap-2">
-          <Button variant="secondary" size="sm" onClick={handleSwap}>
+          <Button variant="ghost" size="sm" onClick={handleSwap}>
             <ArrowLeftRight className="h-4 w-4 mr-1.5" />
             交换
           </Button>
-          <Button variant="secondary" size="sm" onClick={handleReset}>
+          <Button variant="ghost" size="sm" onClick={handleReset}>
             <RotateCcw className="h-4 w-4 mr-1.5" />
             重置
           </Button>

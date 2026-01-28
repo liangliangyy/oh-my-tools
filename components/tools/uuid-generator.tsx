@@ -148,17 +148,17 @@ export function UuidGenerator() {
         )}
 
         <div className="flex gap-2 items-center">
-          <Button variant="secondary" onClick={generate} className="gap-2">
+          <Button variant="ghost" onClick={generate} className="gap-2">
             <RefreshCw className="h-4 w-4" />
             生成 UUID
           </Button>
           {uuids.length > 0 && (
             <>
-              <Button variant="secondary" onClick={copyAll} className="gap-2">
+              <Button variant="ghost" onClick={copyAll} className="gap-2">
                 {copied === "all" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
                 复制全部
               </Button>
-              <Button variant="secondary" onClick={() => setUuids([])}>
+              <Button variant="ghost" onClick={() => setUuids([])}>
                 清空
               </Button>
             </>

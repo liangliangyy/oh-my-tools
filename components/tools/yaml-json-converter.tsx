@@ -228,15 +228,15 @@ export function YamlJsonConverter() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
-        <Button variant="secondary" onClick={convertYamlToJson} className="gap-2">
+        <Button variant="ghost" onClick={convertYamlToJson} className="gap-2">
           YAML → JSON
           <ArrowLeftRight className="h-4 w-4" />
         </Button>
-        <Button variant="secondary" onClick={convertJsonToYaml} className="gap-2">
+        <Button variant="ghost" onClick={convertJsonToYaml} className="gap-2">
           JSON → YAML
           <ArrowLeftRight className="h-4 w-4" />
         </Button>
-        <Button variant="secondary" onClick={clear}>
+        <Button variant="ghost" onClick={clear}>
           <Trash2 className="h-4 w-4 mr-1" />
           清空
         </Button>

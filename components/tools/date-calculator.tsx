@@ -149,7 +149,7 @@ export function DateCalculator() {
                   onChange={(e) => setStartDate(e.target.value)}
                   className="flex-1"
                 />
-                <Button variant="outline" size="sm" onClick={() => setToday(setStartDate)}>
+                <Button variant="ghost" size="sm" onClick={() => setToday(setStartDate)}>
                   今天
                 </Button>
               </div>
@@ -164,7 +164,7 @@ export function DateCalculator() {
                   onChange={(e) => setEndDate(e.target.value)}
                   className="flex-1"
                 />
-                <Button variant="outline" size="sm" onClick={() => setToday(setEndDate)}>
+                <Button variant="ghost" size="sm" onClick={() => setToday(setEndDate)}>
                   今天
                 </Button>
               </div>
@@ -246,7 +246,7 @@ export function DateCalculator() {
                 onChange={(e) => setBaseDate(e.target.value)}
                 className="flex-1"
               />
-              <Button variant="outline" size="sm" onClick={() => setToday(setBaseDate)}>
+              <Button variant="ghost" size="sm" onClick={() => setToday(setBaseDate)}>
                 今天
               </Button>
             </div>
