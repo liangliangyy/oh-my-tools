@@ -19,6 +19,10 @@ import { CronExpression } from "@/components/tools/cron-expression"
 import { YamlJsonConverter } from "@/components/tools/yaml-json-converter"
 import { PasswordGenerator } from "@/components/tools/password-generator"
 import { NumberBaseConverter } from "@/components/tools/number-base-converter"
+import { MarkdownPreview } from "@/components/tools/markdown-preview"
+import { QrcodeGenerator } from "@/components/tools/qrcode-generator"
+import { ImageToBase64 } from "@/components/tools/image-to-base64"
+import { DateCalculator } from "@/components/tools/date-calculator"
 import { ThemeToggle } from "@/components/theme-toggle"
 import {
   Braces,
@@ -41,6 +45,10 @@ import {
   ArrowLeftRight,
   Lock,
   Calculator,
+  FileText,
+  QrCode,
+  Image,
+  CalendarDays,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -55,12 +63,16 @@ const tools = [
   { id: "url", name: "URL 编码", icon: Link2, component: UrlEncoder, description: "URL 编码/解码" },
   { id: "hash", name: "Hash 生成", icon: Hash, component: HashGenerator, description: "SHA-1/256/384/512" },
   { id: "color", name: "颜色转换", icon: Palette, component: ColorConverter, description: "HEX/RGB/HSL 互转" },
-  { id: "uuid", name: "UUID 生成", icon: Fingerprint, component: UuidGenerator, description: "生成随机 UUID" },
+  { id: "uuid", name: "UUID 生成", icon: Fingerprint, component: UuidGenerator, description: "生成 UUID v1/v4/v5" },
   { id: "jwt", name: "JWT 解码器", icon: KeyRound, component: JwtDecoder, description: "解析 JWT Token" },
   { id: "cron", name: "Cron 表达式", icon: CalendarClock, component: CronExpression, description: "Cron 定时任务" },
   { id: "yaml", name: "YAML ↔ JSON", icon: ArrowLeftRight, component: YamlJsonConverter, description: "YAML/JSON 互转" },
   { id: "password", name: "密码生成器", icon: Lock, component: PasswordGenerator, description: "生成安全密码" },
   { id: "base-converter", name: "进制转换", icon: Calculator, component: NumberBaseConverter, description: "进制互转" },
+  { id: "markdown", name: "Markdown 预览", icon: FileText, component: MarkdownPreview, description: "Markdown 实时预览" },
+  { id: "qrcode", name: "二维码生成", icon: QrCode, component: QrcodeGenerator, description: "生成二维码图片" },
+  { id: "image-base64", name: "图片转 Base64", icon: Image, component: ImageToBase64, description: "图片转 Base64" },
+  { id: "date-calc", name: "日期计算器", icon: CalendarDays, component: DateCalculator, description: "日期差计算和加减" },
 ]
 
 export default function ToolsPage() {

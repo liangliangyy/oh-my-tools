@@ -303,6 +303,8 @@ export function FileDiff() {
           }}
           options={{
             renderSideBySide,
+            readOnly: false,
+            originalEditable: true,
             minimap: { enabled: false },
             fontSize: 13,
             scrollBeyondLastLine: false,
