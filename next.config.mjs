@@ -1,5 +1,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  output: 'export', // 启用静态导出模式，适用于 Cloudflare Pages
   typescript: {
     ignoreBuildErrors: true,
   },
