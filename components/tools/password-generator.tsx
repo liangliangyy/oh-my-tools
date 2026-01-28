@@ -214,7 +214,11 @@ export function PasswordGenerator() {
             placeholder="点击生成密码"
             className="font-mono"
           />
-          <Button onClick={handleGenerate} size="icon" variant="ghost">
+          <Button 
+            onClick={handleGenerate} 
+            size="icon" 
+            variant="default"
+          >
             <RefreshCw className="h-4 w-4" />
           </Button>
           <Button
@@ -222,9 +226,10 @@ export function PasswordGenerator() {
             size="icon"
             variant="ghost"
             disabled={!password}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "single" ? (
-              <Check className="h-4 w-4 text-green-500" />
+              <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
             ) : (
               <Copy className="h-4 w-4" />
             )}
@@ -263,10 +268,10 @@ export function PasswordGenerator() {
                   onClick={() => copyPassword(pwd, index)}
                   size="icon"
                   variant="ghost"
-                  className="h-7 w-7"
+                  className="h-7 w-7 hover:bg-accent/50 dark:hover:bg-accent/30"
                 >
                   {copied === index ? (
-                    <Check className="h-3.5 w-3.5 text-green-500" />
+                    <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                   ) : (
                     <Copy className="h-3.5 w-3.5" />
                   )}

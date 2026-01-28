@@ -75,11 +75,16 @@ export function JsonFormatter() {
             <div className="flex items-center gap-1">
               <span className="text-xs text-muted-foreground mr-2">{output.length} 字符</span>
               {output && (
-                <Button variant="ghost" size="sm" onClick={copyOutput} className="h-7 px-2 gap-1.5">
+                <Button 
+                  variant="ghost" 
+                  size="sm" 
+                  onClick={copyOutput} 
+                  className="h-7 px-2 gap-1.5 hover:bg-accent/50 dark:hover:bg-accent/30"
+                >
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-accent" />
-                      <span className="text-xs text-accent">已复制</span>
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                      <span className="text-xs text-green-600 dark:text-green-400">已复制</span>
                     </>
                   ) : (
                     <>
@@ -107,7 +112,7 @@ export function JsonFormatter() {
       )}
       
       <div className="flex flex-wrap gap-2">
-        <Button variant="ghost" onClick={formatJson} className="gap-2">
+        <Button variant="default" onClick={formatJson} className="gap-2">
           <Wand2 className="h-4 w-4" />
           格式化
         </Button>

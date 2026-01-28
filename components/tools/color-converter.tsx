@@ -147,8 +147,13 @@ export function ColorConverter() {
             className="font-mono bg-secondary border-border"
             placeholder="#000000"
           />
-          <Button variant="ghost" size="icon" onClick={() => copy(hex, "hex")}>
-            {copied === "hex" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => copy(hex, "hex")}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
+            {copied === "hex" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
       </div>
@@ -186,8 +191,13 @@ export function ColorConverter() {
               placeholder="B"
             />
           </div>
-          <Button variant="ghost" size="icon" onClick={() => copy(rgbString, "rgb")}>
-            {copied === "rgb" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => copy(rgbString, "rgb")}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
+            {copied === "rgb" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{rgbString}</code>
@@ -226,8 +236,13 @@ export function ColorConverter() {
               placeholder="L"
             />
           </div>
-          <Button variant="ghost" size="icon" onClick={() => copy(hslString, "hsl")}>
-            {copied === "hsl" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+          <Button 
+            variant="ghost" 
+            size="icon" 
+            onClick={() => copy(hslString, "hsl")}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
+            {copied === "hsl" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{hslString}</code>

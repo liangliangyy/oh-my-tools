@@ -148,14 +148,14 @@ export function UuidGenerator() {
         )}
 
         <div className="flex gap-2 items-center">
-          <Button variant="ghost" onClick={generate} className="gap-2">
+          <Button variant="default" onClick={generate} className="gap-2">
             <RefreshCw className="h-4 w-4" />
             生成 UUID
           </Button>
           {uuids.length > 0 && (
             <>
               <Button variant="ghost" onClick={copyAll} className="gap-2">
-                {copied === "all" ? <Check className="h-4 w-4 text-accent" /> : <Copy className="h-4 w-4" />}
+                {copied === "all" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
                 复制全部
               </Button>
               <Button variant="ghost" onClick={() => setUuids([])}>
@@ -185,15 +185,15 @@ export function UuidGenerator() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copy(uuid, uuid)}
-                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity"
+                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent/50 dark:hover:bg-accent/30"
               >
-                {copied === uuid ? <Check className="h-3.5 w-3.5 text-accent" /> : <Copy className="h-3.5 w-3.5" />}
+                {copied === uuid ? <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" /> : <Copy className="h-3.5 w-3.5" />}
               </Button>
               <Button
                 variant="ghost"
                 size="sm"
                 onClick={() => remove(index)}
-                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive"
+                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20"
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>

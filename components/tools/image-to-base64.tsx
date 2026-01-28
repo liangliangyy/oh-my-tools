@@ -179,7 +179,7 @@ export function ImageToBase64() {
                 onClick={() => copyToClipboard(base64, "base64")}
               >
                 {copied === "base64" ? (
-                  <Check className="h-4 w-4 text-green-500 mr-1" />
+                  <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
                 ) : (
                   <Copy className="h-4 w-4 mr-1" />
                 )}
@@ -200,9 +200,10 @@ export function ImageToBase64() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(dataUrl, "dataurl")}
+                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "dataurl" ? (
-                  <Check className="h-4 w-4 text-green-500 mr-1" />
+                  <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
                 ) : (
                   <Copy className="h-4 w-4 mr-1" />
                 )}

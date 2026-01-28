@@ -72,11 +72,16 @@ export function RegexTester() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <label className="text-sm font-medium text-muted-foreground">正则表达式</label>
-          <Button variant="ghost" size="sm" onClick={copyPattern} className="h-7 px-2 gap-1.5">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={copyPattern} 
+            className="h-7 px-2 gap-1.5 hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-accent" />
-                <span className="text-xs text-accent">已复制</span>
+                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <span className="text-xs text-green-600 dark:text-green-400">已复制</span>
               </>
             ) : (
               <>

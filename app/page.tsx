@@ -122,10 +122,10 @@ export default function HomePage() {
             </p>
             <Link
               href="/tools"
-              className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 transition-all shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
+              className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 active:bg-primary/80 transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
             >
               开始使用
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
             </Link>
           </div>
         </div>
@@ -163,7 +163,7 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 transition-colors">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex-shrink-0">
                   <Code2 className="h-6 w-6" />
@@ -176,7 +176,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 transition-colors">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex-shrink-0">
                   <Search className="h-6 w-6" />
@@ -189,7 +189,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 transition-colors">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex-shrink-0">
                   <ArrowLeftRight className="h-6 w-6" />
@@ -202,7 +202,7 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 transition-colors">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
               <div className="flex items-start gap-4">
                 <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 flex-shrink-0">
                   <Zap className="h-6 w-6" />

@@ -235,11 +235,11 @@ export function FileDiff() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 px-2"
+              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               onClick={() => handleCopy("original")}
             >
               {copied === "original" ? (
-                <Check className="h-3.5 w-3.5 text-green-500" />
+                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -260,11 +260,11 @@ export function FileDiff() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-7 px-2"
+              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               onClick={() => handleCopy("modified")}
             >
               {copied === "modified" ? (
-                <Check className="h-3.5 w-3.5 text-green-500" />
+                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
