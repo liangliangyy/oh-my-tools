@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react"
 import Editor from "@monaco-editor/react"
 import { cn } from "@/lib/utils"
 
@@ -25,28 +25,37 @@ export function MonacoEditor({
 }: MonacoEditorProps) {
   const [mounted, setMounted] = useState(false)
   const [theme, setTheme] = useState<"vs-dark" | "light">("vs-dark")
+  const editorRef = useRef<any>(null)
 
   useEffect(() => {
     setMounted(true)
     // 检测当前主题
     const checkTheme = () => {
       const isDark = document.documentElement.classList.contains("dark") ||
-        (!document.documentElement.classList.contains("light") && 
+        (!document.documentElement.classList.contains("light") &&
          window.matchMedia("(prefers-color-scheme: dark)").matches)
       setTheme(isDark ? "vs-dark" : "light")
     }
-    
+
     checkTheme()
-    
+
     // 监听主题变化
     const observer = new MutationObserver(checkTheme)
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     })
-    
+
     return () => observer.disconnect()
   }, [])
+
+  const handleEditorDidMount = (editor: any) => {
+    editorRef.current = editor
+    // 强制编辑器重新计算布局
+    setTimeout(() => {
+      editor.layout()
+    }, 100)
+  }
 
   if (!mounted) {
     return (
@@ -68,6 +77,7 @@ export function MonacoEditor({
         value={value}
         onChange={(v) => onChange?.(v || "")}
         theme={theme}
+        onMount={handleEditorDidMount}
         options={{
           readOnly,
           minimap: { enabled: false },
@@ -91,6 +101,7 @@ export function MonacoEditor({
           lineDecorationsWidth: 8,
           lineNumbersMinChars: 3,
           glyphMargin: false,
+          fixedOverflowWidgets: true,
         }}
       />
       {!value && placeholder && (

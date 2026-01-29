@@ -1,7 +1,7 @@
 "use client"
 
-import { useEffect, useState } from "react"
-import { DiffEditor, loader } from "@monaco-editor/react"
+import { useEffect, useState, useRef } from "react"
+import { DiffEditor } from "@monaco-editor/react"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import {
@@ -13,12 +13,6 @@ import {
 } from "@/components/ui/select"
 import { Copy, RotateCcw, ArrowLeftRight, FileText, Check, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
-
-loader.config({
-  paths: {
-    vs: "https://cdn.jsdelivr.net/npm/monaco-editor@0.45.0/min/vs",
-  },
-})
 
 const languages = [
   { value: "plaintext", label: "纯文本" },
@@ -68,6 +62,7 @@ export function FileDiff() {
   const [language, setLanguage] = useState("javascript")
   const [renderSideBySide, setRenderSideBySide] = useState(true)
   const [copied, setCopied] = useState<"original" | "modified" | null>(null)
+  const diffEditorRef = useRef<any>(null)
 
   useEffect(() => {
     setMounted(true)
@@ -97,13 +92,27 @@ export function FileDiff() {
   }
 
   const handleCopy = async (type: "original" | "modified") => {
-    const text = type === "original" ? original : modified
+    let text = ""
+    if (diffEditorRef.current) {
+      const editor = type === "original"
+        ? diffEditorRef.current.getOriginalEditor()
+        : diffEditorRef.current.getModifiedEditor()
+      text = editor.getValue()
+    } else {
+      text = type === "original" ? original : modified
+    }
     await navigator.clipboard.writeText(text)
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
   }
 
   const handleClear = (type: "original" | "modified") => {
+    if (diffEditorRef.current) {
+      const editor = type === "original"
+        ? diffEditorRef.current.getOriginalEditor()
+        : diffEditorRef.current.getModifiedEditor()
+      editor.setValue("")
+    }
     if (type === "original") {
       setOriginal("")
     } else {
@@ -117,8 +126,16 @@ export function FileDiff() {
   }
 
   const getDiffStats = () => {
-    const originalLines = original.split("\n")
-    const modifiedLines = modified.split("\n")
+    let originalText = original
+    let modifiedText = modified
+
+    if (diffEditorRef.current) {
+      originalText = diffEditorRef.current.getOriginalEditor().getValue()
+      modifiedText = diffEditorRef.current.getModifiedEditor().getValue()
+    }
+
+    const originalLines = originalText.split("\n")
+    const modifiedLines = modifiedText.split("\n")
     
     let added = 0
     let removed = 0
@@ -282,16 +299,12 @@ export function FileDiff() {
           modified={modified}
           theme={theme}
           onMount={(editor) => {
-            const originalEditor = editor.getOriginalEditor()
-            const modifiedEditor = editor.getModifiedEditor()
-            
-            originalEditor.onDidChangeModelContent(() => {
-              setOriginal(originalEditor.getValue())
-            })
-            
-            modifiedEditor.onDidChangeModelContent(() => {
-              setModified(modifiedEditor.getValue())
-            })
+            diffEditorRef.current = editor
+
+            // 强制编辑器重新计算布局
+            setTimeout(() => {
+              editor.layout()
+            }, 100)
           }}
           options={{
             renderSideBySide,
@@ -312,6 +325,7 @@ export function FileDiff() {
             glyphMargin: false,
             renderOverviewRuler: false,
             diffWordWrap: "on",
+            fixedOverflowWidgets: true,
           }}
         />
       </div>
