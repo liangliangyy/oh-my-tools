@@ -6,7 +6,7 @@
 
 一个免费、开源的开发者工具集合，所有处理均在浏览器本地进行，保护您的数据隐私。
 
-[在线体验](https://tools.lylinux.net/) | [功能列表](#功能列表) | [本地运行](#本地开发)
+[在线体验](https://tools.lylinux.net/) | [功能列表](#-功能列表) | [本地开发](#-本地开发)
 
 </div>
 
@@ -44,23 +44,30 @@
 - **密码生成器** - 生成安全的随机密码，支持自定义规则
 - **二维码生成** - 生成自定义二维码图片，可调整颜色和尺寸
 
-### 转换器 (4个)
+### 转换器 (5个)
 
 - **时间戳转换** - Unix 时间戳与日期时间互相转换
 - **颜色转换** - HEX、RGB、HSL 颜色格式互转
 - **进制转换** - 二进制、八进制、十进制、十六进制互转
 - **日期计算器** - 日期差计算、日期加减运算、工作日统计
+- **单位转换** - 长度、重量、温度等常用单位互转
+
+### 网络工具 (3个)
+
+- **IP 子网计算** - CIDR 子网掩码计算，IP 范围分析
+- **Chmod 计算** - Linux 文件权限数字与符号互转
+- **端口检测** - 生成端口连通性检测命令
 
 ### 开发工具 (2个)
 
 - **正则测试** - 实时测试正则表达式匹配结果
 - **Cron 表达式** - 可视化生成和解析 Cron 定时任务表达式
 
-**总计: 19 个工具**
+**总计: 23 个工具**
 
 ## 🚀 技术栈
 
-- **框架**: [Next.js 16](https://nextjs.org/) with App Router
+- **框架**: [Next.js 16.0.10](https://nextjs.org/) with App Router
 - **语言**: [TypeScript](https://www.typescriptlang.org/)
 - **样式**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **组件库**: [Radix UI](https://www.radix-ui.com/) + [shadcn/ui](https://ui.shadcn.com/)
@@ -158,21 +165,28 @@ oh-my-tools/
 ├── app/                      # Next.js App Router
 │   ├── page.tsx             # 首页
 │   ├── layout.tsx           # 根布局
+│   ├── loading.tsx          # 加载状态
 │   ├── globals.css          # 全局样式
 │   └── tools/               # 工具页面
-│       └── page.tsx
+│       ├── page.tsx
+│       └── loading.tsx
 ├── components/
-│   ├── ui/                  # 基础 UI 组件
-│   ├── tools/               # 工具组件
+│   ├── ui/                  # 基础 UI 组件 (shadcn/ui)
+│   ├── tools/               # 工具组件 (23个)
 │   │   ├── json-formatter.tsx
+│   │   ├── json-to-code.tsx
 │   │   ├── jwt-decoder.tsx
+│   │   ├── cidr-calculator.tsx
+│   │   ├── chmod-calculator.tsx
+│   │   ├── port-check-generator.tsx
 │   │   └── ...
 │   ├── theme-provider.tsx
 │   └── theme-toggle.tsx
 ├── lib/
 │   └── utils.ts             # 工具函数
-├── hooks/                   # React Hooks
 └── public/                  # 静态资源
+    ├── logo.png
+    └── favicon.ico
 ```
 
 ## 🤝 贡献
