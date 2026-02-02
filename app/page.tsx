@@ -286,7 +286,7 @@ export default function HomePage() {
               return (
                 <Link
                   key={tool.id}
-                  href={`/tools?tool=${tool.id}`}
+                  href={`/tools/${tool.id}`}
                   className={cn(
                     "group relative flex flex-col p-6 rounded-xl border border-border bg-card overflow-hidden transition-all duration-300",
                     "hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1"
@@ -324,7 +324,7 @@ export default function HomePage() {
                     return (
                       <Link
                         key={tool.id}
-                        href={`/tools?tool=${tool.id}`}
+                        href={`/tools/${tool.id}`}
                         className={cn(
                           "group relative flex flex-col p-6 rounded-xl border border-border bg-card overflow-hidden transition-all duration-300",
                           "hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1"

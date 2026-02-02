@@ -122,9 +122,26 @@ pnpm dev
 ### 构建部署
 
 ```bash
+# 本地构建（使用 .env.local 中的配置）
 pnpm build
+
+# 生产环境构建（指定域名）
+NEXT_PUBLIC_SITE_URL=https://your-domain.com pnpm build
+
+# 启动生产服务器
 pnpm start
 ```
+
+### 环境变量配置
+
+复制 `.env.example` 为 `.env.local` 并修改配置：
+
+```bash
+cp .env.example .env.local
+```
+
+主要配置项：
+- `NEXT_PUBLIC_SITE_URL`: 网站基础URL，用于生成 sitemap.xml 和 robots.txt
 
 ## 🔧 添加新工具
 
