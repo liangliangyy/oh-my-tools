@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { toast } from "@/hooks/use-toast"
 
 const HMAC_ALGORITHMS = [
   { value: "SHA-1", label: "HMAC-SHA1" },
@@ -111,9 +112,18 @@ export function HmacGenerator() {
       // 比较
       if (hashHex === output.toLowerCase()) {
         setError("")
-        alert("✓ HMAC 验证成功！消息完整且未被篡改。")
+        toast({
+          title: "✓ 验证成功",
+          description: "HMAC 验证通过，消息完整且未被篡改。",
+          variant: "default",
+        })
       } else {
         setError("HMAC 验证失败！消息可能已被篡改或密钥不匹配。")
+        toast({
+          title: "✗ 验证失败",
+          description: "HMAC 验证失败，消息可能已被篡改或密钥不匹配。",
+          variant: "destructive",
+        })
       }
     } catch (err) {
       setError(err instanceof Error ? err.message : "验证 HMAC 失败")
