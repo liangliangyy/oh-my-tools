@@ -164,7 +164,12 @@ export function HmacGenerator() {
             onChange={(e) => setSecretKey(e.target.value)}
             className="font-mono text-sm"
           />
-          <Button variant="outline" size="sm" onClick={generateKey}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={generateKey}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
             <Key className="h-4 w-4 mr-2" />
             生成
           </Button>
@@ -194,17 +199,12 @@ export function HmacGenerator() {
             size="sm"
             onClick={copyOutput}
             disabled={!output}
+            className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied ? (
-              <>
-                <Check className="h-3 w-3 mr-1" />
-                已复制
-              </>
+              <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
             ) : (
-              <>
-                <Copy className="h-3 w-3 mr-1" />
-                复制
-              </>
+              <Copy className="h-3.5 w-3.5" />
             )}
           </Button>
         </div>
@@ -225,14 +225,14 @@ export function HmacGenerator() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={generate}>
+        <Button variant="default" onClick={generate}>
           <Wand2 className="h-4 w-4 mr-2" />
           生成 HMAC
         </Button>
-        <Button variant="outline" onClick={verify} disabled={!output}>
+        <Button variant="ghost" onClick={verify} disabled={!output}>
           验证 HMAC
         </Button>
-        <Button variant="outline" onClick={clear}>
+        <Button variant="ghost" onClick={clear}>
           清空
         </Button>
       </div>

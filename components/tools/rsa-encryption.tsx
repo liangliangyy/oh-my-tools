@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { cn } from "@/lib/utils"
 
 const KEY_SIZES = [
   { value: "2048", label: "2048 位" },
@@ -218,11 +219,15 @@ export function RsaEncryption() {
   return (
     <div className="space-y-4">
       {/* 模式切换 */}
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50">
+      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
           variant={mode === "encrypt" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("encrypt")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "encrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           <Lock className="h-4 w-4 mr-2" />
           加密
@@ -231,6 +236,10 @@ export function RsaEncryption() {
           variant={mode === "decrypt" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("decrypt")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "decrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           <Unlock className="h-4 w-4 mr-2" />
           解密
@@ -273,11 +282,12 @@ export function RsaEncryption() {
                     variant="ghost"
                     size="sm"
                     onClick={() => copyText(publicKey, "public")}
+                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "public" ? (
-                      <Check className="h-3 w-3" />
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                     ) : (
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-3.5 w-3.5" />
                     )}
                   </Button>
                 </div>
@@ -295,11 +305,12 @@ export function RsaEncryption() {
                     variant="ghost"
                     size="sm"
                     onClick={() => copyText(privateKey, "private")}
+                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "private" ? (
-                      <Check className="h-3 w-3" />
+                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                     ) : (
-                      <Copy className="h-3 w-3" />
+                      <Copy className="h-3.5 w-3.5" />
                     )}
                   </Button>
                 </div>
@@ -372,7 +383,7 @@ export function RsaEncryption() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={process}>
+        <Button variant="default" onClick={process}>
           {mode === "encrypt" ? (
             <>
               <Lock className="h-4 w-4 mr-2" />
@@ -386,7 +397,7 @@ export function RsaEncryption() {
           )}
         </Button>
         <Button
-          variant="outline"
+          variant="ghost"
           onClick={() => copyText(output, "output")}
           disabled={!output}
         >
@@ -402,11 +413,11 @@ export function RsaEncryption() {
             </>
           )}
         </Button>
-        <Button variant="outline" onClick={swap} disabled={!output}>
+        <Button variant="ghost" onClick={swap} disabled={!output}>
           <RefreshCw className="h-4 w-4 mr-2" />
           交换
         </Button>
-        <Button variant="outline" onClick={clear}>
+        <Button variant="ghost" onClick={clear}>
           清空
         </Button>
       </div>
