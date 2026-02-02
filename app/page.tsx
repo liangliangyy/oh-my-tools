@@ -31,6 +31,10 @@ import {
   Network,
   PcCase,
   Scale,
+  ShieldCheck,
+  ShieldAlert,
+  KeySquare,
+  LockKeyhole,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Input } from "@/components/ui/input"
@@ -47,8 +51,13 @@ const tools = [
   { id: "hash", name: "Hash 生成", icon: Hash, description: "生成 SHA-1/256/384/512 哈希", color: "from-violet-500/20 to-violet-500/5", category: "编码解码" },
   { id: "image-base64", name: "图片转 Base64", icon: Image, description: "图片文件转 Base64 编码", color: "from-pink-500/20 to-pink-500/5", category: "编码解码" },
   { id: "jwt", name: "JWT 解码器", icon: KeyRound, description: "解析 JWT Token 查看内容", color: "from-sky-500/20 to-sky-500/5", category: "编码解码" },
+  { id: "aes", name: "AES 加解密", icon: Lock, description: "AES 对称加密与解密", color: "from-blue-500/20 to-blue-500/5", category: "加密工具" },
+  { id: "rsa", name: "RSA 加解密", icon: ShieldCheck, description: "RSA 非对称加密与密钥生成", color: "from-purple-500/20 to-purple-500/5", category: "加密工具" },
+  { id: "hmac", name: "HMAC 生成器", icon: ShieldAlert, description: "生成消息认证码 (HMAC)", color: "from-red-500/20 to-red-500/5", category: "加密工具" },
+  { id: "md5", name: "MD5 生成器", icon: Fingerprint, description: "MD5 哈希值生成", color: "from-orange-500/20 to-orange-500/5", category: "加密工具" },
+  { id: "key-gen", name: "密钥生成器", icon: KeySquare, description: "生成各种加密密钥", color: "from-cyan-500/20 to-cyan-500/5", category: "加密工具" },
   { id: "uuid", name: "UUID 生成", icon: Fingerprint, description: "批量生成 UUID (v1/v4/v5)", color: "from-orange-500/20 to-orange-500/5", category: "生成器" },
-  { id: "password", name: "密码生成器", icon: Lock, description: "生成安全随机密码", color: "from-red-500/20 to-red-500/5", category: "生成器" },
+  { id: "password", name: "密码生成器", icon: LockKeyhole, description: "生成安全随机密码", color: "from-red-500/20 to-red-500/5", category: "生成器" },
   { id: "qrcode", name: "二维码生成", icon: QrCode, description: "生成自定义二维码图片", color: "from-indigo-500/20 to-indigo-500/5", category: "生成器" },
   { id: "timestamp", name: "时间戳转换", icon: Clock, description: "Unix 时间戳与日期时间互转", color: "from-rose-500/20 to-rose-500/5", category: "转换器" },
   { id: "color", name: "颜色转换", icon: Palette, description: "HEX、RGB、HSL 格式互转", color: "from-pink-500/20 to-pink-500/5", category: "转换器" },
@@ -78,7 +87,7 @@ export default function HomePage() {
   )
 
   // 按分类分组
-  const categories = ["格式化工具", "编码解码", "生成器", "转换器", "网络工具", "开发工具"]
+  const categories = ["格式化工具", "编码解码", "加密工具", "生成器", "转换器", "网络工具", "开发工具"]
   const toolsByCategory = categories.map(category => ({
     name: category,
     tools: filteredTools.filter(tool => tool.category === category)
@@ -122,10 +131,10 @@ export default function HomePage() {
               <span className="text-accent">效率工具箱</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground text-balance mb-4">
-              集合 23 个常用开发工具，一站式解决日常开发需求
+              集合 28 个常用开发工具，一站式解决日常开发需求
             </p>
             <p className="text-base text-muted-foreground text-balance mb-10 max-w-2xl mx-auto">
-              JSON 格式化、代码生成、正则测试、Base64 编解码、UUID 生成、二维码生成、Markdown 预览、时间戳转换、单位转换、CIDR 计算等
+              JSON 格式化、代码生成、正则测试、Base64 编解码、AES/RSA 加密、HMAC/MD5 哈希、UUID 生成、二维码生成、Markdown 预览、时间戳转换、单位转换、CIDR 计算等
             </p>
             <Link
               href="/tools"
@@ -215,9 +224,9 @@ export default function HomePage() {
                   <Shield className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="font-semibold mb-2">安全与生成</h3>
+                  <h3 className="font-semibold mb-2">加密与安全</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    JWT 解码、Hash 计算、UUID/密码/二维码生成、Markdown 预览，满足多样化需求
+                    AES/RSA 加解密、HMAC/MD5/SHA 哈希计算、JWT 解码、密钥生成、UUID/密码生成，保障数据安全
                   </p>
                 </div>
               </div>
@@ -231,7 +240,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">23+</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">28+</div>
               <div className="text-sm text-muted-foreground">实用工具</div>
             </div>
             <div>
@@ -255,7 +264,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">全部工具</h2>
           <p className="text-muted-foreground mb-8">
-            6 大分类，23 个工具，覆盖开发者日常所需
+            7 大分类，28 个工具，覆盖开发者日常所需
           </p>
           {/* Search */}
           <div className="relative max-w-md mx-auto">
