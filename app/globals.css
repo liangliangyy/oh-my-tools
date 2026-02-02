@@ -124,3 +124,27 @@
     @apply bg-background text-foreground;
   }
 }
+
+/* 页面过渡优化 */
+@layer utilities {
+  /* 防止页面切换时的内容闪烁 */
+  @starting-style {
+    :root {
+      opacity: 1;
+    }
+  }
+
+  /* 平滑的内容过渡 */
+  main {
+    view-transition-name: main-content;
+  }
+
+  /* 使用 CSS View Transitions API（如果浏览器支持）*/
+  @supports (view-transition-name: none) {
+    ::view-transition-old(main-content),
+    ::view-transition-new(main-content) {
+      animation-duration: 0.2s;
+      animation-timing-function: ease-in-out;
+    }
+  }
+}
