@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import { Button } from "@/components/ui/button"
-import { MonacoEditor } from "@/components/ui/monaco-editor"
+import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, AlertCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -375,7 +375,7 @@ export function JsonToCode() {
               </span>
             )}
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={input}
             onChange={setInput}
             language="json"
@@ -407,9 +407,9 @@ export function JsonToCode() {
               )}
             </Button>
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={output || "// 等待输入有效的 JSON..."}
-            language={currentLang?.monacoLang || "typescript"}
+            language={currentLang?.id === "typescript" || currentLang?.id === "javascript" ? "typescript" : "text"}
             readOnly
             height="400px"
           />

@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { MonacoEditor } from "@/components/ui/monaco-editor"
+import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, Wand2, Minimize2, Trash2 } from "lucide-react"
 
 export function JsonFormatter() {
@@ -62,7 +62,7 @@ export function JsonFormatter() {
             <label className="text-sm font-medium text-muted-foreground">输入 JSON</label>
             <span className="text-xs text-muted-foreground">{input.length} 字符</span>
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={input}
             onChange={setInput}
             language="json"
@@ -96,7 +96,7 @@ export function JsonFormatter() {
               )}
             </div>
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={output}
             language="json"
             readOnly

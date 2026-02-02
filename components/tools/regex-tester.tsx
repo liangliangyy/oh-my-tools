@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 import { Input } from "@/components/ui/input"
-import { MonacoEditor } from "@/components/ui/monaco-editor"
+import { CodeEditor } from "@/components/ui/code-editor"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -123,10 +123,10 @@ export function RegexTester() {
 
       <div className="space-y-2">
         <label className="text-sm font-medium text-muted-foreground">测试字符串</label>
-        <MonacoEditor
+        <CodeEditor
           value={testString}
           onChange={setTestString}
-          language="plaintext"
+          language="text"
           height="160px"
         />
       </div>

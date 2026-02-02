@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useState, useRef } from "react"
-import { DiffEditor } from "@monaco-editor/react"
+import { DiffEditor } from "@/components/ui/diff-editor"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
 import {
@@ -56,33 +56,14 @@ function farewell(name: string) {
 
 export function FileDiff() {
   const [mounted, setMounted] = useState(false)
-  const [theme, setTheme] = useState<"vs-dark" | "light">("vs-dark")
   const [original, setOriginal] = useState(examples.original)
   const [modified, setModified] = useState(examples.modified)
   const [language, setLanguage] = useState("javascript")
   const [renderSideBySide, setRenderSideBySide] = useState(true)
   const [copied, setCopied] = useState<"original" | "modified" | null>(null)
-  const diffEditorRef = useRef<any>(null)
 
   useEffect(() => {
     setMounted(true)
-    const checkTheme = () => {
-      const isDark =
-        document.documentElement.classList.contains("dark") ||
-        (!document.documentElement.classList.contains("light") &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
-      setTheme(isDark ? "vs-dark" : "light")
-    }
-
-    checkTheme()
-
-    const observer = new MutationObserver(checkTheme)
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    })
-
-    return () => observer.disconnect()
   }, [])
 
   const handleSwap = () => {
@@ -92,27 +73,13 @@ export function FileDiff() {
   }
 
   const handleCopy = async (type: "original" | "modified") => {
-    let text = ""
-    if (diffEditorRef.current) {
-      const editor = type === "original"
-        ? diffEditorRef.current.getOriginalEditor()
-        : diffEditorRef.current.getModifiedEditor()
-      text = editor.getValue()
-    } else {
-      text = type === "original" ? original : modified
-    }
+    const text = type === "original" ? original : modified
     await navigator.clipboard.writeText(text)
     setCopied(type)
     setTimeout(() => setCopied(null), 2000)
   }
 
   const handleClear = (type: "original" | "modified") => {
-    if (diffEditorRef.current) {
-      const editor = type === "original"
-        ? diffEditorRef.current.getOriginalEditor()
-        : diffEditorRef.current.getModifiedEditor()
-      editor.setValue("")
-    }
     if (type === "original") {
       setOriginal("")
     } else {
@@ -126,16 +93,8 @@ export function FileDiff() {
   }
 
   const getDiffStats = () => {
-    let originalText = original
-    let modifiedText = modified
-
-    if (diffEditorRef.current) {
-      originalText = diffEditorRef.current.getOriginalEditor().getValue()
-      modifiedText = diffEditorRef.current.getModifiedEditor().getValue()
-    }
-
-    const originalLines = originalText.split("\n")
-    const modifiedLines = modifiedText.split("\n")
+    const originalLines = original.split("\n")
+    const modifiedLines = modified.split("\n")
     
     let added = 0
     let removed = 0
@@ -291,48 +250,19 @@ export function FileDiff() {
       </div>
 
       {/* Diff Editor */}
-      <div className="rounded-lg border border-border overflow-hidden">
-        <DiffEditor
-          height="500px"
-          language={language}
-          original={original}
-          modified={modified}
-          theme={theme}
-          onMount={(editor) => {
-            diffEditorRef.current = editor
-
-            // 强制编辑器重新计算布局
-            setTimeout(() => {
-              editor.layout()
-            }, 100)
-          }}
-          options={{
-            renderSideBySide,
-            readOnly: false,
-            originalEditable: true,
-            minimap: { enabled: false },
-            fontSize: 13,
-            scrollBeyondLastLine: false,
-            wordWrap: "on",
-            automaticLayout: true,
-            padding: { top: 12, bottom: 12 },
-            scrollbar: {
-              verticalScrollbarSize: 8,
-              horizontalScrollbarSize: 8,
-            },
-            lineDecorationsWidth: 8,
-            lineNumbersMinChars: 3,
-            glyphMargin: false,
-            renderOverviewRuler: false,
-            diffWordWrap: "on",
-            fixedOverflowWidgets: true,
-          }}
-        />
-      </div>
+      <DiffEditor
+        height="500px"
+        language={language as "json" | "javascript" | "typescript" | "yaml" | "text"}
+        original={original}
+        modified={modified}
+        onOriginalChange={setOriginal}
+        onModifiedChange={setModified}
+        renderSideBySide={renderSideBySide}
+      />
 
       {/* Tips */}
       <div className="text-xs text-muted-foreground space-y-1">
-        <p>* 左侧编辑器为原始文件，右侧为修改后文件，两侧均可直接编辑</p>
+        <p>* 左侧编辑器为原始文件，右侧为修改后文件</p>
         <p>* 绿色背景表示新增内容，红色背景表示删除内容</p>
       </div>
     </div>
