@@ -27,6 +27,11 @@ import { CidrCalculator } from "@/components/tools/cidr-calculator"
 import { ChmodCalculator } from "@/components/tools/chmod-calculator"
 import { PortCheckGenerator } from "@/components/tools/port-check-generator"
 import { UnitConverter } from "@/components/tools/unit-converter"
+import { AesEncryption } from "@/components/tools/aes-encryption"
+import { RsaEncryption } from "@/components/tools/rsa-encryption"
+import { HmacGenerator } from "@/components/tools/hmac-generator"
+import { Md5Generator } from "@/components/tools/md5-generator"
+import { KeyGenerator } from "@/components/tools/key-generator"
 import { ThemeToggle } from "@/components/theme-toggle"
 import {
   Braces,
@@ -57,6 +62,10 @@ import {
   Shield,
   PcCase,
   Scale,
+  ShieldCheck,
+  ShieldAlert,
+  KeySquare,
+  LockKeyhole,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
@@ -72,8 +81,13 @@ const tools = [
   { id: "hash", name: "Hash 生成", icon: Hash, component: HashGenerator, description: "SHA-1/256/384/512", category: "encode" },
   { id: "image-base64", name: "图片转 Base64", icon: Image, component: ImageToBase64, description: "图片转 Base64", category: "encode" },
   { id: "jwt", name: "JWT 解码器", icon: KeyRound, component: JwtDecoder, description: "解析 JWT Token", category: "encode" },
+  { id: "aes", name: "AES 加解密", icon: Lock, component: AesEncryption, description: "AES 对称加密/解密", category: "crypto" },
+  { id: "rsa", name: "RSA 加解密", icon: ShieldCheck, component: RsaEncryption, description: "RSA 非对称加密", category: "crypto" },
+  { id: "hmac", name: "HMAC 生成器", icon: ShieldAlert, component: HmacGenerator, description: "消息认证码生成", category: "crypto" },
+  { id: "md5", name: "MD5 生成器", icon: Fingerprint, component: Md5Generator, description: "MD5 哈希生成", category: "crypto" },
+  { id: "key-gen", name: "密钥生成器", icon: KeySquare, component: KeyGenerator, description: "加密密钥生成", category: "crypto" },
   { id: "uuid", name: "UUID 生成", icon: Fingerprint, component: UuidGenerator, description: "生成 UUID v1/v4/v5", category: "generator" },
-  { id: "password", name: "密码生成器", icon: Lock, component: PasswordGenerator, description: "生成安全密码", category: "generator" },
+  { id: "password", name: "密码生成器", icon: LockKeyhole, component: PasswordGenerator, description: "生成安全密码", category: "generator" },
   { id: "qrcode", name: "二维码生成", icon: QrCode, component: QrcodeGenerator, description: "生成二维码图片", category: "generator" },
   { id: "regex", name: "正则测试", icon: Regex, component: RegexTester, description: "测试正则表达式匹配", category: "tool" },
   { id: "cron", name: "Cron 表达式", icon: CalendarClock, component: CronExpression, description: "Cron 定时任务", category: "tool" },
@@ -88,6 +102,7 @@ const tools = [
 const categories = [
   { id: "format", name: "格式化工具", icon: Braces },
   { id: "encode", name: "编码解码", icon: Binary },
+  { id: "crypto", name: "加密工具", icon: ShieldCheck },
   { id: "generator", name: "生成器", icon: Fingerprint },
   { id: "converter", name: "转换器", icon: ArrowLeftRight },
   { id: "tool", name: "开发工具", icon: Terminal },

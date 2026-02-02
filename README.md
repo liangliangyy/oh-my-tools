@@ -38,6 +38,14 @@
 - **图片转 Base64** - 图片文件转 Base64 编码，支持拖拽上传
 - **JWT 解码器** - 解析 JWT Token，查看 header、payload 内容
 
+### 加密工具 (5个)
+
+- **AES 加解密** - AES-128/192/256 对称加密与解密，支持 GCM 模式
+- **RSA 加解密** - RSA 非对称加密，支持 2048/3072/4096 位密钥对生成
+- **HMAC 生成器** - 生成消息认证码 (HMAC-SHA1/256/384/512)
+- **MD5 生成器** - MD5 哈希值生成，支持文本和文件
+- **密钥生成器** - 生成十六进制、Base64、随机字符串、RSA 密钥对
+
 ### 生成器 (3个)
 
 - **UUID 生成** - 批量生成 UUID (支持 v1/v4/v5)
@@ -63,7 +71,7 @@
 - **正则测试** - 实时测试正则表达式匹配结果
 - **Cron 表达式** - 可视化生成和解析 Cron 定时任务表达式
 
-**总计: 23 个工具**
+**总计: 28 个工具**
 
 ## 🚀 技术栈
 
@@ -172,10 +180,15 @@ oh-my-tools/
 │       └── loading.tsx
 ├── components/
 │   ├── ui/                  # 基础 UI 组件 (shadcn/ui)
-│   ├── tools/               # 工具组件 (23个)
+│   ├── tools/               # 工具组件 (28个)
 │   │   ├── json-formatter.tsx
 │   │   ├── json-to-code.tsx
 │   │   ├── jwt-decoder.tsx
+│   │   ├── aes-encryption.tsx
+│   │   ├── rsa-encryption.tsx
+│   │   ├── hmac-generator.tsx
+│   │   ├── md5-generator.tsx
+│   │   ├── key-generator.tsx
 │   │   ├── cidr-calculator.tsx
 │   │   ├── chmod-calculator.tsx
 │   │   ├── port-check-generator.tsx
