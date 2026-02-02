@@ -13,6 +13,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { cn } from "@/lib/utils"
 
 const AES_MODES = [
   { value: "128", label: "AES-128" },
@@ -182,11 +183,15 @@ export function AesEncryption() {
   return (
     <div className="space-y-4">
       {/* 模式切换 */}
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50">
+      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
           variant={mode === "encrypt" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("encrypt")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "encrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           <Lock className="h-4 w-4 mr-2" />
           加密
@@ -195,6 +200,10 @@ export function AesEncryption() {
           variant={mode === "decrypt" ? "default" : "ghost"}
           size="sm"
           onClick={() => setMode("decrypt")}
+          className={cn(
+            "transition-all duration-200",
+            mode !== "decrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
+          )}
         >
           <Unlock className="h-4 w-4 mr-2" />
           解密
@@ -226,7 +235,12 @@ export function AesEncryption() {
             onChange={(e) => setSecretKey(e.target.value)}
             className="font-mono text-xs"
           />
-          <Button variant="outline" size="sm" onClick={generateKey}>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={generateKey}
+            className="hover:bg-accent/50 dark:hover:bg-accent/30"
+          >
             <Key className="h-4 w-4 mr-2" />
             生成
           </Button>
@@ -267,7 +281,7 @@ export function AesEncryption() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={process}>
+        <Button variant="default" onClick={process}>
           {mode === "encrypt" ? (
             <>
               <Lock className="h-4 w-4 mr-2" />
@@ -280,7 +294,7 @@ export function AesEncryption() {
             </>
           )}
         </Button>
-        <Button variant="outline" onClick={copyOutput} disabled={!output}>
+        <Button variant="ghost" onClick={copyOutput} disabled={!output}>
           {copied ? (
             <>
               <Check className="h-4 w-4 mr-2" />
@@ -293,11 +307,11 @@ export function AesEncryption() {
             </>
           )}
         </Button>
-        <Button variant="outline" onClick={swap} disabled={!output}>
+        <Button variant="ghost" onClick={swap} disabled={!output}>
           <RefreshCw className="h-4 w-4 mr-2" />
           交换
         </Button>
-        <Button variant="outline" onClick={clear}>
+        <Button variant="ghost" onClick={clear}>
           清空
         </Button>
       </div>

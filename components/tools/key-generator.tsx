@@ -267,17 +267,12 @@ export function KeyGenerator() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyText(publicKey, "public")}
+                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "public" ? (
-                  <>
-                    <Check className="h-3 w-3 mr-1" />
-                    已复制
-                  </>
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                 ) : (
-                  <>
-                    <Copy className="h-3 w-3 mr-1" />
-                    复制
-                  </>
+                  <Copy className="h-3.5 w-3.5" />
                 )}
               </Button>
             </div>
@@ -295,17 +290,12 @@ export function KeyGenerator() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyText(privateKey, "private")}
+                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "private" ? (
-                  <>
-                    <Check className="h-3 w-3 mr-1" />
-                    已复制
-                  </>
+                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
                 ) : (
-                  <>
-                    <Copy className="h-3 w-3 mr-1" />
-                    复制
-                  </>
+                  <Copy className="h-3.5 w-3.5" />
                 )}
               </Button>
             </div>
@@ -327,17 +317,12 @@ export function KeyGenerator() {
               variant="ghost"
               size="sm"
               onClick={() => copyText(output, "output")}
+              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "output" ? (
-                <>
-                  <Check className="h-3 w-3 mr-1" />
-                  已复制
-                </>
+                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
               ) : (
-                <>
-                  <Copy className="h-3 w-3 mr-1" />
-                  复制
-                </>
+                <Copy className="h-3.5 w-3.5" />
               )}
             </Button>
           </div>

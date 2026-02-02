@@ -116,17 +116,12 @@ export function Md5Generator() {
             size="sm"
             onClick={copyOutput}
             disabled={!output}
+            className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied ? (
-              <>
-                <Check className="h-3 w-3 mr-1" />
-                已复制
-              </>
+              <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
             ) : (
-              <>
-                <Copy className="h-3 w-3 mr-1" />
-                复制
-              </>
+              <Copy className="h-3.5 w-3.5" />
             )}
           </Button>
         </div>
@@ -140,11 +135,11 @@ export function Md5Generator() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button onClick={generate}>
+        <Button variant="default" onClick={generate}>
           <Wand2 className="h-4 w-4 mr-2" />
           生成 MD5
         </Button>
-        <Button variant="outline" onClick={clear}>
+        <Button variant="ghost" onClick={clear}>
           清空
         </Button>
       </div>
