@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { MonacoEditor } from "@/components/ui/monaco-editor"
+import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, ArrowLeftRight, Trash2, AlertCircle } from "lucide-react"
 
 export function YamlJsonConverter() {
@@ -202,7 +202,7 @@ export function YamlJsonConverter() {
               )}
             </Button>
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={yamlInput}
             onChange={setYamlInput}
             language="yaml"
@@ -229,7 +229,7 @@ export function YamlJsonConverter() {
               )}
             </Button>
           </div>
-          <MonacoEditor
+          <CodeEditor
             value={jsonInput}
             onChange={setJsonInput}
             language="json"

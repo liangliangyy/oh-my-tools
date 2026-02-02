@@ -79,7 +79,7 @@
 - **语言**: [TypeScript](https://www.typescriptlang.org/)
 - **样式**: [Tailwind CSS v4](https://tailwindcss.com/)
 - **组件库**: [Radix UI](https://www.radix-ui.com/) + [shadcn/ui](https://ui.shadcn.com/)
-- **代码编辑器**: [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+- **代码编辑器**: [CodeMirror 6](https://codemirror.net/)
 - **图标**: [Lucide Icons](https://lucide.dev/)
 - **主题**: [next-themes](https://github.com/pacocoursey/next-themes)
 
@@ -239,7 +239,7 @@ oh-my-tools/
 - [Tailwind CSS](https://tailwindcss.com/)
 - [shadcn/ui](https://ui.shadcn.com/)
 - [Radix UI](https://www.radix-ui.com/)
-- [Monaco Editor](https://microsoft.github.io/monaco-editor/)
+- [CodeMirror](https://codemirror.net/)
 - [Lucide Icons](https://lucide.dev/)
 
 ---
