@@ -2,7 +2,7 @@
 
 import { useState } from "react"
 import { Button } from "@/components/ui/button"
-import { CodeEditor } from "@/components/ui/code-editor"
+import { SimpleTextarea } from "@/components/ui/simple-textarea"
 import { Copy, Check, Wand2, Minimize2, Trash2 } from "lucide-react"
 
 export function JsonFormatter() {
@@ -62,11 +62,11 @@ export function JsonFormatter() {
             <label className="text-sm font-medium text-muted-foreground">输入 JSON</label>
             <span className="text-xs text-muted-foreground">{input.length} 字符</span>
           </div>
-          <CodeEditor
+          <SimpleTextarea
             value={input}
             onChange={setInput}
-            language="json"
             height="320px"
+            placeholder="请输入 JSON 数据..."
           />
         </div>
         <div className="space-y-2">
@@ -96,9 +96,8 @@ export function JsonFormatter() {
               )}
             </div>
           </div>
-          <CodeEditor
+          <SimpleTextarea
             value={output}
-            language="json"
             readOnly
             height="320px"
           />

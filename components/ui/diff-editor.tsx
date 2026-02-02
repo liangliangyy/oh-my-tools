@@ -4,9 +4,6 @@ import { useEffect, useState, useRef } from "react"
 import { EditorView, ViewUpdate } from "@codemirror/view"
 import { EditorState } from "@codemirror/state"
 import { MergeView } from "@codemirror/merge"
-import { json } from "@codemirror/lang-json"
-import { javascript } from "@codemirror/lang-javascript"
-import { yaml } from "@codemirror/lang-yaml"
 import { oneDark } from "@codemirror/theme-one-dark"
 import { cn } from "@/lib/utils"
 import type { Extension } from "@codemirror/state"
@@ -35,6 +32,7 @@ export function DiffEditor({
   const [theme, setTheme] = useState<"dark" | "light">("dark")
   const containerRef = useRef<HTMLDivElement>(null)
   const viewRef = useRef<MergeView | null>(null)
+  const [langExtensions, setLangExtensions] = useState<Extension[]>([])
 
   useEffect(() => {
     // 检测当前主题
@@ -57,27 +55,47 @@ export function DiffEditor({
     return () => observer.disconnect()
   }, [])
 
-  const getLanguageExtension = (): Extension[] => {
-    switch (language) {
-      case "json":
-        return [json()]
-      case "javascript":
-        return [javascript({ jsx: false })]
-      case "typescript":
-        return [javascript({ jsx: false, typescript: true })]
-      case "yaml":
-        return [yaml()]
-      default:
-        return []
+  // 动态加载语言扩展
+  useEffect(() => {
+    const loadLanguageExtension = async () => {
+      try {
+        let ext: Extension[] = []
+        switch (language) {
+          case "json":
+            const { json } = await import("@codemirror/lang-json")
+            ext = [json()]
+            break
+          case "javascript":
+            const { javascript: js } = await import("@codemirror/lang-javascript")
+            ext = [js({ jsx: false })]
+            break
+          case "typescript":
+            const { javascript: ts } = await import("@codemirror/lang-javascript")
+            ext = [ts({ jsx: false, typescript: true })]
+            break
+          case "yaml":
+            const { yaml: yml } = await import("@codemirror/lang-yaml")
+            ext = [yml()]
+            break
+          default:
+            ext = []
+        }
+        setLangExtensions(ext)
+      } catch (error) {
+        console.error("Failed to load language extension:", error)
+        setLangExtensions([])
+      }
     }
-  }
+
+    loadLanguageExtension()
+  }, [language])
 
   // 初始化编辑器（只在必要时重新创建）
   useEffect(() => {
-    if (!containerRef.current) return
+    if (!containerRef.current || langExtensions.length === 0) return
 
     const extensions = [
-      ...getLanguageExtension(),
+      ...langExtensions,
       theme === "dark" ? oneDark : [],
       EditorView.lineWrapping,
     ]
@@ -118,7 +136,7 @@ export function DiffEditor({
       view.destroy()
       viewRef.current = null
     }
-  }, [language, theme, renderSideBySide])
+  }, [langExtensions, theme, renderSideBySide])
 
   // 更新原始文档内容（不重新创建编辑器）
   useEffect(() => {
