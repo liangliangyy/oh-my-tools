@@ -2,9 +2,6 @@
 
 import { useEffect, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { json } from "@codemirror/lang-json"
-import { javascript } from "@codemirror/lang-javascript"
-import { yaml } from "@codemirror/lang-yaml"
 import { oneDark } from "@codemirror/theme-one-dark"
 import { cn } from "@/lib/utils"
 import type { Extension } from "@codemirror/state"
@@ -29,6 +26,7 @@ export function CodeEditor({
   placeholder,
 }: CodeEditorProps) {
   const [theme, setTheme] = useState<"dark" | "light">("dark")
+  const [extensions, setExtensions] = useState<Extension[]>([])
 
   useEffect(() => {
     // 检测当前主题
@@ -51,20 +49,40 @@ export function CodeEditor({
     return () => observer.disconnect()
   }, [])
 
-  const getLanguageExtension = (): Extension[] => {
-    switch (language) {
-      case "json":
-        return [json()]
-      case "javascript":
-        return [javascript({ jsx: false })]
-      case "typescript":
-        return [javascript({ jsx: false, typescript: true })]
-      case "yaml":
-        return [yaml()]
-      default:
-        return []
+  // 动态加载语言扩展（按需加载，避免加载所有语言包）
+  useEffect(() => {
+    const loadLanguageExtension = async () => {
+      try {
+        let ext: Extension[] = []
+        switch (language) {
+          case "json":
+            const { json } = await import("@codemirror/lang-json")
+            ext = [json()]
+            break
+          case "javascript":
+            const { javascript: js } = await import("@codemirror/lang-javascript")
+            ext = [js({ jsx: false })]
+            break
+          case "typescript":
+            const { javascript: ts } = await import("@codemirror/lang-javascript")
+            ext = [ts({ jsx: false, typescript: true })]
+            break
+          case "yaml":
+            const { yaml: yml } = await import("@codemirror/lang-yaml")
+            ext = [yml()]
+            break
+          default:
+            ext = []
+        }
+        setExtensions(ext)
+      } catch (error) {
+        console.error("Failed to load language extension:", error)
+        setExtensions([])
+      }
     }
-  }
+
+    loadLanguageExtension()
+  }, [language])
 
   return (
     <div className={cn("rounded-lg border border-border overflow-hidden", className)}>
@@ -72,29 +90,19 @@ export function CodeEditor({
         value={value}
         height={height}
         theme={theme === "dark" ? oneDark : "light"}
-        extensions={getLanguageExtension()}
+        extensions={extensions}
         onChange={(value) => onChange?.(value)}
         editable={!readOnly}
         placeholder={placeholder}
         basicSetup={{
           lineNumbers: true,
-          highlightActiveLineGutter: true,
-          highlightActiveLine: true,
           foldGutter: true,
-          dropCursor: true,
-          allowMultipleSelections: true,
-          indentOnInput: true,
           bracketMatching: true,
           closeBrackets: true,
           autocompletion: true,
-          rectangularSelection: true,
-          crosshairCursor: true,
-          highlightSelectionMatches: true,
-          closeBracketsKeymap: true,
-          searchKeymap: true,
-          foldKeymap: true,
-          completionKeymap: true,
-          lintKeymap: true,
+          highlightActiveLine: true,
+          highlightSelectionMatches: false,
+          syntaxHighlighting: true,
         }}
       />
     </div>
