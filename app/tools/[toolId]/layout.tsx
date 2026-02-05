@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ReactNode } from "react"
+import { useState, ReactNode, useRef, useEffect } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -24,6 +24,8 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set(categories.map(c => c.id))
   )
+  const navRef = useRef<HTMLElement>(null)
+  const activeItemRef = useRef<HTMLAnchorElement>(null)
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories)
@@ -34,6 +36,45 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
     }
     setExpandedCategories(newExpanded)
   }
+
+  // 保存滚动位置
+  const saveScrollPosition = () => {
+    if (navRef.current) {
+      sessionStorage.setItem('toolsNavScrollPosition', navRef.current.scrollTop.toString())
+    }
+  }
+
+  // 恢复滚动位置
+  useEffect(() => {
+    const savedPosition = sessionStorage.getItem('toolsNavScrollPosition')
+    if (savedPosition && navRef.current) {
+      navRef.current.scrollTop = parseInt(savedPosition, 10)
+    }
+  }, [])
+
+  // 自动滚动到当前选中的工具项
+  useEffect(() => {
+    if (activeItemRef.current && navRef.current) {
+      const activeItem = activeItemRef.current
+      const nav = navRef.current
+
+      // 检查元素是否在可视区域内
+      const navRect = nav.getBoundingClientRect()
+      const itemRect = activeItem.getBoundingClientRect()
+
+      const isVisible =
+        itemRect.top >= navRect.top &&
+        itemRect.bottom <= navRect.bottom
+
+      // 如果不可见，滚动到该元素
+      if (!isVisible) {
+        activeItem.scrollIntoView({
+          behavior: 'smooth',
+          block: 'center'
+        })
+      }
+    }
+  }, [currentToolId])
 
   const filteredTools = tools.filter(
     (tool) =>
@@ -111,7 +152,11 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
               </div>
 
               {/* Tool List - Categorized */}
-              <nav className="space-y-3 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent">
+              <nav
+                ref={navRef}
+                onScroll={saveScrollPosition}
+                className="space-y-3 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
+              >
                 {searchQuery ? (
                   // 搜索模式：显示扁平列表
                   <div className="space-y-1">
@@ -121,6 +166,7 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                       return (
                         <Link
                           key={tool.id}
+                          ref={isActive ? activeItemRef : null}
                           href={`/tools/${tool.id}`}
                           onClick={() => setSidebarOpen(false)}
                           className={cn(
@@ -187,6 +233,7 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                               return (
                                 <Link
                                   key={tool.id}
+                                  ref={isActive ? activeItemRef : null}
                                   href={`/tools/${tool.id}`}
                                   onClick={() => setSidebarOpen(false)}
                                   className={cn(
