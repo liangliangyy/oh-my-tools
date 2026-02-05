@@ -142,16 +142,12 @@ export function UnitConverter() {
   return (
     <div className="space-y-6">
       {/* Type Selection */}
-      <div className="flex flex-wrap gap-2 p-1 bg-muted/50 rounded-lg border w-fit">
+      <div className="flex flex-wrap gap-2">
         {UNIT_TYPES.map(t => (
             <Button
                 key={t.value}
-                variant={type === t.value ? "secondary" : "ghost"}
-                className={`h-9 rounded-md min-w-[3rem] ${
-                    type === t.value 
-                    ? "bg-background text-foreground shadow-sm font-medium hover:bg-background" 
-                    : "text-muted-foreground hover:bg-background/50 hover:text-foreground"
-                }`}
+                variant={type === t.value ? "default" : "ghost"}
+                size="sm"
                 onClick={() => setType(t.value)}
             >
                 {t.label}
