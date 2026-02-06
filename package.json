@@ -86,7 +86,7 @@
     "react-markdown": "^10.1.0",
     "react-resizable-panels": "^2.1.9",
     "react-syntax-highlighter": "^16.1.0",
-    "recharts": "2.15.4",
+
     "rehype-raw": "^7.0.0",
     "remark-gfm": "^4.0.1",
     "sonner": "^1.7.4",
@@ -95,6 +95,14 @@
     "vaul": "^1.1.2",
     "zod": "3.25.76"
   },
+  "browserslist": [
+    "Chrome >= 87",
+    "Firefox >= 78",
+    "Safari >= 14",
+    "Edge >= 88",
+    "not dead",
+    "not op_mini all"
+  ],
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
     "@types/node": "^22.19.7",

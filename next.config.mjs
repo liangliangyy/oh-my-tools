@@ -35,21 +35,19 @@ const nextConfig = {
                 ecma: 8,
               },
               compress: {
-                ecma: 5,
+                ecma: 2017,
                 warnings: false,
                 comparisons: false,
                 inline: 2,
-                drop_console: true, // 移除 console.log
-                drop_debugger: true, // 移除 debugger
-                pure_funcs: ['console.log', 'console.info', 'console.debug'], // 移除特定函数
-                passes: 3, // 多次压缩以获得更好的结果
+                drop_console: true,
+                drop_debugger: true,
+                pure_funcs: ['console.log', 'console.info', 'console.debug'],
+                passes: 3,
               },
-              mangle: {
-                safari10: true,
-              },
+              mangle: true,
               output: {
-                ecma: 5,
-                comments: false, // 移除所有注释
+                ecma: 2017,
+                comments: false,
                 ascii_only: true,
               },
             },
@@ -81,27 +79,38 @@ const nextConfig = {
         ],
       }
 
-      // 分割代码以优化加载
+      // 分割代码以优化加载 - 让 React.lazy 的动态 import 自动产生独立 chunk
       config.optimization.splitChunks = {
-        chunks: 'all',
+        ...config.optimization.splitChunks,
         cacheGroups: {
-          default: false,
-          vendors: false,
-          // 将 node_modules 中的库分离
-          vendor: {
-            name: 'vendor',
+          ...config.optimization.splitChunks?.cacheGroups,
+          // 将 codemirror 相关库分离为独立 chunk，仅在编辑器工具中加载
+          codemirror: {
+            name: 'codemirror',
+            test: /[\\/]node_modules[\\/](@codemirror|@uiw[\\/]react-codemirror|@lezer|codemirror)/,
             chunks: 'all',
-            test: /node_modules/,
-            priority: 20,
+            priority: 30,
           },
-          // 共享的公共代码
-          common: {
-            name: 'common',
-            minChunks: 2,
+          // react-markdown + 相关解析器分离
+          markdown: {
+            name: 'markdown-vendor',
+            test: /[\\/]node_modules[\\/](react-markdown|remark-|rehype-|unified|unist-|mdast-|micromark|hast-|property-information|vfile|bail|trough|decode-named)/,
             chunks: 'all',
-            priority: 10,
-            reuseExistingChunk: true,
-            enforce: true,
+            priority: 30,
+          },
+          // react-syntax-highlighter 分离（用于 markdown 代码高亮）
+          syntaxHighlighter: {
+            name: 'syntax-highlighter',
+            test: /[\\/]node_modules[\\/](react-syntax-highlighter|refractor|prismjs)/,
+            chunks: 'all',
+            priority: 30,
+          },
+          // crypto-js 分离
+          crypto: {
+            name: 'crypto-vendor',
+            test: /[\\/]node_modules[\\/]crypto-js/,
+            chunks: 'all',
+            priority: 30,
           },
         },
       }
