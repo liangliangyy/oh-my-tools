@@ -1,4 +1,4 @@
-import { ComponentType } from "react"
+import { ComponentType, lazy } from "react"
 import { LucideIcon } from "lucide-react"
 import {
   Braces,
@@ -30,35 +30,35 @@ import {
   LockKeyhole,
 } from "lucide-react"
 
-// 动态导入所有工具组件
-import { JsonFormatter } from "@/components/tools/json-formatter"
-import { JsonToCode } from "@/components/tools/json-to-code"
-import { FileDiff } from "@/components/tools/file-diff"
-import { RegexTester } from "@/components/tools/regex-tester"
-import { Base64Encoder } from "@/components/tools/base64-encoder"
-import { TimestampConverter } from "@/components/tools/timestamp-converter"
-import { UrlEncoder } from "@/components/tools/url-encoder"
-import { HashGenerator } from "@/components/tools/hash-generator"
-import { ColorConverter } from "@/components/tools/color-converter"
-import { UuidGenerator } from "@/components/tools/uuid-generator"
-import { JwtDecoder } from "@/components/tools/jwt-decoder"
-import { CronExpression } from "@/components/tools/cron-expression"
-import { YamlJsonConverter } from "@/components/tools/yaml-json-converter"
-import { PasswordGenerator } from "@/components/tools/password-generator"
-import { NumberBaseConverter } from "@/components/tools/number-base-converter"
-import { MarkdownPreview } from "@/components/tools/markdown-preview"
-import { QrcodeGenerator } from "@/components/tools/qrcode-generator"
-import { ImageToBase64 } from "@/components/tools/image-to-base64"
-import { DateCalculator } from "@/components/tools/date-calculator"
-import { CidrCalculator } from "@/components/tools/cidr-calculator"
-import { ChmodCalculator } from "@/components/tools/chmod-calculator"
-import { PortCheckGenerator } from "@/components/tools/port-check-generator"
-import { UnitConverter } from "@/components/tools/unit-converter"
-import { AesEncryption } from "@/components/tools/aes-encryption"
-import { RsaEncryption } from "@/components/tools/rsa-encryption"
-import { HmacGenerator } from "@/components/tools/hmac-generator"
-import { Md5Generator } from "@/components/tools/md5-generator"
-import { KeyGenerator } from "@/components/tools/key-generator"
+// 动态导入所有工具组件 - 按需加载，只在用户访问时才下载对应 JS
+const JsonFormatter = lazy(() => import("@/components/tools/json-formatter").then(m => ({ default: m.JsonFormatter })))
+const JsonToCode = lazy(() => import("@/components/tools/json-to-code").then(m => ({ default: m.JsonToCode })))
+const FileDiff = lazy(() => import("@/components/tools/file-diff").then(m => ({ default: m.FileDiff })))
+const RegexTester = lazy(() => import("@/components/tools/regex-tester").then(m => ({ default: m.RegexTester })))
+const Base64Encoder = lazy(() => import("@/components/tools/base64-encoder").then(m => ({ default: m.Base64Encoder })))
+const TimestampConverter = lazy(() => import("@/components/tools/timestamp-converter").then(m => ({ default: m.TimestampConverter })))
+const UrlEncoder = lazy(() => import("@/components/tools/url-encoder").then(m => ({ default: m.UrlEncoder })))
+const HashGenerator = lazy(() => import("@/components/tools/hash-generator").then(m => ({ default: m.HashGenerator })))
+const ColorConverter = lazy(() => import("@/components/tools/color-converter").then(m => ({ default: m.ColorConverter })))
+const UuidGenerator = lazy(() => import("@/components/tools/uuid-generator").then(m => ({ default: m.UuidGenerator })))
+const JwtDecoder = lazy(() => import("@/components/tools/jwt-decoder").then(m => ({ default: m.JwtDecoder })))
+const CronExpression = lazy(() => import("@/components/tools/cron-expression").then(m => ({ default: m.CronExpression })))
+const YamlJsonConverter = lazy(() => import("@/components/tools/yaml-json-converter").then(m => ({ default: m.YamlJsonConverter })))
+const PasswordGenerator = lazy(() => import("@/components/tools/password-generator").then(m => ({ default: m.PasswordGenerator })))
+const NumberBaseConverter = lazy(() => import("@/components/tools/number-base-converter").then(m => ({ default: m.NumberBaseConverter })))
+const MarkdownPreview = lazy(() => import("@/components/tools/markdown-preview").then(m => ({ default: m.MarkdownPreview })))
+const QrcodeGenerator = lazy(() => import("@/components/tools/qrcode-generator").then(m => ({ default: m.QrcodeGenerator })))
+const ImageToBase64 = lazy(() => import("@/components/tools/image-to-base64").then(m => ({ default: m.ImageToBase64 })))
+const DateCalculator = lazy(() => import("@/components/tools/date-calculator").then(m => ({ default: m.DateCalculator })))
+const CidrCalculator = lazy(() => import("@/components/tools/cidr-calculator").then(m => ({ default: m.CidrCalculator })))
+const ChmodCalculator = lazy(() => import("@/components/tools/chmod-calculator").then(m => ({ default: m.ChmodCalculator })))
+const PortCheckGenerator = lazy(() => import("@/components/tools/port-check-generator").then(m => ({ default: m.PortCheckGenerator })))
+const UnitConverter = lazy(() => import("@/components/tools/unit-converter").then(m => ({ default: m.UnitConverter })))
+const AesEncryption = lazy(() => import("@/components/tools/aes-encryption").then(m => ({ default: m.AesEncryption })))
+const RsaEncryption = lazy(() => import("@/components/tools/rsa-encryption").then(m => ({ default: m.RsaEncryption })))
+const HmacGenerator = lazy(() => import("@/components/tools/hmac-generator").then(m => ({ default: m.HmacGenerator })))
+const Md5Generator = lazy(() => import("@/components/tools/md5-generator").then(m => ({ default: m.Md5Generator })))
+const KeyGenerator = lazy(() => import("@/components/tools/key-generator").then(m => ({ default: m.KeyGenerator })))
 
 export interface Tool {
   id: string

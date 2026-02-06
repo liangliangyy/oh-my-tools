@@ -1,10 +1,20 @@
 "use client"
 
+import { Suspense } from "react"
 import Link from "next/link"
 import { getToolById } from "@/lib/tools-config"
+import { Loader2 } from "lucide-react"
 
 interface ToolPageClientProps {
   toolId: string
+}
+
+function ToolLoadingFallback() {
+  return (
+    <div className="flex items-center justify-center py-24">
+      <Loader2 className="h-6 w-6 animate-spin text-muted-foreground" />
+    </div>
+  )
 }
 
 export function ToolPageClient({ toolId }: ToolPageClientProps) {
@@ -40,7 +50,9 @@ export function ToolPageClient({ toolId }: ToolPageClientProps) {
           </div>
         </div>
       </div>
-      <ActiveComponent />
+      <Suspense fallback={<ToolLoadingFallback />}>
+        <ActiveComponent />
+      </Suspense>
     </div>
   )
 }
