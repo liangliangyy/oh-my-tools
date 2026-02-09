@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -47,7 +47,7 @@ const KEY_LENGTHS = {
   ],
 }
 
-export function KeyGenerator() {
+function KeyGeneratorInner() {
   const [keyType, setKeyType] = useState("hex")
   const [keyLength, setKeyLength] = useState("256")
   const [output, setOutput] = useState("")
@@ -349,3 +349,5 @@ export function KeyGenerator() {
     </div>
   )
 }
+
+export const KeyGenerator = memo(KeyGeneratorInner)

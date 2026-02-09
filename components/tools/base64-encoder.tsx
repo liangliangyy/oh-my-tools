@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy, Check, ArrowUpDown } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function Base64Encoder() {
+function Base64EncoderInner() {
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [mode, setMode] = useState<"encode" | "decode">("encode")
@@ -124,3 +124,5 @@ export function Base64Encoder() {
     </div>
   )
 }
+
+export const Base64Encoder = memo(Base64EncoderInner)

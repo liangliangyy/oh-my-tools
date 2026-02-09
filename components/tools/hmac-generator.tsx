@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -22,7 +22,7 @@ const HMAC_ALGORITHMS = [
   { value: "SHA-512", label: "HMAC-SHA512" },
 ]
 
-export function HmacGenerator() {
+function HmacGeneratorInner() {
   const [input, setInput] = useState("")
   const [secretKey, setSecretKey] = useState("")
   const [algorithm, setAlgorithm] = useState("SHA-256")
@@ -262,3 +262,5 @@ export function HmacGenerator() {
     </div>
   )
 }
+
+export const HmacGenerator = memo(HmacGeneratorInner)

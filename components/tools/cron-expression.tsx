@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -13,7 +13,7 @@ const DAY_OPTIONS = ["*", "1", "15", "L"]
 const MONTH_OPTIONS = ["*", "1", "6", "12"]
 const WEEK_OPTIONS = ["*", "0", "1", "5", "6"]
 
-export function CronExpression() {
+function CronExpressionInner() {
   const [minute, setMinute] = useState("*")
   const [hour, setHour] = useState("*")
   const [day, setDay] = useState("*")
@@ -438,3 +438,5 @@ export function CronExpression() {
     </div>
   )
 }
+
+export const CronExpression = memo(CronExpressionInner)

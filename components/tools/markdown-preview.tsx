@@ -1,14 +1,12 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Trash2, Eye, EyeOff } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
 import { cn } from "@/lib/utils"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 const exampleMarkdown = `# Markdown 示例
 
@@ -63,11 +61,12 @@ graph TD
 - [ ] 未完成任务
 `
 
-export function MarkdownPreview() {
+function MarkdownPreviewInner() {
   const [input, setInput] = useState(exampleMarkdown)
   const [copied, setCopied] = useState<"md" | "html" | null>(null)
   const [showPreview, setShowPreview] = useState(true)
   const previewRef = useRef<HTMLDivElement>(null)
+  const mermaidRef = useRef<any>(null)
 
   // 渲染 Mermaid
   useEffect(() => {
@@ -75,8 +74,11 @@ export function MarkdownPreview() {
 
     const renderMermaid = async () => {
       try {
-        const mermaid = (await import('mermaid')).default
-        
+        if (!mermaidRef.current) {
+          mermaidRef.current = (await import('mermaid')).default
+        }
+        const mermaid = mermaidRef.current
+
         mermaid.initialize({
           startOnLoad: false,
           theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
@@ -84,7 +86,7 @@ export function MarkdownPreview() {
         })
 
         const mermaidDivs = previewRef.current!.querySelectorAll('.mermaid')
-        
+
         for (let i = 0; i < mermaidDivs.length; i++) {
           const div = mermaidDivs[i] as HTMLElement
           const code = div.getAttribute('data-code') || ''
@@ -104,7 +106,7 @@ export function MarkdownPreview() {
       }
     }
 
-    const timer = setTimeout(renderMermaid, 100)
+    const timer = setTimeout(renderMermaid, 500)
     return () => clearTimeout(timer)
   }, [input, showPreview])
 
@@ -272,15 +274,13 @@ export function MarkdownPreview() {
                       
                       // 代码块
                       return (
-                        <SyntaxHighlighter
-                          style={vscDarkPlus}
-                          language={language || 'text'}
-                          PreTag="div"
-                          className="rounded-lg !my-4"
-                          {...props}
-                        >
-                          {String(children).replace(/\n$/, '')}
-                        </SyntaxHighlighter>
+                        <div className="rounded-lg my-4 bg-[#1e1e1e] overflow-auto">
+                          <pre className="p-4 m-0">
+                            <code className="text-sm font-mono text-[#d4d4d4] whitespace-pre">
+                              {String(children).replace(/\n$/, '')}
+                            </code>
+                          </pre>
+                        </div>
                       )
                     }
                   }}
@@ -299,3 +299,5 @@ export function MarkdownPreview() {
     </div>
   )
 }
+
+export const MarkdownPreview = memo(MarkdownPreviewInner)

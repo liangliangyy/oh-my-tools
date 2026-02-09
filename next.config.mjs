@@ -98,20 +98,6 @@ const nextConfig = {
             chunks: 'all',
             priority: 30,
           },
-          // react-syntax-highlighter 分离（用于 markdown 代码高亮）
-          syntaxHighlighter: {
-            name: 'syntax-highlighter',
-            test: /[\\/]node_modules[\\/](react-syntax-highlighter|refractor|prismjs)/,
-            chunks: 'all',
-            priority: 30,
-          },
-          // crypto-js 分离
-          crypto: {
-            name: 'crypto-vendor',
-            test: /[\\/]node_modules[\\/]crypto-js/,
-            chunks: 'all',
-            priority: 30,
-          },
         },
       }
     }

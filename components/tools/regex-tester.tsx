@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { CodeEditor } from "@/components/ui/code-editor"
 import { Checkbox } from "@/components/ui/checkbox"
@@ -9,7 +9,7 @@ import { Button } from "@/components/ui/button"
 import { Copy, Check, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function RegexTester() {
+function RegexTesterInner() {
   const [pattern, setPattern] = useState("")
   const [flags, setFlags] = useState({ g: true, i: false, m: false, s: false })
   const [testString, setTestString] = useState("")
@@ -180,3 +180,5 @@ export function RegexTester() {
     </div>
   )
 }
+
+export const RegexTester = memo(RegexTesterInner)

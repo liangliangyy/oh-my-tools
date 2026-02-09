@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy, Check } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function UrlEncoder() {
+function UrlEncoderInner() {
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [mode, setMode] = useState<"encode" | "decode">("encode")
@@ -110,3 +110,5 @@ export function UrlEncoder() {
     </div>
   )
 }
+
+export const UrlEncoder = memo(UrlEncoderInner)

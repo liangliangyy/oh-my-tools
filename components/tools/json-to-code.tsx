@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useMemo } from "react"
+import { useState, useMemo, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, AlertCircle } from "lucide-react"
@@ -297,7 +297,7 @@ function jsonToRust(json: unknown, name = "Root", indent = 0): string {
   return [...nestedTypes, lines.join("\n")].filter(Boolean).join("\n\n")
 }
 
-export function JsonToCode() {
+function JsonToCodeInner() {
   const [input, setInput] = useState(`{
   "id": 1,
   "name": "John Doe",
@@ -418,3 +418,5 @@ export function JsonToCode() {
     </div>
   )
 }
+
+export const JsonToCode = memo(JsonToCodeInner)

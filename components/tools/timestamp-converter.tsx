@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Copy, Check, RefreshCw } from "lucide-react"
 
-export function TimestampConverter() {
+function TimestampConverterInner() {
   const [currentTimestamp, setCurrentTimestamp] = useState(Math.floor(Date.now() / 1000))
   const [inputTimestamp, setInputTimestamp] = useState("")
   const [inputDate, setInputDate] = useState("")
@@ -154,3 +154,5 @@ export function TimestampConverter() {
     </div>
   )
 }
+
+export const TimestampConverter = memo(TimestampConverterInner)

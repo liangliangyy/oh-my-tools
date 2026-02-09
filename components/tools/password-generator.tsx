@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useMemo, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -8,7 +8,13 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Slider } from "@/components/ui/slider"
 import { Copy, Check, RefreshCw } from "lucide-react"
 
-export function PasswordGenerator() {
+const UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+const LOWERCASE = "abcdefghijklmnopqrstuvwxyz"
+const NUMBERS = "0123456789"
+const SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?"
+const SIMILAR = "il1Lo0O"
+
+function PasswordGeneratorInner() {
   const [length, setLength] = useState(16)
   const [includeUppercase, setIncludeUppercase] = useState(true)
   const [includeLowercase, setIncludeLowercase] = useState(true)
@@ -20,26 +26,32 @@ export function PasswordGenerator() {
   const [batchCount, setBatchCount] = useState(5)
   const [copied, setCopied] = useState<number | "single" | "">("")
 
-  const UPPERCASE = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-  const LOWERCASE = "abcdefghijklmnopqrstuvwxyz"
-  const NUMBERS = "0123456789"
-  const SYMBOLS = "!@#$%^&*()_+-=[]{}|;:,.<>?"
-  const SIMILAR = "il1Lo0O"
+  const { charset, filteredUppercase, filteredLowercase, filteredNumbers } = useMemo(() => {
+    let cs = ""
+    if (includeUppercase) cs += UPPERCASE
+    if (includeLowercase) cs += LOWERCASE
+    if (includeNumbers) cs += NUMBERS
+    if (includeSymbols) cs += SYMBOLS
+
+    const fU = excludeSimilar
+      ? UPPERCASE.split("").filter(c => !SIMILAR.includes(c))
+      : UPPERCASE.split("")
+    const fL = excludeSimilar
+      ? LOWERCASE.split("").filter(c => !SIMILAR.includes(c))
+      : LOWERCASE.split("")
+    const fN = excludeSimilar
+      ? NUMBERS.split("").filter(c => !SIMILAR.includes(c))
+      : NUMBERS.split("")
+
+    if (excludeSimilar) {
+      cs = cs.split("").filter(char => !SIMILAR.includes(char)).join("")
+    }
+
+    return { charset: cs, filteredUppercase: fU, filteredLowercase: fL, filteredNumbers: fN }
+  }, [includeUppercase, includeLowercase, includeNumbers, includeSymbols, excludeSimilar])
 
   const generatePassword = (len: number = length) => {
-    let charset = ""
     let result = ""
-
-    // 构建字符集
-    if (includeUppercase) charset += UPPERCASE
-    if (includeLowercase) charset += LOWERCASE
-    if (includeNumbers) charset += NUMBERS
-    if (includeSymbols) charset += SYMBOLS
-
-    // 排除相似字符
-    if (excludeSimilar) {
-      charset = charset.split("").filter(char => !SIMILAR.includes(char)).join("")
-    }
 
     if (charset.length === 0) {
       return "请至少选择一种字符类型"
@@ -47,29 +59,14 @@ export function PasswordGenerator() {
 
     // 确保包含每种选中的字符类型
     const requiredChars: string[] = []
-    if (includeUppercase && UPPERCASE.length > 0) {
-      const filtered = excludeSimilar ?
-        UPPERCASE.split("").filter(c => !SIMILAR.includes(c)) :
-        UPPERCASE.split("")
-      if (filtered.length > 0) {
-        requiredChars.push(filtered[Math.floor(Math.random() * filtered.length)])
-      }
+    if (includeUppercase && filteredUppercase.length > 0) {
+      requiredChars.push(filteredUppercase[Math.floor(Math.random() * filteredUppercase.length)])
     }
-    if (includeLowercase && LOWERCASE.length > 0) {
-      const filtered = excludeSimilar ?
-        LOWERCASE.split("").filter(c => !SIMILAR.includes(c)) :
-        LOWERCASE.split("")
-      if (filtered.length > 0) {
-        requiredChars.push(filtered[Math.floor(Math.random() * filtered.length)])
-      }
+    if (includeLowercase && filteredLowercase.length > 0) {
+      requiredChars.push(filteredLowercase[Math.floor(Math.random() * filteredLowercase.length)])
     }
-    if (includeNumbers && NUMBERS.length > 0) {
-      const filtered = excludeSimilar ?
-        NUMBERS.split("").filter(c => !SIMILAR.includes(c)) :
-        NUMBERS.split("")
-      if (filtered.length > 0) {
-        requiredChars.push(filtered[Math.floor(Math.random() * filtered.length)])
-      }
+    if (includeNumbers && filteredNumbers.length > 0) {
+      requiredChars.push(filteredNumbers[Math.floor(Math.random() * filteredNumbers.length)])
     }
     if (includeSymbols && SYMBOLS.length > 0) {
       requiredChars.push(SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)])
@@ -284,3 +281,5 @@ export function PasswordGenerator() {
     </div>
   )
 }
+
+export const PasswordGenerator = memo(PasswordGeneratorInner)

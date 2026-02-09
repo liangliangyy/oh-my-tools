@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -11,7 +11,7 @@ import { toast } from "sonner"
 import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
 
-export function CidrCalculator() {
+function CidrCalculatorInner() {
   const [ip, setIp] = useState("192.168.1.1")
   const [mask, setMask] = useState("24")
   const [result, setResult] = useState<any>(null)
@@ -253,6 +253,8 @@ export function CidrCalculator() {
     </div>
   )
 }
+
+export const CidrCalculator = memo(CidrCalculatorInner)
 
 function ResultCard({ title, value, onCopy }: { title: string, value: string, onCopy: () => void }) {
   return (

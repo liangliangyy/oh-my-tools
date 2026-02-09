@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
@@ -71,7 +71,7 @@ const UNITS: Record<UnitType, { value: string; label: string; ratio?: number }[]
   ]
 }
 
-export function UnitConverter() {
+function UnitConverterInner() {
   const [type, setType] = useState<UnitType>("length")
   const [fromUnit, setFromUnit] = useState(UNITS.length[4].value) // m
   const [toUnit, setToUnit] = useState(UNITS.length[5].value) // km
@@ -238,3 +238,5 @@ export function UnitConverter() {
     </div>
   )
 }
+
+export const UnitConverter = memo(UnitConverterInner)

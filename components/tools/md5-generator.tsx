@@ -1,13 +1,13 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Copy, Check, Wand2, Upload } from "lucide-react"
-import CryptoJS from "crypto-js"
+import { md5, md5FromBuffer } from "@/lib/md5"
 
-export function Md5Generator() {
+function Md5GeneratorInner() {
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [uppercase, setUppercase] = useState(false)
@@ -20,7 +20,7 @@ export function Md5Generator() {
       return
     }
 
-    const hash = CryptoJS.MD5(input).toString()
+    const hash = md5(input)
     setOutput(uppercase ? hash.toUpperCase() : hash)
   }
 
@@ -31,8 +31,7 @@ export function Md5Generator() {
 
     const reader = new FileReader()
     reader.onload = (event) => {
-      const wordArray = CryptoJS.lib.WordArray.create(event.target?.result as ArrayBuffer)
-      const hash = CryptoJS.MD5(wordArray).toString()
+      const hash = md5FromBuffer(event.target?.result as ArrayBuffer)
       setOutput(uppercase ? hash.toUpperCase() : hash)
       setInput(`文件: ${file.name} (${(file.size / 1024).toFixed(2)} KB)`)
     }
@@ -80,7 +79,7 @@ export function Md5Generator() {
             setInput(e.target.value)
             // 自动生成
             if (e.target.value.trim()) {
-              const hash = CryptoJS.MD5(e.target.value).toString()
+              const hash = md5(e.target.value)
               setOutput(uppercase ? hash.toUpperCase() : hash)
             } else {
               setOutput("")
@@ -159,3 +158,5 @@ export function Md5Generator() {
     </div>
   )
 }
+
+export const Md5Generator = memo(Md5GeneratorInner)
