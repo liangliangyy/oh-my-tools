@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { SimpleTextarea } from "@/components/ui/simple-textarea"
 import { Copy, Check, Wand2, Minimize2, Trash2 } from "lucide-react"
 
-export function JsonFormatter() {
+function JsonFormatterInner() {
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
   const [error, setError] = useState("")
@@ -127,3 +127,5 @@ export function JsonFormatter() {
     </div>
   )
 }
+
+export const JsonFormatter = memo(JsonFormatterInner)

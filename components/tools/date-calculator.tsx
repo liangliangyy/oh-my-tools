@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -10,7 +10,7 @@ import { cn } from "@/lib/utils"
 
 type CalculateMode = "diff" | "add" | "subtract"
 
-export function DateCalculator() {
+function DateCalculatorInner() {
   const [mode, setMode] = useState<CalculateMode>("diff")
 
   // 日期差计算
@@ -308,3 +308,5 @@ export function DateCalculator() {
     </div>
   )
 }
+
+export const DateCalculator = memo(DateCalculatorInner)

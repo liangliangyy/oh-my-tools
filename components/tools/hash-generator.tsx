@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy, Check } from "lucide-react"
@@ -10,7 +10,7 @@ interface HashResult {
   hash: string
 }
 
-export function HashGenerator() {
+function HashGeneratorInner() {
   const [input, setInput] = useState("")
   const [results, setResults] = useState<HashResult[]>([])
   const [copied, setCopied] = useState<string | null>(null)
@@ -25,16 +25,15 @@ export function HashGenerator() {
       const data = encoder.encode(input)
       
       const algorithms = ["SHA-1", "SHA-256", "SHA-384", "SHA-512"]
-      const hashResults: HashResult[] = []
-      
-      for (const algorithm of algorithms) {
-        const hashBuffer = await crypto.subtle.digest(algorithm, data)
-        const hashArray = Array.from(new Uint8Array(hashBuffer))
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("")
-        hashResults.push({ algorithm, hash: hashHex })
-      }
-      
-      // Add MD5 simulation note (WebCrypto doesn't support MD5)
+      const hashResults = await Promise.all(
+        algorithms.map(async (algorithm) => {
+          const hashBuffer = await crypto.subtle.digest(algorithm, data)
+          const hashArray = Array.from(new Uint8Array(hashBuffer))
+          const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("")
+          return { algorithm, hash: hashHex }
+        })
+      )
+
       setResults(hashResults)
     } catch (error) {
       console.error("Hash generation failed:", error)
@@ -95,3 +94,5 @@ export function HashGenerator() {
     </div>
   )
 }
+
+export const HashGenerator = memo(HashGeneratorInner)

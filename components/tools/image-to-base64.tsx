@@ -1,13 +1,13 @@
 "use client"
 
-import { useState, useRef } from "react"
+import { useState, useRef, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
 import { Copy, Check, Trash2, Upload, Image as ImageIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
 
-export function ImageToBase64() {
+function ImageToBase64Inner() {
   const [imageFile, setImageFile] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string>("")
   const [base64, setBase64] = useState<string>("")
@@ -234,3 +234,5 @@ export function ImageToBase64() {
     </div>
   )
 }
+
+export const ImageToBase64 = memo(ImageToBase64Inner)

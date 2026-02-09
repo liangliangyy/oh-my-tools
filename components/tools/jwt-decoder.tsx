@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Copy, Check, Trash2, AlertCircle } from "lucide-react"
@@ -12,7 +12,7 @@ interface JWTPayload {
   signature: string
 }
 
-export function JwtDecoder() {
+function JwtDecoderInner() {
   const [input, setInput] = useState("")
   const [decoded, setDecoded] = useState<JWTPayload | null>(null)
   const [error, setError] = useState("")
@@ -201,3 +201,5 @@ export function JwtDecoder() {
     </div>
   )
 }
+
+export const JwtDecoder = memo(JwtDecoderInner)

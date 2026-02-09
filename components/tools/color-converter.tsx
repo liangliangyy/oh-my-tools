@@ -1,11 +1,11 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Copy, Check } from "lucide-react"
 
-export function ColorConverter() {
+function ColorConverterInner() {
   const [hex, setHex] = useState("#3b82f6")
   const [rgb, setRgb] = useState({ r: 59, g: 130, b: 246 })
   const [hsl, setHsl] = useState({ h: 217, s: 91, l: 60 })
@@ -250,3 +250,5 @@ export function ColorConverter() {
     </div>
   )
 }
+
+export const ColorConverter = memo(ColorConverterInner)

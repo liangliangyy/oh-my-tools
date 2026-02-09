@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -9,7 +9,7 @@ import { Copy, Check, RefreshCw, Trash2, Info } from "lucide-react"
 
 type UuidVersion = "v4" | "v1" | "v5"
 
-export function UuidGenerator() {
+function UuidGeneratorInner() {
   const [uuids, setUuids] = useState<string[]>([])
   const [count, setCount] = useState(1)
   const [version, setVersion] = useState<UuidVersion>("v4")
@@ -210,3 +210,5 @@ export function UuidGenerator() {
     </div>
   )
 }
+
+export const UuidGenerator = memo(UuidGeneratorInner)

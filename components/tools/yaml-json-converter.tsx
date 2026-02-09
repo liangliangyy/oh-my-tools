@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, ArrowLeftRight, Trash2, AlertCircle } from "lucide-react"
 
-export function YamlJsonConverter() {
+function YamlJsonConverterInner() {
   const [yamlInput, setYamlInput] = useState("")
   const [jsonInput, setJsonInput] = useState("")
   const [error, setError] = useState("")
@@ -263,3 +263,5 @@ export function YamlJsonConverter() {
     </div>
   )
 }
+
+export const YamlJsonConverter = memo(YamlJsonConverterInner)

@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
@@ -21,7 +21,7 @@ const AES_MODES = [
   { value: "256", label: "AES-256" },
 ]
 
-export function AesEncryption() {
+function AesEncryptionInner() {
   const [mode, setMode] = useState<"encrypt" | "decrypt">("encrypt")
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
@@ -330,3 +330,5 @@ export function AesEncryption() {
     </div>
   )
 }
+
+export const AesEncryption = memo(AesEncryptionInner)

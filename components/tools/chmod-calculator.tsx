@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, memo } from "react"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Input } from "@/components/ui/input"
@@ -20,7 +20,7 @@ type Permissions = {
   others: Permission
 }
 
-export function ChmodCalculator() {
+function ChmodCalculatorInner() {
   const [permissions, setPermissions] = useState<Permissions>({
     owner: { read: true, write: true, execute: true }, // 7
     group: { read: true, write: false, execute: true }, // 5
@@ -181,6 +181,8 @@ export function ChmodCalculator() {
     </div>
   )
 }
+
+export const ChmodCalculator = memo(ChmodCalculatorInner)
 
 function PermissionGroup({ title, role, values, onChange }: { 
   title: string, 

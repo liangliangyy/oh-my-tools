@@ -1,12 +1,12 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, AlertCircle, Trash2 } from "lucide-react"
 
-export function NumberBaseConverter() {
+function NumberBaseConverterInner() {
   const [binary, setBinary] = useState("")
   const [octal, setOctal] = useState("")
   const [decimal, setDecimal] = useState("")
@@ -291,3 +291,5 @@ export function NumberBaseConverter() {
     </div>
   )
 }
+
+export const NumberBaseConverter = memo(NumberBaseConverterInner)

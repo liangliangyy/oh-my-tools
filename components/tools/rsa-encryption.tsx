@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -21,7 +21,7 @@ const KEY_SIZES = [
   { value: "4096", label: "4096 位" },
 ]
 
-export function RsaEncryption() {
+function RsaEncryptionInner() {
   const [mode, setMode] = useState<"encrypt" | "decrypt">("encrypt")
   const [input, setInput] = useState("")
   const [output, setOutput] = useState("")
@@ -437,3 +437,5 @@ export function RsaEncryption() {
     </div>
   )
 }
+
+export const RsaEncryption = memo(RsaEncryptionInner)

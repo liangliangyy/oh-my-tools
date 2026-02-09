@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState, useRef } from "react"
+import { useEffect, useState, useRef, memo } from "react"
 import { DiffEditor } from "@/components/ui/diff-editor"
 import { Button } from "@/components/ui/button"
 import { Label } from "@/components/ui/label"
@@ -54,7 +54,7 @@ function farewell(name: string) {
 }`,
 }
 
-export function FileDiff() {
+function FileDiffInner() {
   const [mounted, setMounted] = useState(false)
   const [original, setOriginal] = useState(examples.original)
   const [modified, setModified] = useState(examples.modified)
@@ -268,3 +268,5 @@ export function FileDiff() {
     </div>
   )
 }
+
+export const FileDiff = memo(FileDiffInner)

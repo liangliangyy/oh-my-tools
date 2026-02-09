@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Button } from "@/components/ui/button"
@@ -8,7 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Copy, Terminal, Network } from "lucide-react"
 import { toast } from "sonner"
 
-export function PortCheckGenerator() {
+function PortCheckGeneratorInner() {
   const [host, setHost] = useState("example.com")
   const [port, setPort] = useState("443")
 
@@ -91,6 +91,8 @@ export function PortCheckGenerator() {
     </div>
   )
 }
+
+export const PortCheckGenerator = memo(PortCheckGeneratorInner)
 
 function CommandCard({ title, command, onCopy }: { title: string, command: string, onCopy: () => void }) {
   return (

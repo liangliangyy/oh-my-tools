@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect, useRef, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Label } from "@/components/ui/label"
@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Download, Trash2, QrCode } from "lucide-react"
 
-export function QrcodeGenerator() {
+function QrcodeGeneratorInner() {
   const [text, setText] = useState("https://github.com")
   const [size, setSize] = useState(256)
   const [fgColor, setFgColor] = useState("#000000")
@@ -17,49 +17,28 @@ export function QrcodeGenerator() {
   const [qrCodeUrl, setQrCodeUrl] = useState("")
   const canvasRef = useRef<HTMLCanvasElement>(null)
 
-  // 简易二维码生成（使用canvas实现）
   useEffect(() => {
     if (!text.trim() || !canvasRef.current) return
 
-    const canvas = canvasRef.current
-    const ctx = canvas.getContext("2d")
-    if (!ctx) return
-
-    // 使用第三方库会更好，这里用简单实现演示
-    // 实际项目建议使用 qrcode 库
-    try {
-      // 创建一个简单的二维码模拟（实际应使用库）
-      canvas.width = size
-      canvas.height = size
-
-      // 背景
-      ctx.fillStyle = bgColor
-      ctx.fillRect(0, 0, size, size)
-
-      // 这里应该调用真正的二维码生成库
-      // 为了演示，我们使用 API 来生成
-      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&bgcolor=${bgColor.slice(1)}&color=${fgColor.slice(1)}&qzone=1&ecc=${errorLevel}`
-
-      const img = new Image()
-      img.crossOrigin = "anonymous"
-      img.onload = () => {
-        ctx.drawImage(img, 0, 0, size, size)
-        setQrCodeUrl(canvas.toDataURL("image/png"))
+    const generateQR = async () => {
+      try {
+        const QRCode = (await import('qrcode')).default
+        await QRCode.toCanvas(canvasRef.current!, text, {
+          width: size,
+          margin: 1,
+          errorCorrectionLevel: errorLevel,
+          color: {
+            dark: fgColor,
+            light: bgColor,
+          },
+        })
+        setQrCodeUrl(canvasRef.current!.toDataURL("image/png"))
+      } catch (error) {
+        console.error("二维码生成失败:", error)
       }
-      img.onerror = () => {
-        // 如果API失败，绘制一个占位图
-        ctx.fillStyle = fgColor
-        ctx.font = "16px monospace"
-        ctx.textAlign = "center"
-        ctx.textBaseline = "middle"
-        ctx.fillText("二维码生成", size / 2, size / 2 - 10)
-        ctx.fillText("需要网络连接", size / 2, size / 2 + 10)
-        setQrCodeUrl(canvas.toDataURL("image/png"))
-      }
-      img.src = qrUrl
-    } catch (error) {
-      console.error("二维码生成失败:", error)
     }
+
+    generateQR()
   }, [text, size, fgColor, bgColor, errorLevel])
 
   const downloadQrCode = () => {
@@ -211,3 +190,5 @@ export function QrcodeGenerator() {
     </div>
   )
 }
+
+export const QrcodeGenerator = memo(QrcodeGeneratorInner)

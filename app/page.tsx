@@ -39,37 +39,35 @@ import {
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Input } from "@/components/ui/input"
 import { cn } from "@/lib/utils"
+import { tools as toolsConfig, categories as categoriesConfig } from "@/lib/tools-config"
 
-const tools = [
-  { id: "json", name: "JSON 格式化", icon: Braces, description: "格式化、压缩、验证 JSON 数据", color: "from-emerald-500/20 to-emerald-500/5", category: "格式化工具" },
-  { id: "json2code", name: "JSON 转代码", icon: FileCode, description: "JSON 转 TypeScript/Go/Python 等", color: "from-indigo-500/20 to-indigo-500/5", category: "格式化工具" },
-  { id: "markdown", name: "Markdown 预览", icon: FileText, description: "实时预览 Markdown 渲染效果", color: "from-blue-500/20 to-blue-500/5", category: "格式化工具" },
-  { id: "yaml", name: "YAML ↔ JSON", icon: ArrowLeftRight, description: "YAML 与 JSON 格式互转", color: "from-green-500/20 to-green-500/5", category: "格式化工具" },
-  { id: "diff", name: "文件 Diff", icon: GitCompare, description: "对比两个文件的差异", color: "from-teal-500/20 to-teal-500/5", category: "格式化工具" },
-  { id: "base64", name: "Base64 编解码", icon: Binary, description: "Base64 编码与解码转换", color: "from-amber-500/20 to-amber-500/5", category: "编码解码" },
-  { id: "url", name: "URL 编解码", icon: Link2, description: "URL 编码与解码处理", color: "from-cyan-500/20 to-cyan-500/5", category: "编码解码" },
-  { id: "hash", name: "Hash 生成", icon: Hash, description: "生成 SHA-1/256/384/512 哈希", color: "from-violet-500/20 to-violet-500/5", category: "编码解码" },
-  { id: "image-base64", name: "图片转 Base64", icon: Image, description: "图片文件转 Base64 编码", color: "from-pink-500/20 to-pink-500/5", category: "编码解码" },
-  { id: "jwt", name: "JWT 解码器", icon: KeyRound, description: "解析 JWT Token 查看内容", color: "from-sky-500/20 to-sky-500/5", category: "编码解码" },
-  { id: "aes", name: "AES 加解密", icon: Lock, description: "AES 对称加密与解密", color: "from-blue-500/20 to-blue-500/5", category: "加密工具" },
-  { id: "rsa", name: "RSA 加解密", icon: ShieldCheck, description: "RSA 非对称加密与密钥生成", color: "from-purple-500/20 to-purple-500/5", category: "加密工具" },
-  { id: "hmac", name: "HMAC 生成器", icon: ShieldAlert, description: "生成消息认证码 (HMAC)", color: "from-red-500/20 to-red-500/5", category: "加密工具" },
-  { id: "md5", name: "MD5 生成器", icon: Fingerprint, description: "MD5 哈希值生成", color: "from-orange-500/20 to-orange-500/5", category: "加密工具" },
-  { id: "key-gen", name: "密钥生成器", icon: KeySquare, description: "生成各种加密密钥", color: "from-cyan-500/20 to-cyan-500/5", category: "加密工具" },
-  { id: "uuid", name: "UUID 生成", icon: Fingerprint, description: "批量生成 UUID (v1/v4/v5)", color: "from-orange-500/20 to-orange-500/5", category: "生成器" },
-  { id: "password", name: "密码生成器", icon: LockKeyhole, description: "生成安全随机密码", color: "from-red-500/20 to-red-500/5", category: "生成器" },
-  { id: "qrcode", name: "二维码生成", icon: QrCode, description: "生成自定义二维码图片", color: "from-indigo-500/20 to-indigo-500/5", category: "生成器" },
-  { id: "timestamp", name: "时间戳转换", icon: Clock, description: "Unix 时间戳与日期时间互转", color: "from-rose-500/20 to-rose-500/5", category: "转换器" },
-  { id: "color", name: "颜色转换", icon: Palette, description: "HEX、RGB、HSL 格式互转", color: "from-pink-500/20 to-pink-500/5", category: "转换器" },
-  { id: "base-converter", name: "进制转换", icon: Calculator, description: "二/八/十/十六进制互转", color: "from-slate-500/20 to-slate-500/5", category: "转换器" },
-  { id: "date-calc", name: "日期计算器", icon: CalendarDays, description: "日期差计算、日期加减运算", color: "from-teal-500/20 to-teal-500/5", category: "转换器" },
-  { id: "unit", name: "单位转换", icon: Scale, description: "常用单位数值转换", color: "from-indigo-500/20 to-indigo-500/5", category: "转换器" },
-  { id: "regex", name: "正则测试", icon: Regex, description: "实时测试正则表达式匹配结果", color: "from-blue-500/20 to-blue-500/5", category: "开发工具" },
-  { id: "cron", name: "Cron 表达式", icon: CalendarClock, description: "生成和解析 Cron 定时任务", color: "from-purple-500/20 to-purple-500/5", category: "开发工具" },
-  { id: "cidr", name: "IP 子网计算", icon: Network, description: "CIDR 子网掩码计算", color: "from-blue-600/20 to-blue-600/5", category: "网络工具" },
-  { id: "chmod", name: "Chmod 计算", icon: Shield, description: "Linux 文件权限计算", color: "from-red-600/20 to-red-600/5", category: "网络工具" },
-  { id: "port-check", name: "端口检测", icon: PcCase, description: "生成端口连通性检测命令", color: "from-orange-600/20 to-orange-600/5", category: "网络工具" },
-]
+// 从 tools-config 映射首页需要的展示字段和图标
+const iconMap: Record<string, any> = {
+  json: Braces, json2code: FileCode, markdown: FileText, yaml: ArrowLeftRight, diff: GitCompare,
+  base64: Binary, url: Link2, hash: Hash, "image-base64": Image, jwt: KeyRound,
+  aes: Lock, rsa: ShieldCheck, hmac: ShieldAlert, md5: Fingerprint, "key-gen": KeySquare,
+  uuid: Fingerprint, password: LockKeyhole, qrcode: QrCode,
+  regex: Regex, cron: CalendarClock,
+  timestamp: Clock, color: Palette, "base-converter": Calculator, "date-calc": CalendarDays, unit: Scale,
+  cidr: Network, chmod: Shield, "port-check": PcCase,
+}
+
+const categoryNameMap: Record<string, string> = {
+  format: "格式化工具", encode: "编码解码", crypto: "加密工具",
+  generator: "生成器", converter: "转换器", tool: "开发工具", network: "网络工具",
+}
+
+const tools = toolsConfig.map(t => ({
+  id: t.id,
+  name: t.name,
+  icon: iconMap[t.id] || Braces,
+  description: t.description,
+  color: t.color || "",
+  category: categoryNameMap[t.category] || t.category,
+}))
+
+const TOOL_COUNT = toolsConfig.length
+const CATEGORY_COUNT = categoriesConfig.length
 
 const features = [
   { icon: Zap, title: "快速高效", description: "所有工具即开即用，无需安装，响应速度快" },
@@ -131,7 +129,7 @@ export default function HomePage() {
               <span className="text-accent">效率工具箱</span>
             </h1>
             <p className="text-lg md:text-xl text-muted-foreground text-balance mb-4">
-              集合 28 个常用开发工具，一站式解决日常开发需求
+              集合 {TOOL_COUNT} 个常用开发工具，一站式解决日常开发需求
             </p>
             <p className="text-base text-muted-foreground text-balance mb-10 max-w-2xl mx-auto">
               JSON 格式化、代码生成、正则测试、Base64 编解码、AES/RSA 加密、HMAC/MD5 哈希、UUID 生成、二维码生成、Markdown 预览、时间戳转换、单位转换、CIDR 计算等
@@ -240,7 +238,7 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">28+</div>
+              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">{TOOL_COUNT}+</div>
               <div className="text-sm text-muted-foreground">实用工具</div>
             </div>
             <div>
@@ -264,7 +262,7 @@ export default function HomePage() {
         <div className="max-w-2xl mx-auto text-center mb-12">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">全部工具</h2>
           <p className="text-muted-foreground mb-8">
-            7 大分类，28 个工具，覆盖开发者日常所需
+            {CATEGORY_COUNT} 大分类，{TOOL_COUNT} 个工具，覆盖开发者日常所需
           </p>
           {/* Search */}
           <div className="relative max-w-md mx-auto">
