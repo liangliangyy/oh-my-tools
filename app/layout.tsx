@@ -4,6 +4,7 @@ import { Geist, Geist_Mono } from 'next/font/google'
 
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/toaster"
+import { GoogleScripts } from "@/components/google-scripts"
 import { siteConfig } from '@/lib/site-config'
 import './globals.css'
 
@@ -108,6 +109,9 @@ export default function RootLayout({
         />
       </head>
       <body className={`font-sans antialiased`}>
+        {/* Google 服务脚本 (Analytics & AdSense) */}
+        <GoogleScripts />
+
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
