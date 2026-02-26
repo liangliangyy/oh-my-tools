@@ -85,7 +85,60 @@ export function CodeEditor({
   }, [language])
 
   return (
-    <div className={cn("rounded-lg border border-border overflow-hidden", className)}>
+    <div className={cn(
+      "rounded-xl overflow-hidden code-editor-wrapper",
+      "border border-border/50",
+      "bg-gradient-to-br from-background via-background to-muted/20",
+      "shadow-sm hover:shadow-md transition-shadow duration-200",
+      "ring-1 ring-black/[0.03] dark:ring-white/[0.05]",
+      className
+    )}>
+      <style jsx global>{`
+        .code-editor-wrapper .cm-foldGutter {
+          width: 20px;
+        }
+        .code-editor-wrapper .cm-foldGutter .cm-gutterElement {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          padding: 0 !important;
+        }
+        .code-editor-wrapper .cm-foldPlaceholder {
+          padding: 2px 8px;
+          border-radius: 4px;
+          font-size: 12px;
+        }
+        .code-editor-wrapper .cm-foldGutter span {
+          font-size: 16px !important;
+          line-height: 1 !important;
+          cursor: pointer;
+          padding: 2px 4px;
+          border-radius: 3px;
+          transition: all 0.15s ease;
+          user-select: none;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 16px;
+          min-height: 16px;
+        }
+        .code-editor-wrapper .cm-foldGutter span:hover {
+          background: rgba(128, 128, 128, 0.15);
+          transform: scale(1.15);
+        }
+        .code-editor-wrapper .cm-foldGutter span[title*="Fold"] {
+          color: #6b7280;
+        }
+        .code-editor-wrapper .cm-foldGutter span[title*="Unfold"] {
+          color: #3b82f6;
+        }
+        .dark .code-editor-wrapper .cm-foldGutter span[title*="Fold"] {
+          color: #9ca3af;
+        }
+        .dark .code-editor-wrapper .cm-foldGutter span[title*="Unfold"] {
+          color: #60a5fa;
+        }
+      `}</style>
       <CodeMirror
         value={value}
         height={height}
