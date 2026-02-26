@@ -2,7 +2,7 @@
 
 import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
-import { SimpleTextarea } from "@/components/ui/simple-textarea"
+import { CodeEditor } from "@/components/ui/code-editor"
 import { Copy, Check, Wand2, Minimize2, Trash2 } from "lucide-react"
 
 function JsonFormatterInner() {
@@ -55,71 +55,94 @@ function JsonFormatterInner() {
   }
 
   return (
-    <div className="space-y-4">
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-muted-foreground">输入 JSON</label>
-            <span className="text-xs text-muted-foreground">{input.length} 字符</span>
+    <div className="space-y-6">
+      <div className="grid gap-6 lg:grid-cols-2">
+        <div className="space-y-3">
+          <div className="flex items-center justify-between px-1">
+            <label className="text-sm font-semibold text-foreground/90">
+              输入 JSON
+            </label>
+            <span className="text-xs font-medium text-muted-foreground/80 bg-muted/50 px-2 py-0.5 rounded-md">
+              {input.length} 字符
+            </span>
           </div>
-          <SimpleTextarea
+          <CodeEditor
             value={input}
             onChange={setInput}
-            height="320px"
+            language="json"
+            height="480px"
             placeholder="请输入 JSON 数据..."
           />
         </div>
-        <div className="space-y-2">
-          <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-muted-foreground">输出结果</label>
-            <div className="flex items-center gap-1">
-              <span className="text-xs text-muted-foreground mr-2">{output.length} 字符</span>
+        <div className="space-y-3">
+          <div className="flex items-center justify-between px-1">
+            <label className="text-sm font-semibold text-foreground/90">
+              输出结果
+            </label>
+            <div className="flex items-center gap-2">
+              <span className="text-xs font-medium text-muted-foreground/80 bg-muted/50 px-2 py-0.5 rounded-md">
+                {output.length} 字符
+              </span>
               {output && (
-                <Button 
-                  variant="ghost" 
-                  size="sm" 
-                  onClick={copyOutput} 
-                  className="h-7 px-2 gap-1.5 hover:bg-accent/50 dark:hover:bg-accent/30"
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={copyOutput}
+                  className="h-7 px-2.5 gap-1.5 hover:bg-accent/60 dark:hover:bg-accent/40 transition-colors"
                 >
                   {copied ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
-                      <span className="text-xs text-green-600 dark:text-green-400">已复制</span>
+                      <span className="text-xs font-medium text-green-600 dark:text-green-400">已复制</span>
                     </>
                   ) : (
                     <>
                       <Copy className="h-3.5 w-3.5" />
-                      <span className="text-xs">复制</span>
+                      <span className="text-xs font-medium">复制</span>
                     </>
                   )}
                 </Button>
               )}
             </div>
           </div>
-          <SimpleTextarea
+          <CodeEditor
             value={output}
             readOnly
-            height="320px"
+            language="json"
+            height="480px"
           />
         </div>
       </div>
-      
+
       {error && (
-        <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-destructive/10 border border-destructive/20">
-          <span className="text-sm text-destructive">{error}</span>
+        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/30 shadow-sm">
+          <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-destructive animate-pulse" />
+          <span className="text-sm font-medium text-destructive">{error}</span>
         </div>
       )}
-      
-      <div className="flex flex-wrap gap-2">
-        <Button variant="default" onClick={formatJson} className="gap-2">
+
+      <div className="flex flex-wrap gap-3 pt-2">
+        <Button
+          variant="default"
+          onClick={formatJson}
+          className="gap-2 shadow-sm hover:shadow-md transition-all"
+        >
           <Wand2 className="h-4 w-4" />
           格式化
         </Button>
-        <Button variant="ghost" onClick={minifyJson} className="gap-2">
+        <Button
+          variant="outline"
+          onClick={minifyJson}
+          className="gap-2 hover:bg-accent/60 transition-colors"
+        >
           <Minimize2 className="h-4 w-4" />
           压缩
         </Button>
-        <Button variant="ghost" onClick={clearAll} className="gap-2">
+        <Button
+          variant="outline"
+          onClick={clearAll}
+          className="gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
+        >
           <Trash2 className="h-4 w-4" />
           清空
         </Button>
