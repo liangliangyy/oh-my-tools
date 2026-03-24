@@ -101,7 +101,7 @@ function CommandCard({ title, command, onCopy }: { title: string, command: strin
         <Label className="text-xs font-medium text-muted-foreground">{title}</Label>
       </div>
       <div className="relative group">
-        <div className="min-h-[3rem] w-full rounded-md border border-input bg-background px-3 py-3 text-sm font-mono shadow-sm flex items-center pr-10">
+        <div className="min-h-[3rem] w-full rounded-md border border-border bg-secondary/30 px-3 py-3 text-sm font-mono flex items-center pr-10">
           {command}
         </div>
         <Button 

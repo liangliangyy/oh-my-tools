@@ -71,7 +71,7 @@ function RegexTesterInner() {
     <div className="space-y-4">
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-muted-foreground">正则表达式</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">正则表达式</label>
           <Button 
             variant="ghost" 
             size="sm" 
@@ -80,8 +80,8 @@ function RegexTesterInner() {
           >
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
-                <span className="text-xs text-green-600 dark:text-green-400">已复制</span>
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <span className="text-xs text-signal-ok">已复制</span>
               </>
             ) : (
               <>
@@ -139,7 +139,7 @@ function RegexTesterInner() {
 
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium text-muted-foreground">匹配结果</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">匹配结果</label>
           <span className={cn(
             "text-xs font-medium px-2 py-0.5 rounded-full",
             result.matches.length > 0 ? "bg-accent/10 text-accent" : "bg-muted text-muted-foreground"
@@ -154,7 +154,7 @@ function RegexTesterInner() {
 
       {result.matches.length > 0 && (
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">匹配详情</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">匹配详情</label>
           <div className="space-y-1.5 max-h-[200px] overflow-auto">
             {result.matches.map((m, i) => (
               <div key={i} className="flex items-center gap-4 text-sm font-mono p-2.5 rounded-lg bg-secondary border border-border">

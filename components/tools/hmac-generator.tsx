@@ -148,7 +148,7 @@ function HmacGeneratorInner() {
     <div className="space-y-4">
       {/* 算法选择 */}
       <div className="space-y-2">
-        <Label className="text-sm font-medium">HMAC 算法</Label>
+        <Label>HMAC 算法</Label>
         <Select value={algorithm} onValueChange={setAlgorithm}>
           <SelectTrigger className="w-full">
             <SelectValue />
@@ -165,7 +165,7 @@ function HmacGeneratorInner() {
 
       {/* 密钥输入 */}
       <div className="space-y-2">
-        <Label className="text-sm font-medium">密钥 (Secret Key)</Label>
+        <Label>密钥 (Secret Key)</Label>
         <div className="flex gap-2">
           <Input
             type="text"
@@ -212,7 +212,7 @@ function HmacGeneratorInner() {
             className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied ? (
-              <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+              <Check className="h-3.5 w-3.5 text-signal-ok" />
             ) : (
               <Copy className="h-3.5 w-3.5" />
             )}
@@ -235,7 +235,7 @@ function HmacGeneratorInner() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="default" onClick={generate}>
+        <Button variant="accent" onClick={generate}>
           <Wand2 className="h-4 w-4 mr-2" />
           生成 HMAC
         </Button>

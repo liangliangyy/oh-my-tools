@@ -81,7 +81,7 @@ function JwtDecoderInner() {
     <div className="space-y-4">
       <div className="space-y-2">
         <div className="flex items-center justify-between">
-          <label className="text-sm font-medium">JWT Token</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">JWT Token</label>
           <Button variant="ghost" size="sm" onClick={clear} className="hover:bg-accent/50 dark:hover:bg-accent/30">
             <Trash2 className="h-4 w-4 mr-1" />
             清空
@@ -91,11 +91,11 @@ function JwtDecoderInner() {
           placeholder="粘贴 JWT Token 到这里..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="font-mono text-sm min-h-[120px]"
+          className="font-mono text-sm min-h-[128px] bg-bg-inset"
         />
       </div>
 
-      <Button variant="default" onClick={decodeJWT} className="w-full">
+      <Button variant="accent" onClick={decodeJWT} className="w-full">
         解码
       </Button>
 
@@ -119,7 +119,7 @@ function JwtDecoderInner() {
                 className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "header" ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -141,7 +141,7 @@ function JwtDecoderInner() {
                 className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "payload" ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -179,7 +179,7 @@ function JwtDecoderInner() {
                 className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "signature" ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}

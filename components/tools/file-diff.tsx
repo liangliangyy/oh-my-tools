@@ -146,19 +146,21 @@ function FileDiffInner() {
         </div>
 
         <div className="flex items-center gap-2">
-          <Label className="text-sm text-muted-foreground">视图:</Label>
+          <Label>视图:</Label>
           <div className="flex gap-2">
             <Button
-              variant={renderSideBySide ? "default" : "ghost"}
+              variant={renderSideBySide ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setRenderSideBySide(true)}
+              className="transition-colors duration-150"
             >
               并排
             </Button>
             <Button
-              variant={!renderSideBySide ? "default" : "ghost"}
+              variant={!renderSideBySide ? "secondary" : "ghost"}
               size="sm"
               onClick={() => setRenderSideBySide(false)}
+              className="transition-colors duration-150"
             >
               内联
             </Button>
@@ -187,7 +189,7 @@ function FileDiffInner() {
         </div>
         <div className="flex items-center gap-1.5">
           <span className="inline-block w-3 h-3 rounded-sm bg-green-500/20 border border-green-500" />
-          <span className="text-green-600 dark:text-green-400">+{stats.added} 新增</span>
+          <span className="text-signal-ok">+{stats.added} 新增</span>
         </div>
         <div className="flex items-center gap-1.5">
           <span className="inline-block w-3 h-3 rounded-sm bg-red-500/20 border border-red-500" />
@@ -215,7 +217,7 @@ function FileDiffInner() {
               onClick={() => handleCopy("original")}
             >
               {copied === "original" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -240,7 +242,7 @@ function FileDiffInner() {
               onClick={() => handleCopy("modified")}
             >
               {copied === "modified" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}

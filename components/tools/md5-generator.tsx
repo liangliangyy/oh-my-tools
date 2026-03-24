@@ -118,7 +118,7 @@ function Md5GeneratorInner() {
             className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied ? (
-              <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+              <Check className="h-3.5 w-3.5 text-signal-ok" />
             ) : (
               <Copy className="h-3.5 w-3.5" />
             )}
@@ -134,7 +134,7 @@ function Md5GeneratorInner() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="default" onClick={generate}>
+        <Button variant="accent" onClick={generate}>
           <Wand2 className="h-4 w-4 mr-2" />
           生成 MD5
         </Button>

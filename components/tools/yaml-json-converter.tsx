@@ -187,7 +187,7 @@ function YamlJsonConverterInner() {
         {/* YAML */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">YAML</label>
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">YAML</label>
             <Button 
               variant="ghost" 
               size="sm" 
@@ -196,7 +196,7 @@ function YamlJsonConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "yaml" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -214,7 +214,7 @@ function YamlJsonConverterInner() {
         {/* JSON */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">JSON</label>
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">JSON</label>
             <Button 
               variant="ghost" 
               size="sm" 
@@ -223,7 +223,7 @@ function YamlJsonConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "json" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -240,11 +240,11 @@ function YamlJsonConverterInner() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
-        <Button variant="default" onClick={convertYamlToJson} className="gap-2">
+        <Button variant="accent" onClick={convertYamlToJson} className="gap-2">
           YAML → JSON
           <ArrowLeftRight className="h-4 w-4" />
         </Button>
-        <Button variant="default" onClick={convertJsonToYaml} className="gap-2">
+        <Button variant="accent" onClick={convertJsonToYaml} className="gap-2">
           JSON → YAML
           <ArrowLeftRight className="h-4 w-4" />
         </Button>

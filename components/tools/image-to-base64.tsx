@@ -127,7 +127,7 @@ function ImageToBase64Inner() {
             <img
               src={imagePreview}
               alt="Preview"
-              className="max-w-full max-h-[300px] mx-auto rounded-lg shadow-lg"
+              className="max-w-full max-h-[300px] mx-auto rounded-lg border border-border"
             />
           </div>
         ) : (
@@ -179,7 +179,7 @@ function ImageToBase64Inner() {
                 onClick={() => copyToClipboard(base64, "base64")}
               >
                 {copied === "base64" ? (
-                  <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
+                  <Check className="h-4 w-4 text-signal-ok mr-1" />
                 ) : (
                   <Copy className="h-4 w-4 mr-1" />
                 )}
@@ -203,7 +203,7 @@ function ImageToBase64Inner() {
                 className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "dataurl" ? (
-                  <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
+                  <Check className="h-4 w-4 text-signal-ok mr-1" />
                 ) : (
                   <Copy className="h-4 w-4 mr-1" />
                 )}

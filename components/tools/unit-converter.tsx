@@ -146,7 +146,7 @@ function UnitConverterInner() {
         {UNIT_TYPES.map(t => (
             <Button
                 key={t.value}
-                variant={type === t.value ? "default" : "ghost"}
+                variant={type === t.value ? "secondary" : "ghost"}
                 size="sm"
                 onClick={() => setType(t.value)}
             >
@@ -162,7 +162,7 @@ function UnitConverterInner() {
                 {/* Source Input Group */}
                 <div className="flex-1 w-full space-y-2">
                     <Label className="text-muted-foreground ml-1 text-xs">数值 ({UNITS[type].find(u => u.value === fromUnit)?.label})</Label>
-                    <div className="flex gap-0 relative rounded-md border bg-background ring-offset-background group focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2">
+                    <div className="flex gap-0 relative rounded-md border bg-background group focus-within:border-ring focus-within:ring-[3px] focus-within:ring-ring/50">
                         <Input 
                             type="number" 
                             value={inputValue} 
@@ -191,7 +191,7 @@ function UnitConverterInner() {
                         variant="ghost" 
                         size="icon" 
                         onClick={handleSwap} 
-                        className="rounded-full h-10 w-10 hover:bg-muted text-muted-foreground hover:text-foreground"
+                        className="rounded-md h-10 w-10 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors duration-150"
                      >
                         <ArrowLeftRight className="h-5 w-5" />
                      </Button>

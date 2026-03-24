@@ -221,25 +221,19 @@ function RsaEncryptionInner() {
       {/* 模式切换 */}
       <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
-          variant={mode === "encrypt" ? "default" : "ghost"}
+          variant={mode === "encrypt" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("encrypt")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "encrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           <Lock className="h-4 w-4 mr-2" />
           加密
         </Button>
         <Button
-          variant={mode === "decrypt" ? "default" : "ghost"}
+          variant={mode === "decrypt" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("decrypt")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "decrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           <Unlock className="h-4 w-4 mr-2" />
           解密
@@ -277,7 +271,7 @@ function RsaEncryptionInner() {
             <div className="grid gap-3 md:grid-cols-2">
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium">公钥 (Public Key)</Label>
+                  <Label>公钥 (Public Key)</Label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -285,7 +279,7 @@ function RsaEncryptionInner() {
                     className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "public" ? (
-                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                      <Check className="h-3.5 w-3.5 text-signal-ok" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
@@ -300,7 +294,7 @@ function RsaEncryptionInner() {
 
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm font-medium">私钥 (Private Key)</Label>
+                  <Label>私钥 (Private Key)</Label>
                   <Button
                     variant="ghost"
                     size="sm"
@@ -308,7 +302,7 @@ function RsaEncryptionInner() {
                     className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "private" ? (
-                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                      <Check className="h-3.5 w-3.5 text-signal-ok" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
@@ -383,7 +377,7 @@ function RsaEncryptionInner() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="default" onClick={process}>
+        <Button variant="accent" onClick={process}>
           {mode === "encrypt" ? (
             <>
               <Lock className="h-4 w-4 mr-2" />

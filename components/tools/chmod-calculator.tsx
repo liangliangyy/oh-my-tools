@@ -112,7 +112,7 @@ function ChmodCalculatorInner() {
             <div className="space-y-2">
               <Label>Octal (八进制)</Label>
               <div className="flex gap-2">
-                <Input value={octal} readOnly className="font-mono text-lg" />
+                <Input value={octal} readOnly className="font-mono text-lg bg-secondary/50 cursor-default" />
                 <Button variant="ghost" size="icon" onClick={() => copyToClipboard(octal)}>
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -130,7 +130,7 @@ function ChmodCalculatorInner() {
             <div className="space-y-2">
               <Label>Symbolic (符号)</Label>
               <div className="flex gap-2">
-                <Input value={symbolic} readOnly className="font-mono text-lg" />
+                <Input value={symbolic} readOnly className="font-mono text-lg bg-secondary/50 cursor-default" />
                 <Button variant="ghost" size="icon" onClick={() => copyToClipboard(symbolic)}>
                   <Copy className="h-4 w-4" />
                 </Button>
@@ -141,7 +141,7 @@ function ChmodCalculatorInner() {
           <div className="text-sm text-muted-foreground space-y-2">
             <h4 className="font-medium text-foreground">常见权限:</h4>
             <div className="grid grid-cols-2 gap-2">
-              <div className="flex items-center justify-between p-2 rounded hover:bg-muted cursor-pointer" 
+              <div className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50 hover:border-accent/20 border border-transparent transition-colors duration-150 cursor-pointer"
                    onClick={() => {
                      setPermissions({
                        owner: { read: true, write: true, execute: true },
@@ -152,7 +152,7 @@ function ChmodCalculatorInner() {
                 <span>755 (Web Server)</span>
                 <span className="font-mono text-xs">rwxr-xr-x</span>
               </div>
-              <div className="flex items-center justify-between p-2 rounded hover:bg-muted cursor-pointer"
+              <div className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50 border border-transparent hover:border-accent/20 transition-colors duration-150 cursor-pointer"
                    onClick={() => {
                     setPermissions({
                       owner: { read: true, write: true, execute: false },
@@ -163,7 +163,7 @@ function ChmodCalculatorInner() {
                 <span>644 (File)</span>
                 <span className="font-mono text-xs">rw-r--r--</span>
               </div>
-              <div className="flex items-center justify-between p-2 rounded hover:bg-muted cursor-pointer"
+              <div className="flex items-center justify-between p-2 rounded-md hover:bg-secondary/50 border border-transparent hover:border-accent/20 transition-colors duration-150 cursor-pointer"
                    onClick={() => {
                     setPermissions({
                       owner: { read: true, write: true, execute: true },
@@ -192,7 +192,7 @@ function PermissionGroup({ title, role, values, onChange }: {
 }) {
   return (
     <div className="space-y-3">
-      <Label className="text-base font-medium">{title}</Label>
+      <Label className="text-sm font-medium text-foreground">{title}</Label>
       <div className="flex gap-6">
         <label className="flex items-center gap-2 cursor-pointer">
           <Checkbox checked={values.read} onCheckedChange={() => onChange(role, 'read')} />

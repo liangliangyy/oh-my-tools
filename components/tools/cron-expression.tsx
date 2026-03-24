@@ -314,7 +314,7 @@ function CronExpressionInner() {
 
       {/* 或者输入自定义表达式 */}
       <div className="space-y-2">
-        <Label className="text-sm">或者直接输入 Cron 表达式</Label>
+        <Label>或者直接输入 Cron 表达式</Label>
         <div className="flex gap-2">
           <Input
             placeholder="例如: 0 9 * * 1-5"
@@ -328,7 +328,7 @@ function CronExpressionInner() {
             className="font-mono"
           />
           <Button
-            variant="default"
+            variant="accent"
             size="sm"
             onClick={() => calculateNextExecutions(customInput)}
             disabled={!customInput}
@@ -366,7 +366,7 @@ function CronExpressionInner() {
             </Button>
             <Button variant="ghost" size="sm" onClick={copyExpression}>
               {copied ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -416,7 +416,7 @@ function CronExpressionInner() {
             <button
               key={expr.value}
               onClick={() => parseCron(expr.value)}
-              className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-secondary/50 transition-colors text-left"
+              className="flex items-center justify-between p-3 rounded-md border border-border hover:bg-secondary/50 hover:border-accent/30 transition-colors duration-150 text-left"
             >
               <span className="text-sm">{expr.label}</span>
               <code className="text-xs font-mono text-muted-foreground">{expr.value}</code>

@@ -108,28 +108,28 @@ function DateCalculatorInner() {
       {/* Mode Selection */}
       <div className="flex gap-2 p-1 bg-secondary rounded-lg">
         <Button
-          variant={mode === "diff" ? "default" : "ghost"}
+          variant={mode === "diff" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("diff")}
-          className="flex-1"
+          className="flex-1 transition-colors duration-150"
         >
           <Calculator className="h-4 w-4 mr-2" />
           日期差计算
         </Button>
         <Button
-          variant={mode === "add" ? "default" : "ghost"}
+          variant={mode === "add" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("add")}
-          className="flex-1"
+          className="flex-1 transition-colors duration-150"
         >
           <Plus className="h-4 w-4 mr-2" />
           日期加法
         </Button>
         <Button
-          variant={mode === "subtract" ? "default" : "ghost"}
+          variant={mode === "subtract" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("subtract")}
-          className="flex-1"
+          className="flex-1 transition-colors duration-150"
         >
           <Minus className="h-4 w-4 mr-2" />
           日期减法
@@ -171,7 +171,7 @@ function DateCalculatorInner() {
             </div>
           </div>
 
-          <Button onClick={calculateDiff} className="w-full">
+          <Button variant="accent" onClick={calculateDiff}>
             <Calculator className="h-4 w-4 mr-2" />
             计算日期差
           </Button>
@@ -179,54 +179,32 @@ function DateCalculatorInner() {
           {diffResult && (
             <div className="space-y-3">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                <div className="p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-blue-500/5 border border-blue-500/20">
-                  <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
-                    {diffResult.days}
-                  </p>
-                  <p className="text-sm text-muted-foreground">天</p>
-                </div>
-                <div className="p-4 rounded-lg bg-gradient-to-br from-emerald-500/10 to-emerald-500/5 border border-emerald-500/20">
-                  <p className="text-2xl font-bold text-emerald-600 dark:text-emerald-400">
-                    {diffResult.hours}
-                  </p>
-                  <p className="text-sm text-muted-foreground">小时</p>
-                </div>
-                <div className="p-4 rounded-lg bg-gradient-to-br from-amber-500/10 to-amber-500/5 border border-amber-500/20">
-                  <p className="text-2xl font-bold text-amber-600 dark:text-amber-400">
-                    {diffResult.minutes}
-                  </p>
-                  <p className="text-sm text-muted-foreground">分钟</p>
-                </div>
-                <div className="p-4 rounded-lg bg-gradient-to-br from-purple-500/10 to-purple-500/5 border border-purple-500/20">
-                  <p className="text-2xl font-bold text-purple-600 dark:text-purple-400">
-                    {diffResult.seconds}
-                  </p>
-                  <p className="text-sm text-muted-foreground">秒</p>
-                </div>
+                {[
+                  { value: diffResult.days,    label: "天"   },
+                  { value: diffResult.hours,   label: "小时" },
+                  { value: diffResult.minutes, label: "分钟" },
+                  { value: diffResult.seconds, label: "秒"   },
+                ].map(({ value, label }) => (
+                  <div key={label} className="p-4 rounded-lg border border-border bg-secondary/30">
+                    <p className="text-2xl font-bold font-mono text-accent">{value}</p>
+                    <p className="text-xs text-muted-foreground mt-0.5">{label}</p>
+                  </div>
+                ))}
               </div>
 
               <div className="p-4 rounded-lg border border-border bg-secondary/30">
-                <div className="grid md:grid-cols-2 gap-3 text-sm">
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">总计天数:</span>
-                    <span className="font-semibold">{Math.abs(diffResult.totalDays)} 天</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">工作日:</span>
-                    <span className="font-semibold">{diffResult.workdays} 天</span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">周数:</span>
-                    <span className="font-semibold">
-                      {(Math.abs(diffResult.totalDays) / 7).toFixed(1)} 周
-                    </span>
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <span className="text-muted-foreground">月数:</span>
-                    <span className="font-semibold">
-                      {(Math.abs(diffResult.totalDays) / 30).toFixed(1)} 月
-                    </span>
-                  </div>
+                <div className="grid md:grid-cols-2 gap-2 text-sm">
+                  {[
+                    { label: "总计天数", value: `${Math.abs(diffResult.totalDays)} 天` },
+                    { label: "工作日",   value: `${diffResult.workdays} 天` },
+                    { label: "周数",     value: `${(Math.abs(diffResult.totalDays) / 7).toFixed(1)} 周` },
+                    { label: "月数",     value: `${(Math.abs(diffResult.totalDays) / 30).toFixed(1)} 月` },
+                  ].map(({ label, value }) => (
+                    <div key={label} className="flex items-center justify-between">
+                      <span className="text-muted-foreground">{label}</span>
+                      <span className="font-medium font-mono">{value}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
             </div>
@@ -238,37 +216,35 @@ function DateCalculatorInner() {
       {(mode === "add" || mode === "subtract") && (
         <div className="space-y-4">
           <div className="space-y-2">
-            <Label>基准日期</Label>
-            <div className="flex gap-2">
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">基准日期</label>
+            <div className="flex items-center gap-2">
               <Input
                 type="date"
                 value={baseDate}
                 onChange={(e) => setBaseDate(e.target.value)}
-                className="flex-1"
+                className="w-auto"
               />
               <Button variant="ghost" size="sm" onClick={() => setToday(setBaseDate)}>
                 今天
               </Button>
+              <span className="text-xs text-muted-foreground">{formatDate(baseDate)}</span>
             </div>
-            <p className="text-xs text-muted-foreground">{formatDate(baseDate)}</p>
           </div>
 
-          <div className="grid grid-cols-2 gap-3">
-            <div className="space-y-2">
-              <Label>{mode === "add" ? "增加" : "减少"}数量</Label>
+          <div className="space-y-2">
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">
+              {mode === "add" ? "增加" : "减少"}
+            </label>
+            <div className="flex items-center gap-2">
               <Input
                 type="number"
                 min={0}
                 value={amount}
                 onChange={(e) => setAmount(parseInt(e.target.value) || 0)}
-                className="font-mono"
+                className="w-20 font-mono text-center"
               />
-            </div>
-
-            <div className="space-y-2">
-              <Label>单位</Label>
               <Select value={unit} onValueChange={(v) => setUnit(v as any)}>
-                <SelectTrigger>
+                <SelectTrigger className="w-24">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
@@ -281,18 +257,20 @@ function DateCalculatorInner() {
             </div>
           </div>
 
-          <Button onClick={calculateAddSub} className="w-full">
+          <Button variant="accent" onClick={calculateAddSub}>
             {mode === "add" ? <Plus className="h-4 w-4 mr-2" /> : <Minus className="h-4 w-4 mr-2" />}
             计算结果
           </Button>
 
           {addSubResult && (
-            <div className="p-6 rounded-lg border-2 border-accent bg-accent/5">
-              <div className="text-center space-y-2">
-                <Calendar className="h-8 w-8 mx-auto text-accent" />
-                <p className="text-sm text-muted-foreground">结果日期</p>
-                <p className="text-3xl font-bold">{addSubResult}</p>
-                <p className="text-sm text-muted-foreground">{formatDate(addSubResult)}</p>
+            <div className="p-5 rounded-lg border border-border bg-secondary/30">
+              <div className="flex items-center gap-4">
+                <Calendar className="h-5 w-5 text-accent flex-shrink-0" />
+                <div>
+                  <p className="text-xs text-muted-foreground mb-0.5">结果日期</p>
+                  <p className="text-xl font-semibold font-mono">{addSubResult}</p>
+                  <p className="text-xs text-muted-foreground mt-0.5">{formatDate(addSubResult)}</p>
+                </div>
               </div>
             </div>
           )}

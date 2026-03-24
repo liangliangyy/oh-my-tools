@@ -195,7 +195,7 @@ function KeyGeneratorInner() {
       {/* 密钥类型选择 */}
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label className="text-sm font-medium">密钥类型</Label>
+          <Label className="">密钥类型</Label>
           <Select value={keyType} onValueChange={(v) => {
             setKeyType(v)
             setKeyLength(KEY_LENGTHS[v as keyof typeof KEY_LENGTHS][0].value)
@@ -217,7 +217,7 @@ function KeyGeneratorInner() {
         </div>
 
         <div className="space-y-2">
-          <Label className="text-sm font-medium">
+          <Label className="">
             {keyType === "rsa" ? "密钥长度" : "长度"}
           </Label>
           <Select value={keyLength} onValueChange={setKeyLength}>
@@ -238,7 +238,7 @@ function KeyGeneratorInner() {
       {/* 批量生成数量 */}
       {keyType !== "rsa" && (
         <div className="space-y-2">
-          <Label className="text-sm font-medium">生成数量</Label>
+          <Label className="">生成数量</Label>
           <Input
             type="number"
             min="1"
@@ -262,7 +262,7 @@ function KeyGeneratorInner() {
         <div className="grid gap-3 md:grid-cols-2">
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium">公钥 (Public Key)</Label>
+              <Label className="">公钥 (Public Key)</Label>
               <Button
                 variant="ghost"
                 size="sm"
@@ -270,7 +270,7 @@ function KeyGeneratorInner() {
                 className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "public" ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -285,7 +285,7 @@ function KeyGeneratorInner() {
 
           <div className="space-y-2">
             <div className="flex items-center justify-between">
-              <Label className="text-sm font-medium">私钥 (Private Key)</Label>
+              <Label className="">私钥 (Private Key)</Label>
               <Button
                 variant="ghost"
                 size="sm"
@@ -293,7 +293,7 @@ function KeyGeneratorInner() {
                 className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "private" ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -312,7 +312,7 @@ function KeyGeneratorInner() {
       {keyType !== "rsa" && output && (
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <Label className="text-sm font-medium">生成的密钥</Label>
+            <Label className="">生成的密钥</Label>
             <Button
               variant="ghost"
               size="sm"
@@ -320,7 +320,7 @@ function KeyGeneratorInner() {
               className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "output" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}

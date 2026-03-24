@@ -62,12 +62,17 @@ const tools = toolsConfig.map(t => ({
   name: t.name,
   icon: iconMap[t.id] || Braces,
   description: t.description,
-  color: t.color || "",
+  categoryId: t.category,
   category: categoryNameMap[t.category] || t.category,
 }))
 
 const TOOL_COUNT = toolsConfig.length
 const CATEGORY_COUNT = categoriesConfig.length
+
+const categoryShortNames: Record<string, string> = {
+  format: "格式化", encode: "编解码", crypto: "加密",
+  generator: "生成器", converter: "转换", tool: "开发", network: "网络",
+}
 
 const features = [
   { icon: Zap, title: "快速高效", description: "所有工具即开即用，无需安装，响应速度快" },
@@ -116,7 +121,6 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <section className="relative overflow-hidden">
-        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
         <div className="container mx-auto px-4 py-20 md:py-32 relative">
           <div className="max-w-3xl mx-auto text-center">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-secondary text-sm text-muted-foreground mb-6">
@@ -136,10 +140,10 @@ export default function HomePage() {
             </p>
             <Link
               href="/tools"
-              className="group inline-flex items-center gap-2 px-8 py-3.5 rounded-xl bg-primary text-primary-foreground font-medium hover:bg-primary/90 active:bg-primary/80 transition-all duration-200 shadow-lg shadow-primary/20 hover:shadow-xl hover:shadow-primary/30"
+              className="inline-flex items-center gap-2 px-8 py-3 rounded-lg bg-primary text-primary-foreground font-medium hover:bg-primary/90 active:bg-primary/80 transition-colors duration-150"
             >
               开始使用
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-0.5" />
+              <ArrowRight className="h-4 w-4" />
             </Link>
           </div>
         </div>
@@ -177,9 +181,10 @@ export default function HomePage() {
             </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/40 transition-colors duration-150">
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-blue-500/10 text-blue-600 dark:text-blue-400 flex-shrink-0">
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: "color-mix(in oklch, var(--cat-tool) 12%, transparent)", color: "var(--cat-tool)" }}>
                   <Code2 className="h-6 w-6" />
                 </div>
                 <div>
@@ -190,9 +195,10 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/40 transition-colors duration-150">
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 flex-shrink-0">
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: "color-mix(in oklch, var(--cat-network) 12%, transparent)", color: "var(--cat-network)" }}>
                   <Network className="h-6 w-6" />
                 </div>
                 <div>
@@ -203,9 +209,10 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/40 transition-colors duration-150">
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-purple-500/10 text-purple-600 dark:text-purple-400 flex-shrink-0">
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: "color-mix(in oklch, var(--cat-converter) 12%, transparent)", color: "var(--cat-converter)" }}>
                   <ArrowLeftRight className="h-6 w-6" />
                 </div>
                 <div>
@@ -216,9 +223,10 @@ export default function HomePage() {
                 </div>
               </div>
             </div>
-            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/50 hover:bg-accent/5 dark:hover:bg-accent/10 transition-all duration-200">
+            <div className="p-6 rounded-xl border border-border bg-card hover:border-accent/40 transition-colors duration-150">
               <div className="flex items-start gap-4">
-                <div className="flex items-center justify-center w-12 h-12 rounded-lg bg-orange-500/10 text-orange-600 dark:text-orange-400 flex-shrink-0">
+                <div className="flex items-center justify-center w-12 h-12 rounded-lg flex-shrink-0"
+                  style={{ backgroundColor: "color-mix(in oklch, var(--cat-crypto) 12%, transparent)", color: "var(--cat-crypto)" }}>
                   <Shield className="h-6 w-6" />
                 </div>
                 <div>
@@ -238,19 +246,19 @@ export default function HomePage() {
         <div className="container mx-auto px-4 py-12">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">{TOOL_COUNT}+</div>
+              <div className="text-3xl md:text-4xl font-bold font-mono text-accent mb-2">{TOOL_COUNT}+</div>
               <div className="text-sm text-muted-foreground">实用工具</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">100%</div>
+              <div className="text-3xl md:text-4xl font-bold font-mono text-accent mb-2">100%</div>
               <div className="text-sm text-muted-foreground">本地处理</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">0</div>
+              <div className="text-3xl md:text-4xl font-bold font-mono text-accent mb-2">0</div>
               <div className="text-sm text-muted-foreground">数据上传</div>
             </div>
             <div>
-              <div className="text-3xl md:text-4xl font-bold text-accent mb-2">∞</div>
+              <div className="text-3xl md:text-4xl font-bold font-mono text-accent mb-2">∞</div>
               <div className="text-sm text-muted-foreground">免费使用</div>
             </div>
           </div>
@@ -278,30 +286,35 @@ export default function HomePage() {
 
         {searchQuery ? (
           // 搜索模式：显示扁平网格
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
             {filteredTools.map((tool) => {
               const Icon = tool.icon
               return (
                 <Link
                   key={tool.id}
                   href={`/tools/${tool.id}`}
-                  className={cn(
-                    "group relative flex flex-col p-6 rounded-xl border border-border bg-card overflow-hidden transition-all duration-300",
-                    "hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1"
-                  )}
+                  className="group relative flex flex-col p-5 rounded-md border border-border bg-card overflow-hidden transition-colors duration-150 hover:border-accent/30"
                 >
-                  <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300", tool.color)} />
-                  <div className="relative">
-                    <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-secondary mb-4 group-hover:bg-accent/10 transition-colors duration-300">
-                      <Icon className="h-6 w-6 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+                  <div className="flex items-start justify-between mb-3">
+                    <div className="flex items-center gap-2">
+                      <Icon className="h-4 w-4 flex-shrink-0 text-muted-foreground group-hover:text-accent transition-colors duration-150" />
+                      <h3 className="font-medium text-sm leading-tight text-balance">{tool.name}</h3>
                     </div>
-                    <h3 className="font-semibold mb-2 text-balance">{tool.name}</h3>
-                    <p className="text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
-                    <div className="flex items-center gap-1.5 mt-4 text-sm font-medium text-accent opacity-0 translate-x-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">
-                      <span>立即使用</span>
-                      <ArrowRight className="h-4 w-4" />
-                    </div>
+                    <span
+                      className="ml-2 flex-shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded tracking-wide whitespace-nowrap"
+                      style={{
+                        color: `var(--cat-${tool.categoryId})`,
+                        backgroundColor: `color-mix(in oklch, var(--cat-${tool.categoryId}) 12%, transparent)`,
+                      }}
+                    >
+                      {categoryShortNames[tool.categoryId] || tool.category}
+                    </span>
                   </div>
+                  <p className="text-xs text-muted-foreground leading-relaxed">{tool.description}</p>
+                  <div
+                    className="absolute bottom-0 left-0 right-0 h-[2px] opacity-50"
+                    style={{ backgroundColor: `var(--cat-${tool.categoryId})` }}
+                  />
                 </Link>
               )
             })}
@@ -316,30 +329,35 @@ export default function HomePage() {
                   <div className="flex-1 h-px bg-border" />
                   <span className="text-sm text-muted-foreground">{group.tools.length} 个工具</span>
                 </div>
-                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-4">
                   {group.tools.map((tool) => {
                     const Icon = tool.icon
                     return (
                       <Link
                         key={tool.id}
                         href={`/tools/${tool.id}`}
-                        className={cn(
-                          "group relative flex flex-col p-6 rounded-xl border border-border bg-card overflow-hidden transition-all duration-300",
-                          "hover:border-accent/50 hover:shadow-xl hover:shadow-accent/10 hover:-translate-y-1"
-                        )}
+                        className="group relative flex flex-col p-5 rounded-md border border-border bg-card overflow-hidden transition-colors duration-150 hover:border-accent/30"
                       >
-                        <div className={cn("absolute inset-0 bg-gradient-to-br opacity-0 group-hover:opacity-100 transition-opacity duration-300", tool.color)} />
-                        <div className="relative">
-                          <div className="flex items-center justify-center w-12 h-12 rounded-xl bg-secondary mb-4 group-hover:bg-accent/10 transition-colors duration-300">
-                            <Icon className="h-6 w-6 text-muted-foreground group-hover:text-accent transition-colors duration-300" />
+                        <div className="flex items-start justify-between mb-3">
+                          <div className="flex items-center gap-2">
+                            <Icon className="h-4 w-4 flex-shrink-0 text-muted-foreground group-hover:text-accent transition-colors duration-150" />
+                            <h3 className="font-medium text-sm leading-tight text-balance">{tool.name}</h3>
                           </div>
-                          <h3 className="font-semibold mb-2 text-balance">{tool.name}</h3>
-                          <p className="text-sm text-muted-foreground leading-relaxed">{tool.description}</p>
-                          <div className="flex items-center gap-1.5 mt-4 text-sm font-medium text-accent opacity-0 translate-x-0 group-hover:opacity-100 group-hover:translate-x-1 transition-all duration-300">
-                            <span>立即使用</span>
-                            <ArrowRight className="h-4 w-4" />
-                          </div>
+                          <span
+                            className="ml-2 flex-shrink-0 text-[10px] font-medium px-1.5 py-0.5 rounded tracking-wide whitespace-nowrap"
+                            style={{
+                              color: `var(--cat-${tool.categoryId})`,
+                              backgroundColor: `color-mix(in oklch, var(--cat-${tool.categoryId}) 12%, transparent)`,
+                            }}
+                          >
+                            {categoryShortNames[tool.categoryId] || tool.category}
+                          </span>
                         </div>
+                        <p className="text-xs text-muted-foreground leading-relaxed">{tool.description}</p>
+                        <div
+                          className="absolute bottom-0 left-0 right-0 h-[2px] opacity-50"
+                          style={{ backgroundColor: `var(--cat-${tool.categoryId})` }}
+                        />
                       </Link>
                     )
                   })}
@@ -356,9 +374,8 @@ export default function HomePage() {
 
       {/* CTA Section */}
       <section className="container mx-auto px-4 pb-20">
-        <div className="relative rounded-2xl border border-border bg-card overflow-hidden">
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_var(--tw-gradient-stops))] from-accent/10 via-transparent to-transparent" />
-          <div className="relative p-8 md:p-12 text-center">
+        <div className="rounded-xl border border-border bg-card overflow-hidden">
+          <div className="p-8 md:p-12 text-center">
             <h2 className="text-2xl md:text-3xl font-bold mb-4">准备好提升开发效率了吗？</h2>
             <p className="text-muted-foreground mb-8 max-w-lg mx-auto">
               所有工具完全免费，无需注册，打开即用

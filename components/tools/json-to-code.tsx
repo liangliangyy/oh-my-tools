@@ -354,7 +354,7 @@ function JsonToCodeInner() {
         {languages.map((lang) => (
           <Button
             key={lang.id}
-            variant={language === lang.id ? "default" : "ghost"}
+            variant={language === lang.id ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setLanguage(lang.id)}
           >
@@ -367,7 +367,7 @@ function JsonToCodeInner() {
         {/* Input */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">JSON 输入</label>
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">JSON 输入</label>
             {error && (
               <span className="flex items-center gap-1 text-sm text-destructive">
                 <AlertCircle className="h-3.5 w-3.5" />
@@ -386,7 +386,7 @@ function JsonToCodeInner() {
         {/* Output */}
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium">{currentLang?.name} 代码</label>
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">{currentLang?.name} 代码</label>
             <Button
               variant="ghost"
               size="sm"

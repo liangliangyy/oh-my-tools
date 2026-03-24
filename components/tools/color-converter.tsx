@@ -124,7 +124,7 @@ function ColorConverterInner() {
       {/* Color Preview */}
       <div className="flex gap-4">
         <div
-          className="w-24 h-24 rounded-lg border border-border shadow-lg"
+          className="w-24 h-24 rounded-lg border border-border"
           style={{ backgroundColor: hex }}
         />
         <div className="flex-1">
@@ -139,7 +139,7 @@ function ColorConverterInner() {
 
       {/* HEX */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-muted-foreground">HEX</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">HEX</label>
         <div className="flex gap-2">
           <Input
             value={hex}
@@ -153,14 +153,14 @@ function ColorConverterInner() {
             onClick={() => copy(hex, "hex")}
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
-            {copied === "hex" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+            {copied === "hex" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
       </div>
 
       {/* RGB */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-muted-foreground">RGB</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">RGB</label>
         <div className="flex gap-2">
           <div className="flex gap-2 flex-1">
             <Input
@@ -197,7 +197,7 @@ function ColorConverterInner() {
             onClick={() => copy(rgbString, "rgb")}
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
-            {copied === "rgb" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+            {copied === "rgb" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{rgbString}</code>
@@ -205,7 +205,7 @@ function ColorConverterInner() {
 
       {/* HSL */}
       <div className="space-y-2">
-        <label className="text-sm font-medium text-muted-foreground">HSL</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">HSL</label>
         <div className="flex gap-2">
           <div className="flex gap-2 flex-1">
             <Input
@@ -242,7 +242,7 @@ function ColorConverterInner() {
             onClick={() => copy(hslString, "hsl")}
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
-            {copied === "hsl" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+            {copied === "hsl" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{hslString}</code>

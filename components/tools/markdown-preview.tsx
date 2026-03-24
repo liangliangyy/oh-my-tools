@@ -131,19 +131,19 @@ function MarkdownPreviewInner() {
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Button
-            variant={showPreview ? "default" : "ghost"}
+            variant={showPreview ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setShowPreview(true)}
-            className="gap-2"
+            className="gap-2 transition-colors duration-150"
           >
             <Eye className="h-4 w-4" />
             预览
           </Button>
           <Button
-            variant={!showPreview ? "default" : "ghost"}
+            variant={!showPreview ? "secondary" : "ghost"}
             size="sm"
             onClick={() => setShowPreview(false)}
-            className="gap-2"
+            className="gap-2 transition-colors duration-150"
           >
             <EyeOff className="h-4 w-4" />
             HTML
@@ -157,7 +157,7 @@ function MarkdownPreviewInner() {
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "md" ? (
-              <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
+              <Check className="h-4 w-4 text-signal-ok mr-1" />
             ) : (
               <Copy className="h-4 w-4 mr-1" />
             )}
@@ -170,7 +170,7 @@ function MarkdownPreviewInner() {
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "html" ? (
-              <Check className="h-4 w-4 text-green-600 dark:text-green-400 mr-1" />
+              <Check className="h-4 w-4 text-signal-ok mr-1" />
             ) : (
               <Copy className="h-4 w-4 mr-1" />
             )}
@@ -192,7 +192,7 @@ function MarkdownPreviewInner() {
       <div className="grid lg:grid-cols-2 gap-4">
         {/* Input */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">Markdown 输入</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">Markdown 输入</label>
           <Textarea
             placeholder="输入 Markdown 文本..."
             value={input}
@@ -203,7 +203,7 @@ function MarkdownPreviewInner() {
 
         {/* Preview */}
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">
             {showPreview ? "预览" : "HTML 源码"}
           </label>
           <div className="rounded-lg border border-border bg-card min-h-[500px] overflow-auto">

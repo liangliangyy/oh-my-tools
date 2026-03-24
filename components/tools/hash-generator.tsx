@@ -51,22 +51,22 @@ function HashGeneratorInner() {
   return (
     <div className="space-y-4">
       <div className="space-y-2">
-        <label className="text-sm font-medium text-muted-foreground">输入文本</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">输入文本</label>
         <Textarea
           placeholder="输入要生成哈希的文本..."
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          className="h-32 font-mono text-sm bg-secondary border-border resize-none"
+          className="h-32 font-mono text-sm bg-bg-inset border-border resize-none"
         />
       </div>
 
-      <Button variant="default" onClick={generateHashes} disabled={!input || loading}>
+      <Button variant="accent" onClick={generateHashes} disabled={!input || loading}>
         {loading ? "生成中..." : "生成 Hash"}
       </Button>
 
       {results.length > 0 && (
         <div className="space-y-3">
-          <label className="text-sm font-medium text-muted-foreground">哈希结果</label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">哈希结果</label>
           <div className="space-y-2">
             {results.map((result) => (
               <div key={result.algorithm} className="p-3 rounded-lg bg-secondary border border-border">
@@ -79,7 +79,7 @@ function HashGeneratorInner() {
                     className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === result.algorithm ? (
-                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                      <Check className="h-3.5 w-3.5 text-signal-ok" />
                     ) : (
                       <Copy className="h-3.5 w-3.5" />
                     )}
