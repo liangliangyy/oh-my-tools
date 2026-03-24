@@ -2,9 +2,223 @@
 
 import { useEffect, useState } from "react"
 import CodeMirror from "@uiw/react-codemirror"
-import { oneDark } from "@codemirror/theme-one-dark"
+import { EditorView } from "@codemirror/view"
 import { cn } from "@/lib/utils"
 import type { Extension } from "@codemirror/state"
+
+// ─── Dark theme ────────────────────────────────────────────────────────────────
+// Background: pure charcoal matching design system canvas
+// Syntax: teal keywords, amber strings, green numbers, slate-blue keys
+// The .tok-* classes are what defaultHighlightStyle applies in basicSetup
+
+const darkTheme = EditorView.theme({
+  "&": {
+    backgroundColor: "oklch(0.10 0 0)",
+    color: "oklch(0.88 0 0)",
+  },
+  ".cm-scroller": {
+    fontFamily: "var(--font-mono, 'Geist Mono', ui-monospace, monospace)",
+    fontSize: "13px",
+    lineHeight: "1.65",
+  },
+  ".cm-content": {
+    caretColor: "oklch(0.70 0.15 160)",
+    padding: "8px 0",
+  },
+  ".cm-cursor, .cm-dropCursor": {
+    borderLeftColor: "oklch(0.70 0.15 160)",
+    borderLeftWidth: "2px",
+  },
+  ".cm-activeLine": { backgroundColor: "oklch(0.55 0.12 160 / 0.09)" },
+  ".cm-selectionBackground": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.22) !important",
+  },
+  "&.cm-focused .cm-selectionBackground": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.26) !important",
+  },
+  ".cm-gutters": {
+    backgroundColor: "oklch(0.08 0 0)",
+    color: "oklch(0.35 0 0)",
+    border: "none",
+    borderRight: "1px solid oklch(0.17 0 0)",
+  },
+  ".cm-lineNumbers .cm-gutterElement": {
+    paddingLeft: "12px",
+    paddingRight: "8px",
+  },
+  ".cm-activeLineGutter": {
+    backgroundColor: "oklch(0.55 0.12 160 / 0.09)",
+    color: "oklch(0.70 0.15 160)",
+  },
+  ".cm-foldGutter": { width: "16px" },
+  ".cm-foldGutter .cm-gutterElement": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "0 !important",
+    cursor: "pointer",
+    color: "oklch(0.35 0 0)",
+    transition: "color 0.1s ease",
+    userSelect: "none",
+  },
+  ".cm-foldGutter .cm-gutterElement:hover": {
+    color: "oklch(0.70 0.15 160)",
+  },
+  ".cm-foldPlaceholder": {
+    backgroundColor: "oklch(0.22 0.04 160 / 0.4)",
+    border: "1px solid oklch(0.35 0.08 160 / 0.35)",
+    color: "oklch(0.70 0.15 160)",
+    borderRadius: "3px",
+    padding: "0 6px",
+    fontSize: "11px",
+  },
+  ".cm-matchingBracket": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.18)",
+    outline: "1px solid oklch(0.55 0.15 160 / 0.35)",
+    borderRadius: "2px",
+  },
+  ".cm-tooltip": {
+    backgroundColor: "oklch(0.18 0 0)",
+    border: "1px solid oklch(0.26 0 0)",
+    borderRadius: "6px",
+  },
+  ".cm-tooltip-autocomplete > ul > li[aria-selected]": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.25)",
+    color: "oklch(0.88 0 0)",
+  },
+  ".cm-placeholder": { color: "oklch(0.38 0 0) !important" },
+  "&.cm-focused": { outline: "none" },
+  // Syntax token colors — override defaultHighlightStyle inline styles
+  // Note: defaultHighlightStyle applies inline styles, these selectors
+  // target the generated span elements by matching inline style overrides
+  // via higher specificity on the scoped theme.
+  // Keyword / bool / null  (teal — accent)
+  "& .tok-keyword":      { color: "oklch(0.72 0.14 160) !important" },
+  "& .tok-bool":         { color: "oklch(0.72 0.14 160) !important" },
+  "& .tok-null":         { color: "oklch(0.58 0.09 160) !important" },
+  // String (amber)
+  "& .tok-string":       { color: "oklch(0.78 0.12 70)  !important" },
+  "& .tok-string2":      { color: "oklch(0.78 0.12 70)  !important" },
+  // Number (green)
+  "& .tok-number":       { color: "oklch(0.78 0.13 145) !important" },
+  // Property names / keys (slate-blue)
+  "& .tok-propertyName": { color: "oklch(0.80 0.08 200) !important" },
+  "& .tok-variableName": { color: "oklch(0.80 0.08 200) !important" },
+  // Comment (muted, italic)
+  "& .tok-comment":      { color: "oklch(0.42 0 0) !important", fontStyle: "italic" },
+  "& .tok-lineComment":  { color: "oklch(0.42 0 0) !important", fontStyle: "italic" },
+  // Type name (amber variant)
+  "& .tok-typeName":     { color: "oklch(0.76 0.11 70)  !important" },
+  // Tags / attrs (for HTML/JSX)
+  "& .tok-tagName":      { color: "oklch(0.72 0.14 160) !important" },
+  "& .tok-attributeName":{ color: "oklch(0.78 0.12 70)  !important" },
+  // Operator / punctuation
+  "& .tok-operator":     { color: "oklch(0.65 0.08 160) !important" },
+  "& .tok-punctuation":  { color: "oklch(0.50 0 0)      !important" },
+  "& .tok-bracket":      { color: "oklch(0.56 0 0)      !important" },
+  "& .tok-brace":        { color: "oklch(0.56 0 0)      !important" },
+}, { dark: true })
+
+// ─── Light theme ───────────────────────────────────────────────────────────────
+
+const lightTheme = EditorView.theme({
+  "&": {
+    backgroundColor: "oklch(0.99 0 0)",
+    color: "oklch(0.14 0 0)",
+  },
+  ".cm-scroller": {
+    fontFamily: "var(--font-mono, 'Geist Mono', ui-monospace, monospace)",
+    fontSize: "13px",
+    lineHeight: "1.65",
+  },
+  ".cm-content": {
+    caretColor: "oklch(0.50 0.15 160)",
+    padding: "8px 0",
+  },
+  ".cm-cursor, .cm-dropCursor": {
+    borderLeftColor: "oklch(0.50 0.15 160)",
+    borderLeftWidth: "2px",
+  },
+  ".cm-activeLine": { backgroundColor: "oklch(0.52 0.14 185 / 0.06)" },
+  ".cm-selectionBackground": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.14) !important",
+  },
+  "&.cm-focused .cm-selectionBackground": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.18) !important",
+  },
+  ".cm-gutters": {
+    backgroundColor: "oklch(0.96 0 0)",
+    color: "oklch(0.58 0 0)",
+    border: "none",
+    borderRight: "1px solid oklch(0.90 0 0)",
+  },
+  ".cm-lineNumbers .cm-gutterElement": {
+    paddingLeft: "12px",
+    paddingRight: "8px",
+  },
+  ".cm-activeLineGutter": {
+    backgroundColor: "oklch(0.52 0.14 185 / 0.06)",
+    color: "oklch(0.50 0.15 160)",
+  },
+  ".cm-foldGutter": { width: "16px" },
+  ".cm-foldGutter .cm-gutterElement": {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "0 !important",
+    cursor: "pointer",
+    color: "oklch(0.62 0 0)",
+    transition: "color 0.1s ease",
+    userSelect: "none",
+  },
+  ".cm-foldGutter .cm-gutterElement:hover": {
+    color: "oklch(0.50 0.15 160)",
+  },
+  ".cm-foldPlaceholder": {
+    backgroundColor: "oklch(0.93 0.03 160 / 0.5)",
+    border: "1px solid oklch(0.80 0.08 160 / 0.35)",
+    color: "oklch(0.50 0.15 160)",
+    borderRadius: "3px",
+    padding: "0 6px",
+    fontSize: "11px",
+  },
+  ".cm-matchingBracket": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.12)",
+    outline: "1px solid oklch(0.55 0.15 160 / 0.28)",
+    borderRadius: "2px",
+  },
+  ".cm-tooltip": {
+    backgroundColor: "oklch(1 0 0)",
+    border: "1px solid oklch(0.88 0 0)",
+    borderRadius: "6px",
+  },
+  ".cm-tooltip-autocomplete > ul > li[aria-selected]": {
+    backgroundColor: "oklch(0.55 0.15 160 / 0.12)",
+    color: "oklch(0.14 0 0)",
+  },
+  ".cm-placeholder": { color: "oklch(0.65 0 0) !important" },
+  "&.cm-focused": { outline: "none" },
+  // Syntax token colors (light mode)
+  "& .tok-keyword":      { color: "oklch(0.46 0.16 160) !important" },
+  "& .tok-bool":         { color: "oklch(0.46 0.16 160) !important" },
+  "& .tok-null":         { color: "oklch(0.52 0.11 160) !important" },
+  "& .tok-string":       { color: "oklch(0.50 0.17 30)  !important" },
+  "& .tok-string2":      { color: "oklch(0.50 0.17 30)  !important" },
+  "& .tok-number":       { color: "oklch(0.40 0.16 145) !important" },
+  "& .tok-propertyName": { color: "oklch(0.38 0.14 220) !important" },
+  "& .tok-variableName": { color: "oklch(0.38 0.14 220) !important" },
+  "& .tok-comment":      { color: "oklch(0.56 0 0) !important", fontStyle: "italic" },
+  "& .tok-lineComment":  { color: "oklch(0.56 0 0) !important", fontStyle: "italic" },
+  "& .tok-typeName":     { color: "oklch(0.50 0.12 70)  !important" },
+  "& .tok-tagName":      { color: "oklch(0.46 0.16 160) !important" },
+  "& .tok-attributeName":{ color: "oklch(0.50 0.17 30)  !important" },
+  "& .tok-operator":     { color: "oklch(0.46 0.10 160) !important" },
+  "& .tok-punctuation":  { color: "oklch(0.42 0 0)      !important" },
+  "& .tok-bracket":      { color: "oklch(0.38 0 0)      !important" },
+  "& .tok-brace":        { color: "oklch(0.38 0 0)      !important" },
+})
+
+// ─── Component ─────────────────────────────────────────────────────────────────
 
 interface CodeEditorProps {
   value: string
@@ -25,134 +239,85 @@ export function CodeEditor({
   height = "280px",
   placeholder,
 }: CodeEditorProps) {
-  const [theme, setTheme] = useState<"dark" | "light">("dark")
-  const [extensions, setExtensions] = useState<Extension[]>([])
+  const [isDark, setIsDark] = useState(false)
+  const [langExtensions, setLangExtensions] = useState<Extension[]>([])
 
   useEffect(() => {
-    // 检测当前主题
     const checkTheme = () => {
-      const isDark = document.documentElement.classList.contains("dark") ||
+      const dark =
+        document.documentElement.classList.contains("dark") ||
         (!document.documentElement.classList.contains("light") &&
-         window.matchMedia("(prefers-color-scheme: dark)").matches)
-      setTheme(isDark ? "dark" : "light")
+          window.matchMedia("(prefers-color-scheme: dark)").matches)
+      setIsDark(dark)
     }
-
     checkTheme()
-
-    // 监听主题变化
     const observer = new MutationObserver(checkTheme)
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     })
-
     return () => observer.disconnect()
   }, [])
 
-  // 动态加载语言扩展（按需加载，避免加载所有语言包）
   useEffect(() => {
-    const loadLanguageExtension = async () => {
+    const loadLang = async () => {
       try {
         let ext: Extension[] = []
         switch (language) {
-          case "json":
+          case "json": {
             const { json } = await import("@codemirror/lang-json")
             ext = [json()]
             break
-          case "javascript":
-            const { javascript: js } = await import("@codemirror/lang-javascript")
-            ext = [js({ jsx: false })]
+          }
+          case "javascript": {
+            const { javascript } = await import("@codemirror/lang-javascript")
+            ext = [javascript({ jsx: false })]
             break
-          case "typescript":
-            const { javascript: ts } = await import("@codemirror/lang-javascript")
-            ext = [ts({ jsx: false, typescript: true })]
+          }
+          case "typescript": {
+            const { javascript } = await import("@codemirror/lang-javascript")
+            ext = [javascript({ jsx: false, typescript: true })]
             break
-          case "yaml":
-            const { yaml: yml } = await import("@codemirror/lang-yaml")
-            ext = [yml()]
+          }
+          case "yaml": {
+            const { yaml } = await import("@codemirror/lang-yaml")
+            ext = [yaml()]
             break
+          }
           default:
             ext = []
         }
-        setExtensions(ext)
-      } catch (error) {
-        console.error("Failed to load language extension:", error)
-        setExtensions([])
+        setLangExtensions(ext)
+      } catch {
+        setLangExtensions([])
       }
     }
-
-    loadLanguageExtension()
+    loadLang()
   }, [language])
 
   return (
-    <div className={cn(
-      "rounded-xl overflow-hidden code-editor-wrapper",
-      "border border-border/50",
-      "bg-gradient-to-br from-background via-background to-muted/20",
-      "shadow-sm hover:shadow-md transition-shadow duration-200",
-      "ring-1 ring-black/[0.03] dark:ring-white/[0.05]",
-      className
-    )}>
-      <style jsx global>{`
-        .code-editor-wrapper .cm-foldGutter {
-          width: 20px;
-        }
-        .code-editor-wrapper .cm-foldGutter .cm-gutterElement {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          padding: 0 !important;
-        }
-        .code-editor-wrapper .cm-foldPlaceholder {
-          padding: 2px 8px;
-          border-radius: 4px;
-          font-size: 12px;
-        }
-        .code-editor-wrapper .cm-foldGutter span {
-          font-size: 16px !important;
-          line-height: 1 !important;
-          cursor: pointer;
-          padding: 2px 4px;
-          border-radius: 3px;
-          transition: all 0.15s ease;
-          user-select: none;
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          min-width: 16px;
-          min-height: 16px;
-        }
-        .code-editor-wrapper .cm-foldGutter span:hover {
-          background: rgba(128, 128, 128, 0.15);
-          transform: scale(1.15);
-        }
-        .code-editor-wrapper .cm-foldGutter span[title*="Fold"] {
-          color: #6b7280;
-        }
-        .code-editor-wrapper .cm-foldGutter span[title*="Unfold"] {
-          color: #3b82f6;
-        }
-        .dark .code-editor-wrapper .cm-foldGutter span[title*="Fold"] {
-          color: #9ca3af;
-        }
-        .dark .code-editor-wrapper .cm-foldGutter span[title*="Unfold"] {
-          color: #60a5fa;
-        }
-      `}</style>
+    <div
+      className={cn(
+        "rounded-lg overflow-hidden",
+        "border border-border",
+        "focus-within:border-accent/50 transition-colors duration-150",
+        className
+      )}
+    >
       <CodeMirror
         value={value}
         height={height}
-        theme={theme === "dark" ? oneDark : "light"}
-        extensions={extensions}
-        onChange={(value) => onChange?.(value)}
+        theme={isDark ? darkTheme : lightTheme}
+        extensions={langExtensions}
+        onChange={(v) => onChange?.(v)}
         editable={!readOnly}
         placeholder={placeholder}
         basicSetup={{
           lineNumbers: true,
           foldGutter: true,
           bracketMatching: true,
-          closeBrackets: true,
-          autocompletion: true,
+          closeBrackets: !readOnly,
+          autocompletion: !readOnly,
           highlightActiveLine: true,
           highlightSelectionMatches: false,
           syntaxHighlighting: true,

@@ -43,24 +43,18 @@ function Base64EncoderInner() {
     <div className="space-y-4">
       <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
-          variant={mode === "encode" ? "default" : "ghost"}
+          variant={mode === "encode" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("encode")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "encode" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           编码
         </Button>
         <Button
-          variant={mode === "decode" ? "default" : "ghost"}
+          variant={mode === "decode" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("decode")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "decode" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           解码
         </Button>
@@ -68,19 +62,19 @@ function Base64EncoderInner() {
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-muted-foreground">
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">
             {mode === "encode" ? "原始文本" : "Base64 字符串"}
           </label>
           <Textarea
             placeholder={mode === "encode" ? "输入要编码的文本..." : "输入 Base64 字符串..."}
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            className="h-48 font-mono text-sm bg-secondary border-border resize-none"
+            className="h-48 font-mono text-sm bg-bg-inset border-border resize-none"
           />
         </div>
         <div className="space-y-2">
           <div className="flex items-center justify-between">
-            <label className="text-sm font-medium text-muted-foreground">
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">
               {mode === "encode" ? "Base64 结果" : "解码结果"}
             </label>
             {output && (
@@ -91,7 +85,7 @@ function Base64EncoderInner() {
                 className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied ? (
-                  <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                  <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
                   <Copy className="h-3.5 w-3.5" />
                 )}
@@ -110,7 +104,7 @@ function Base64EncoderInner() {
       {error && <p className="text-sm text-destructive">{error}</p>}
 
       <div className="flex gap-2">
-        <Button variant="default" onClick={process}>
+        <Button variant="accent" onClick={process}>
           {mode === "encode" ? "编码" : "解码"}
         </Button>
         <Button variant="ghost" onClick={swap} className="gap-2">

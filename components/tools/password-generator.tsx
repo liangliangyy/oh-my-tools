@@ -212,9 +212,9 @@ function PasswordGeneratorInner() {
             className="font-mono"
           />
           <Button 
-            onClick={handleGenerate} 
-            size="icon" 
-            variant="default"
+            onClick={handleGenerate}
+            size="icon"
+            variant="accent"
           >
             <RefreshCw className="h-4 w-4" />
           </Button>
@@ -226,7 +226,7 @@ function PasswordGeneratorInner() {
             className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "single" ? (
-              <Check className="h-4 w-4 text-green-600 dark:text-green-400" />
+              <Check className="h-4 w-4 text-signal-ok" />
             ) : (
               <Copy className="h-4 w-4" />
             )}
@@ -268,7 +268,7 @@ function PasswordGeneratorInner() {
                   className="h-7 w-7 hover:bg-accent/50 dark:hover:bg-accent/30"
                 >
                   {copied === index ? (
-                    <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                    <Check className="h-3.5 w-3.5 text-signal-ok" />
                   ) : (
                     <Copy className="h-3.5 w-3.5" />
                   )}

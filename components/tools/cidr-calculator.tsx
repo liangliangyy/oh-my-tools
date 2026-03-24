@@ -217,7 +217,7 @@ function CidrCalculatorInner() {
                 className="h-[200px] font-mono text-sm"
               />
             </div>
-            <Button onClick={checkIpInSubnets} className="w-full">
+            <Button variant="accent" onClick={checkIpInSubnets} className="w-full">
               检测归属
             </Button>
           </div>
@@ -232,15 +232,15 @@ function CidrCalculatorInner() {
               ) : (
                 <div className="space-y-2">
                    {matchResults.map((res, idx) => (
-                    <div key={idx} className="flex items-center justify-between p-2 rounded bg-background border shadow-sm">
+                    <div key={idx} className="flex items-center justify-between p-2 rounded border border-border bg-card">
                       <span className="font-mono text-sm">{res.subnet}</span>
-                      <Badge variant={res.contains ? "default" : "secondary"} className={res.contains ? "bg-green-600 hover:bg-green-700" : ""}>
+                      <span className={`text-xs font-medium px-2 py-0.5 rounded ${res.contains ? "bg-signal-ok/15 text-signal-ok" : "bg-secondary text-muted-foreground"}`}>
                         {res.contains ? "包含" : "不包含"}
-                      </Badge>
+                      </span>
                     </div>
                    ))}
                    {matchResults.length > 0 && matchResults.every(r => !r.contains) && (
-                      <div className="flex items-center justify-center p-2 text-sm text-red-500 font-medium">
+                      <div className="flex items-center justify-center p-2 text-sm text-destructive font-medium">
                         该 IP 不在上述任何子网中
                       </div>
                    )}
@@ -258,7 +258,7 @@ export const CidrCalculator = memo(CidrCalculatorInner)
 
 function ResultCard({ title, value, onCopy }: { title: string, value: string, onCopy: () => void }) {
   return (
-    <div className="p-4 rounded-lg border bg-card text-card-foreground shadow-sm flex flex-col justify-between space-y-2 group relative hover:border-accent/50 transition-colors">
+    <div className="p-4 rounded-lg border border-border bg-card flex flex-col justify-between space-y-2 group relative hover:border-accent/40 transition-colors duration-150">
       <span className="text-sm font-medium text-muted-foreground">{title}</span>
       <div className="flex items-center justify-between">
         <span className="text-lg font-bold font-mono truncate mr-2" title={value}>{value}</span>

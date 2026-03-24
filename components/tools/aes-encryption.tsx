@@ -183,27 +183,21 @@ function AesEncryptionInner() {
   return (
     <div className="space-y-4">
       {/* 模式切换 */}
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
+      <div className="flex items-center gap-2 p-1.5 rounded-lg bg-secondary/50 dark:bg-secondary/30">
         <Button
-          variant={mode === "encrypt" ? "default" : "ghost"}
+          variant={mode === "encrypt" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("encrypt")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "encrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           <Lock className="h-4 w-4 mr-2" />
           加密
         </Button>
         <Button
-          variant={mode === "decrypt" ? "default" : "ghost"}
+          variant={mode === "decrypt" ? "secondary" : "ghost"}
           size="sm"
           onClick={() => setMode("decrypt")}
-          className={cn(
-            "transition-all duration-200",
-            mode !== "decrypt" && "hover:bg-accent/50 dark:hover:bg-accent/30"
-          )}
+          className="transition-colors duration-150"
         >
           <Unlock className="h-4 w-4 mr-2" />
           解密
@@ -213,7 +207,7 @@ function AesEncryptionInner() {
       {/* 密钥配置 */}
       <div className="space-y-3 p-4 border rounded-lg">
         <div className="flex items-center justify-between">
-          <Label className="text-sm font-medium">加密密钥</Label>
+          <label className="text-xs font-medium tracking-wide text-muted-foreground">加密密钥</label>
           <Select value={keySize} onValueChange={setKeySize}>
             <SelectTrigger className="w-32">
               <SelectValue />
@@ -281,7 +275,7 @@ function AesEncryptionInner() {
 
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
-        <Button variant="default" onClick={process}>
+        <Button variant="accent" onClick={process}>
           {mode === "encrypt" ? (
             <>
               <Lock className="h-4 w-4 mr-2" />
@@ -297,8 +291,8 @@ function AesEncryptionInner() {
         <Button variant="ghost" onClick={copyOutput} disabled={!output}>
           {copied ? (
             <>
-              <Check className="h-4 w-4 mr-2" />
-              已复制
+              <Check className="h-4 w-4 mr-2 text-signal-ok" />
+              <span className="text-signal-ok">已复制</span>
             </>
           ) : (
             <>

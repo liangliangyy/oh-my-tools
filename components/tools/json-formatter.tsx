@@ -59,7 +59,7 @@ function JsonFormatterInner() {
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-3">
           <div className="flex items-center justify-between px-1">
-            <label className="text-sm font-semibold text-foreground/90">
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">
               输入 JSON
             </label>
             <span className="text-xs font-medium text-muted-foreground/80 bg-muted/50 px-2 py-0.5 rounded-md">
@@ -76,7 +76,7 @@ function JsonFormatterInner() {
         </div>
         <div className="space-y-3">
           <div className="flex items-center justify-between px-1">
-            <label className="text-sm font-semibold text-foreground/90">
+            <label className="text-xs font-medium tracking-wide text-muted-foreground">
               输出结果
             </label>
             <div className="flex items-center gap-2">
@@ -92,8 +92,8 @@ function JsonFormatterInner() {
                 >
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
-                      <span className="text-xs font-medium text-green-600 dark:text-green-400">已复制</span>
+                      <Check className="h-3.5 w-3.5 text-signal-ok" />
+                      <span className="text-xs font-medium text-signal-ok">已复制</span>
                     </>
                   ) : (
                     <>
@@ -115,7 +115,7 @@ function JsonFormatterInner() {
       </div>
 
       {error && (
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-destructive/10 border border-destructive/30 shadow-sm">
+        <div className="flex items-center gap-3 px-4 py-3 rounded-lg bg-destructive/10 border border-destructive/30">
           <div className="flex-shrink-0 w-1.5 h-1.5 rounded-full bg-destructive animate-pulse" />
           <span className="text-sm font-medium text-destructive">{error}</span>
         </div>
@@ -123,9 +123,9 @@ function JsonFormatterInner() {
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Button
-          variant="default"
+          variant="accent"
           onClick={formatJson}
-          className="gap-2 shadow-sm hover:shadow-md transition-all"
+          className="gap-2 transition-colors"
         >
           <Wand2 className="h-4 w-4" />
           格式化

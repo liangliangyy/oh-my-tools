@@ -80,7 +80,7 @@ function TimestampConverterInner() {
               onClick={() => copy(currentTimestamp.toString(), "current-ts")} 
               className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
-              {copied === "current-ts" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+              {copied === "current-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
           <div className="flex items-center gap-2">
@@ -91,7 +91,7 @@ function TimestampConverterInner() {
               onClick={() => copy(formatCurrentDate(), "current-date")} 
               className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
-              {copied === "current-date" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+              {copied === "current-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         </div>
@@ -99,7 +99,7 @@ function TimestampConverterInner() {
 
       {/* Timestamp to Date */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-muted-foreground">时间戳 → 日期</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">时间戳 → 日期</label>
         <div className="flex gap-2">
           <Input
             type="number"
@@ -108,7 +108,7 @@ function TimestampConverterInner() {
             placeholder="输入时间戳（秒或毫秒）"
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="default" onClick={timestampToDate}>转换</Button>
+          <Button variant="accent" onClick={timestampToDate}>转换</Button>
         </div>
         {convertedDate && (
           <div className="flex items-center gap-2">
@@ -119,7 +119,7 @@ function TimestampConverterInner() {
               onClick={() => copy(convertedDate, "converted-date")} 
               className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
-              {copied === "converted-date" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+              {copied === "converted-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         )}
@@ -127,7 +127,7 @@ function TimestampConverterInner() {
 
       {/* Date to Timestamp */}
       <div className="space-y-3">
-        <label className="text-sm font-medium text-muted-foreground">日期 → 时间戳</label>
+        <label className="text-xs font-medium tracking-wide text-muted-foreground">日期 → 时间戳</label>
         <div className="flex gap-2">
           <Input
             type="datetime-local"
@@ -135,7 +135,7 @@ function TimestampConverterInner() {
             onChange={(e) => setInputDate(e.target.value)}
             className="font-mono bg-secondary border-border"
           />
-          <Button variant="default" onClick={dateToTimestamp}>转换</Button>
+          <Button variant="accent" onClick={dateToTimestamp}>转换</Button>
         </div>
         {convertedTimestamp && (
           <div className="flex items-center gap-2">
@@ -146,7 +146,7 @@ function TimestampConverterInner() {
               onClick={() => copy(convertedTimestamp, "converted-ts")} 
               className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
-              {copied === "converted-ts" ? <Check className="h-4 w-4 text-green-600 dark:text-green-400" /> : <Copy className="h-4 w-4" />}
+              {copied === "converted-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
           </div>
         )}

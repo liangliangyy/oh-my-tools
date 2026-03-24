@@ -71,7 +71,7 @@ function QrcodeGeneratorInner() {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label className="text-sm">尺寸 (px)</Label>
+              <label className="text-xs font-medium tracking-wide text-muted-foreground">尺寸 (px)</label>
               <Select value={size.toString()} onValueChange={(v) => setSize(parseInt(v))}>
                 <SelectTrigger>
                   <SelectValue />
@@ -86,7 +86,7 @@ function QrcodeGeneratorInner() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm">容错级别</Label>
+              <label className="text-xs font-medium tracking-wide text-muted-foreground">容错级别</label>
               <Select value={errorLevel} onValueChange={(v) => setErrorLevel(v as any)}>
                 <SelectTrigger>
                   <SelectValue />
@@ -103,7 +103,7 @@ function QrcodeGeneratorInner() {
 
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
-              <Label className="text-sm">前景色</Label>
+              <label className="text-xs font-medium tracking-wide text-muted-foreground">前景色</label>
               <div className="flex gap-2">
                 <Input
                   type="color"
@@ -122,7 +122,7 @@ function QrcodeGeneratorInner() {
             </div>
 
             <div className="space-y-2">
-              <Label className="text-sm">背景色</Label>
+              <label className="text-xs font-medium tracking-wide text-muted-foreground">背景色</label>
               <div className="flex gap-2">
                 <Input
                   type="color"
@@ -152,23 +152,23 @@ function QrcodeGeneratorInner() {
         {/* 右侧：预览 */}
         <div className="space-y-4">
           <Label>预览</Label>
-          <div className="flex items-center justify-center min-h-[300px] rounded-lg border-2 border-dashed border-border bg-secondary/30 p-6">
+          <div className="flex items-center justify-center min-h-[300px] rounded-lg border border-dashed border-border bg-secondary/30 p-6">
             {text.trim() ? (
               <div className="space-y-4">
                 <canvas
                   ref={canvasRef}
-                  className="max-w-full h-auto rounded-lg shadow-lg border border-border"
+                  className="max-w-full h-auto rounded-lg border border-border"
                   style={{ display: "none" }}
                 />
                 {qrCodeUrl && (
                   <img
                     src={qrCodeUrl}
                     alt="QR Code"
-                    className="max-w-full h-auto rounded-lg shadow-lg"
+                    className="max-w-full h-auto rounded-lg border border-border"
                     style={{ maxWidth: `${Math.min(size, 400)}px` }}
                   />
                 )}
-                <Button onClick={downloadQrCode} className="w-full gap-2" disabled={!qrCodeUrl}>
+                <Button variant="accent" onClick={downloadQrCode} className="gap-2" disabled={!qrCodeUrl}>
                   <Download className="h-4 w-4" />
                   下载二维码
                 </Button>

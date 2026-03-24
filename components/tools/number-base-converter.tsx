@@ -149,7 +149,7 @@ function NumberBaseConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "binary" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -180,7 +180,7 @@ function NumberBaseConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "octal" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -206,7 +206,7 @@ function NumberBaseConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "decimal" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -237,7 +237,7 @@ function NumberBaseConverterInner() {
               className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "hex" ? (
-                <Check className="h-3.5 w-3.5 text-green-600 dark:text-green-400" />
+                <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
                 <Copy className="h-3.5 w-3.5" />
               )}
@@ -264,7 +264,7 @@ function NumberBaseConverterInner() {
 
       {/* 常用数字 */}
       <div className="space-y-3">
-        <Label className="text-sm">常用数字</Label>
+        <Label>常用数字</Label>
         <div className="grid grid-cols-5 gap-2">
           {commonNumbers.map((num) => (
             <Button
