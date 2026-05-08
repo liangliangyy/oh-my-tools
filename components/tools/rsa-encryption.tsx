@@ -261,7 +261,7 @@ function RsaEncryptionInner() {
                 ))}
               </SelectContent>
             </Select>
-            <Button onClick={generateKeyPair} disabled={generating}>
+            <Button variant="accent" onClick={generateKeyPair} disabled={generating}>
               <Key className="h-4 w-4 mr-2" />
               {generating ? "生成中..." : "生成密钥对"}
             </Button>
@@ -276,7 +276,6 @@ function RsaEncryptionInner() {
                     variant="ghost"
                     size="sm"
                     onClick={() => copyText(publicKey, "public")}
-                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "public" ? (
                       <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -299,7 +298,6 @@ function RsaEncryptionInner() {
                     variant="ghost"
                     size="sm"
                     onClick={() => copyText(privateKey, "private")}
-                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
                   >
                     {copied === "private" ? (
                       <Check className="h-3.5 w-3.5 text-signal-ok" />

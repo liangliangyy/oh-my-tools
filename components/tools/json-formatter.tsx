@@ -84,12 +84,7 @@ function JsonFormatterInner() {
                 {output.length} 字符
               </span>
               {output && (
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={copyOutput}
-                  className="h-7 px-2.5 gap-1.5 hover:bg-accent/60 dark:hover:bg-accent/40 transition-colors"
-                >
+                <Button variant="ghost" size="sm" onClick={copyOutput}>
                   {copied ? (
                     <>
                       <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -122,27 +117,15 @@ function JsonFormatterInner() {
       )}
 
       <div className="flex flex-wrap gap-3 pt-2">
-        <Button
-          variant="accent"
-          onClick={formatJson}
-          className="gap-2 transition-colors"
-        >
+        <Button variant="accent" onClick={formatJson}>
           <Wand2 className="h-4 w-4" />
           格式化
         </Button>
-        <Button
-          variant="outline"
-          onClick={minifyJson}
-          className="gap-2 hover:bg-accent/60 transition-colors"
-        >
+        <Button variant="outline" onClick={minifyJson}>
           <Minimize2 className="h-4 w-4" />
           压缩
         </Button>
-        <Button
-          variant="outline"
-          onClick={clearAll}
-          className="gap-2 hover:bg-destructive/10 hover:text-destructive hover:border-destructive/30 transition-colors"
-        >
+        <Button variant="ghost" onClick={clearAll}>
           <Trash2 className="h-4 w-4" />
           清空
         </Button>

@@ -67,7 +67,7 @@ function TimestampConverterInner() {
       <div className="p-4 rounded-lg bg-secondary border border-border">
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-muted-foreground">当前时间</span>
-          <Button variant="ghost" size="sm" onClick={() => setCurrentTimestamp(Math.floor(Date.now() / 1000))} className="h-7 px-2">
+          <Button variant="ghost" size="sm" onClick={() => setCurrentTimestamp(Math.floor(Date.now() / 1000))}>
             <RefreshCw className="h-3.5 w-3.5" />
           </Button>
         </div>
@@ -78,7 +78,6 @@ function TimestampConverterInner() {
               variant="ghost" 
               size="sm" 
               onClick={() => copy(currentTimestamp.toString(), "current-ts")} 
-              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "current-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
@@ -89,7 +88,6 @@ function TimestampConverterInner() {
               variant="ghost" 
               size="sm" 
               onClick={() => copy(formatCurrentDate(), "current-date")} 
-              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "current-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
@@ -117,7 +115,6 @@ function TimestampConverterInner() {
               variant="ghost" 
               size="sm" 
               onClick={() => copy(convertedDate, "converted-date")} 
-              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "converted-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>
@@ -144,7 +141,6 @@ function TimestampConverterInner() {
               variant="ghost" 
               size="sm" 
               onClick={() => copy(convertedTimestamp, "converted-ts")} 
-              className="h-8 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "converted-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
             </Button>

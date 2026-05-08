@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, ReactNode, useRef, useEffect } from "react"
+import { useState, ReactNode, useRef, useEffect, useCallback } from "react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { cn } from "@/lib/utils"
@@ -12,20 +12,55 @@ import {
   Home,
   Menu,
   X,
+  PanelLeftClose,
+  PanelLeftOpen,
+  ChevronDown,
 } from "lucide-react"
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
+
+const SIDEBAR_COLLAPSE_KEY = "toolsSidebarCollapsed"
+const AUTO_COLLAPSE_QUERY = "(max-width: 1279px)"
 
 export default function ToolsLayout({ children }: { children: ReactNode }) {
   const pathname = usePathname()
   const currentToolId = pathname.split('/').pop() || ''
   const [searchQuery, setSearchQuery] = useState("")
   const [sidebarOpen, setSidebarOpen] = useState(false)
+  const [userCollapsed, setUserCollapsed] = useState(false)
+  const [viewportForcesCollapse, setViewportForcesCollapse] = useState(false)
   const [expandedCategories, setExpandedCategories] = useState<Set<string>>(
     new Set(categories.map(c => c.id))
   )
   const navRef = useRef<HTMLElement>(null)
   const activeItemRef = useRef<HTMLAnchorElement>(null)
+
+  const collapsed = userCollapsed || viewportForcesCollapse
+
+  // 初始化：读取用户偏好 + 视口监听
+  useEffect(() => {
+    const stored = localStorage.getItem(SIDEBAR_COLLAPSE_KEY)
+    if (stored === "1") setUserCollapsed(true)
+
+    const mql = window.matchMedia(AUTO_COLLAPSE_QUERY)
+    const apply = () => setViewportForcesCollapse(mql.matches)
+    apply()
+    mql.addEventListener("change", apply)
+    return () => mql.removeEventListener("change", apply)
+  }, [])
+
+  const toggleCollapse = useCallback(() => {
+    // 视口强制折叠时，点击展开仅临时展开，不覆盖用户偏好
+    if (viewportForcesCollapse) {
+      setViewportForcesCollapse(false)
+      return
+    }
+    setUserCollapsed((prev) => {
+      const next = !prev
+      localStorage.setItem(SIDEBAR_COLLAPSE_KEY, next ? "1" : "0")
+      return next
+    })
+  }, [viewportForcesCollapse])
 
   const toggleCategory = (categoryId: string) => {
     const newExpanded = new Set(expandedCategories)
@@ -37,14 +72,12 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
     setExpandedCategories(newExpanded)
   }
 
-  // 保存滚动位置
   const saveScrollPosition = () => {
     if (navRef.current) {
       sessionStorage.setItem('toolsNavScrollPosition', navRef.current.scrollTop.toString())
     }
   }
 
-  // 恢复滚动位置
   useEffect(() => {
     const savedPosition = sessionStorage.getItem('toolsNavScrollPosition')
     if (savedPosition && navRef.current) {
@@ -52,29 +85,20 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
     }
   }, [])
 
-  // 自动滚动到当前选中的工具项
   useEffect(() => {
     if (activeItemRef.current && navRef.current) {
       const activeItem = activeItemRef.current
       const nav = navRef.current
-
-      // 检查元素是否在可视区域内
       const navRect = nav.getBoundingClientRect()
       const itemRect = activeItem.getBoundingClientRect()
-
       const isVisible =
         itemRect.top >= navRect.top &&
         itemRect.bottom <= navRect.bottom
-
-      // 如果不可见，滚动到该元素
       if (!isVisible) {
-        activeItem.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center'
-        })
+        activeItem.scrollIntoView({ behavior: 'smooth', block: 'center' })
       }
     }
-  }, [currentToolId])
+  }, [currentToolId, collapsed])
 
   const filteredTools = tools.filter(
     (tool) =>
@@ -82,7 +106,6 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
       tool.description.toLowerCase().includes(searchQuery.toLowerCase())
   )
 
-  // 按分类分组工具
   const toolsByCategory = categories.map(category => ({
     ...category,
     tools: filteredTools.filter(tool => tool.category === category.id)
@@ -92,7 +115,7 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
     <div className="min-h-screen bg-background">
       {/* Header */}
       <header className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="container mx-auto px-4 h-16 flex items-center justify-between">
+        <div className="px-3 md:px-4 h-16 flex items-center justify-between">
           <div className="flex items-center gap-4">
             <Button
               variant="ghost"
@@ -122,8 +145,8 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-6">
-        <div className="flex flex-col lg:flex-row gap-6">
+      <div className="px-3 md:px-4 py-4">
+        <div className="flex flex-col lg:flex-row gap-4">
           {/* Mobile Sidebar Overlay */}
           {sidebarOpen && (
             <div
@@ -135,30 +158,85 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
           {/* Sidebar */}
           <aside
             className={cn(
-              "fixed lg:relative inset-y-0 left-0 z-40 w-72 lg:w-64 bg-background lg:bg-transparent p-4 lg:p-0 transform transition-transform lg:transform-none border-r lg:border-r-0 border-border",
-              sidebarOpen ? "translate-x-0" : "-translate-x-full lg:translate-x-0"
+              "fixed lg:relative inset-y-0 left-0 z-40 bg-background lg:bg-transparent p-4 lg:p-0 transform transition-[transform,width] duration-200 ease-out lg:transform-none border-r lg:border-r-0 border-border flex-shrink-0",
+              sidebarOpen ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0",
+              collapsed ? "lg:w-14" : "lg:w-60",
+              !sidebarOpen && "w-72"
             )}
           >
-            <div className="sticky top-24 space-y-4 pt-16 lg:pt-0">
-              {/* Search */}
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input
-                  placeholder="搜索工具..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-9 bg-secondary border-border"
-                />
+            <div className="sticky top-20 space-y-3 pt-16 lg:pt-0">
+              {/* Collapse toggle (desktop only) */}
+              <div className={cn("hidden lg:flex", collapsed ? "justify-center" : "justify-end")}>
+                <button
+                  type="button"
+                  onClick={toggleCollapse}
+                  title={collapsed ? "展开侧边栏" : "折叠侧边栏"}
+                  className="flex items-center justify-center h-8 w-8 rounded-md text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                >
+                  {collapsed ? <PanelLeftOpen className="h-4 w-4" /> : <PanelLeftClose className="h-4 w-4" />}
+                </button>
               </div>
 
-              {/* Tool List - Categorized */}
+              {/* Search */}
+              {collapsed ? (
+                <button
+                  type="button"
+                  onClick={toggleCollapse}
+                  title="搜索工具"
+                  className="hidden lg:flex items-center justify-center h-9 w-9 mx-auto rounded-md border border-border text-muted-foreground hover:text-foreground hover:bg-secondary transition-colors"
+                >
+                  <Search className="h-4 w-4" />
+                </button>
+              ) : (
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    placeholder="搜索工具..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-9 bg-secondary border-border"
+                  />
+                </div>
+              )}
+
+              {/* Tool List */}
               <nav
                 ref={navRef}
                 onScroll={saveScrollPosition}
-                className="space-y-3 max-h-[calc(100vh-12rem)] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent"
+                className={cn(
+                  "max-h-[calc(100vh-11rem)] overflow-y-auto scrollbar-thin scrollbar-thumb-border scrollbar-track-transparent",
+                  collapsed ? "lg:px-0 space-y-1" : "pr-2 space-y-3"
+                )}
               >
-                {searchQuery ? (
-                  // 搜索模式：显示扁平列表
+                {collapsed ? (
+                  // 折叠：图标条
+                  <div className="hidden lg:flex flex-col items-center gap-1">
+                    {tools.map((tool) => {
+                      const Icon = tool.icon
+                      const isActive = currentToolId === tool.id
+                      return (
+                        <Link
+                          key={tool.id}
+                          ref={isActive ? activeItemRef : null}
+                          href={`/tools/${tool.id}`}
+                          title={tool.name}
+                          className={cn(
+                            "relative flex items-center justify-center h-9 w-9 rounded-md transition-colors",
+                            isActive
+                              ? "bg-accent/15 text-accent"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                          )}
+                        >
+                          {isActive && (
+                            <span className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
+                          )}
+                          <Icon className="h-4 w-4" />
+                        </Link>
+                      )
+                    })}
+                  </div>
+                ) : searchQuery ? (
+                  // 搜索：扁平列表
                   <div className="space-y-1">
                     {filteredTools.map((tool) => {
                       const Icon = tool.icon
@@ -170,31 +248,23 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                           href={`/tools/${tool.id}`}
                           onClick={() => setSidebarOpen(false)}
                           className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative",
+                            "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative",
                             isActive
-                              ? "bg-accent/50 text-accent-foreground dark:bg-accent/30"
-                              : "text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/40 dark:hover:bg-accent/20 dark:active:bg-accent/30"
+                              ? "bg-accent/15 text-accent"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                           )}
                         >
                           {isActive && (
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-accent rounded-r-full" />
+                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
                           )}
-                          <Icon className={cn(
-                            "h-4 w-4 flex-shrink-0 transition-colors",
-                            isActive && "text-accent"
-                          )} />
-                          <div className="min-w-0 flex-1">
-                            <div className={cn(
-                              "font-medium text-sm truncate",
-                              isActive && "text-accent"
-                            )}>{tool.name}</div>
-                          </div>
+                          <Icon className="h-4 w-4 flex-shrink-0" />
+                          <span className="font-medium text-sm truncate">{tool.name}</span>
                         </Link>
                       )
                     })}
                   </div>
                 ) : (
-                  // 分类模式：显示可折叠分组
+                  // 分类分组
                   toolsByCategory.map((category) => {
                     const CategoryIcon = category.icon
                     const isExpanded = expandedCategories.has(category.id)
@@ -203,7 +273,7 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                       <div key={category.id} className="space-y-1">
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-accent/20 active:bg-accent/30 dark:hover:bg-accent/10 dark:active:bg-accent/20 rounded-md transition-all duration-200"
+                          className="w-full flex items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
                         >
                           <div className="flex items-center gap-2">
                             <CategoryIcon className="h-3.5 w-3.5" />
@@ -212,17 +282,12 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                               {category.tools.length}
                             </span>
                           </div>
-                          <svg
+                          <ChevronDown
                             className={cn(
                               "h-4 w-4 transition-transform",
                               isExpanded && "rotate-180"
                             )}
-                            fill="none"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                          </svg>
+                          />
                         </button>
 
                         {isExpanded && (
@@ -237,25 +302,17 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                                   href={`/tools/${tool.id}`}
                                   onClick={() => setSidebarOpen(false)}
                                   className={cn(
-                                    "w-full flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 relative",
+                                    "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative",
                                     isActive
-                                      ? "bg-accent/50 text-accent-foreground dark:bg-accent/30"
-                                      : "text-muted-foreground hover:text-foreground hover:bg-accent/30 active:bg-accent/40 dark:hover:bg-accent/20 dark:active:bg-accent/30"
+                                      ? "bg-accent/15 text-accent"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
                                   )}
                                 >
                                   {isActive && (
-                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-accent rounded-r-full" />
+                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
                                   )}
-                                  <Icon className={cn(
-                                    "h-4 w-4 flex-shrink-0 transition-colors",
-                                    isActive && "text-accent"
-                                  )} />
-                                  <div className="min-w-0 flex-1">
-                                    <div className={cn(
-                                      "font-medium text-sm truncate",
-                                      isActive && "text-accent"
-                                    )}>{tool.name}</div>
-                                  </div>
+                                  <Icon className="h-4 w-4 flex-shrink-0" />
+                                  <span className="font-medium text-sm truncate">{tool.name}</span>
                                 </Link>
                               )
                             })}
@@ -267,7 +324,7 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                 )}
               </nav>
 
-              {filteredTools.length === 0 && (
+              {!collapsed && filteredTools.length === 0 && (
                 <p className="text-sm text-muted-foreground text-center py-4">未找到匹配的工具</p>
               )}
             </div>
@@ -281,8 +338,8 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
       </div>
 
       {/* Footer */}
-      <footer className="border-t border-border mt-12">
-        <div className="container mx-auto px-4 py-6">
+      <footer className="border-t border-border mt-8">
+        <div className="px-3 md:px-4 py-6">
           <div className="flex flex-col items-center gap-2">
             <p className="text-sm text-muted-foreground text-center">
               oh-my-tools - 开发者工具箱 · 所有工具均在本地运行，数据不会上传

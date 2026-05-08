@@ -110,13 +110,7 @@ function Md5GeneratorInner() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <Label>MD5 结果</Label>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={copyOutput}
-            disabled={!output}
-            className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-          >
+          <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
             {copied ? (
               <Check className="h-3.5 w-3.5 text-signal-ok" />
             ) : (

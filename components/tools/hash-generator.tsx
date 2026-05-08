@@ -72,12 +72,7 @@ function HashGeneratorInner() {
               <div key={result.algorithm} className="p-3 rounded-lg bg-secondary border border-border">
                 <div className="flex items-center justify-between mb-1">
                   <span className="text-sm font-medium text-accent">{result.algorithm}</span>
-                  <Button 
-                    variant="ghost" 
-                    size="sm" 
-                    onClick={() => copy(result.hash, result.algorithm)} 
-                    className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-                  >
+                  <Button variant="ghost" size="sm" onClick={() => copy(result.hash, result.algorithm)}>
                     {copied === result.algorithm ? (
                       <Check className="h-3.5 w-3.5 text-signal-ok" />
                     ) : (

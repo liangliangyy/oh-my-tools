@@ -82,7 +82,7 @@ function JwtDecoderInner() {
       <div className="space-y-2">
         <div className="flex items-center justify-between">
           <label className="text-xs font-medium tracking-wide text-muted-foreground">JWT Token</label>
-          <Button variant="ghost" size="sm" onClick={clear} className="hover:bg-accent/50 dark:hover:bg-accent/30">
+          <Button variant="ghost" size="sm" onClick={clear}>
             <Trash2 className="h-4 w-4 mr-1" />
             清空
           </Button>
@@ -116,7 +116,6 @@ function JwtDecoderInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(JSON.stringify(decoded.header, null, 2), "header")}
-                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "header" ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -138,7 +137,6 @@ function JwtDecoderInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(JSON.stringify(decoded.payload, null, 2), "payload")}
-                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "payload" ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -176,7 +174,6 @@ function JwtDecoderInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyToClipboard(decoded.signature, "signature")}
-                className="hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copiedPart === "signature" ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />

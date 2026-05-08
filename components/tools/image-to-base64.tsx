@@ -196,12 +196,7 @@ function ImageToBase64Inner() {
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <Label>Data URL（可直接用于 img src）</Label>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => copyToClipboard(dataUrl, "dataurl")}
-                className="hover:bg-accent/50 dark:hover:bg-accent/30"
-              >
+              <Button variant="ghost" size="sm" onClick={() => copyToClipboard(dataUrl, "dataurl")}>
                 {copied === "dataurl" ? (
                   <Check className="h-4 w-4 text-signal-ok mr-1" />
                 ) : (
