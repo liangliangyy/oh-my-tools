@@ -154,7 +154,6 @@ function MarkdownPreviewInner() {
             variant="ghost"
             size="sm"
             onClick={() => copyToClipboard(input, "md")}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "md" ? (
               <Check className="h-4 w-4 text-signal-ok mr-1" />
@@ -167,7 +166,6 @@ function MarkdownPreviewInner() {
             variant="ghost"
             size="sm"
             onClick={() => copyToClipboard(getHtmlContent(), "html")}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "html" ? (
               <Check className="h-4 w-4 text-signal-ok mr-1" />
@@ -180,7 +178,6 @@ function MarkdownPreviewInner() {
             variant="ghost" 
             size="sm" 
             onClick={clear}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             <Trash2 className="h-4 w-4 mr-1" />
             清空

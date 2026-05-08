@@ -329,7 +329,6 @@ function CronExpressionInner() {
           />
           <Button
             variant="accent"
-            size="sm"
             onClick={() => calculateNextExecutions(customInput)}
             disabled={!customInput}
           >

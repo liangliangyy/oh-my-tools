@@ -20,10 +20,9 @@ function ToolLoadingFallback() {
 export function ToolPageClient({ toolId }: ToolPageClientProps) {
   const currentTool = getToolById(toolId)
 
-  // 如果工具不存在，显示404
   if (!currentTool) {
     return (
-      <div className="rounded-xl border border-border bg-card p-4 md:p-6">
+      <div className="rounded-lg border border-border bg-card p-4 md:p-5">
         <div className="text-center py-12">
           <h1 className="text-4xl font-bold mb-4">工具未找到</h1>
           <p className="text-muted-foreground mb-6">请求的工具不存在</p>
@@ -38,15 +37,15 @@ export function ToolPageClient({ toolId }: ToolPageClientProps) {
   const ActiveComponent = currentTool.component
 
   return (
-    <div className="rounded-xl border border-border bg-card p-4 md:p-6">
-      <div className="mb-6 pb-4 border-b border-border">
+    <div className="rounded-lg border border-border bg-card p-3 md:p-5">
+      <div className="mb-4 pb-3 border-b border-border">
         <div className="flex items-center gap-3">
-          <div className="flex items-center justify-center w-10 h-10 rounded-lg bg-accent/10">
-            <currentTool.icon className="h-5 w-5 text-accent" />
+          <div className="flex items-center justify-center w-9 h-9 rounded-md bg-secondary">
+            <currentTool.icon className="h-4 w-4 text-accent" />
           </div>
-          <div>
-            <h1 className="text-xl font-semibold">{currentTool.name}</h1>
-            <p className="text-sm text-muted-foreground">{currentTool.description}</p>
+          <div className="min-w-0">
+            <h1 className="text-lg font-semibold tracking-tight">{currentTool.name}</h1>
+            <p className="text-xs text-muted-foreground truncate">{currentTool.description}</p>
           </div>
         </div>
       </div>

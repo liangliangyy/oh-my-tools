@@ -146,7 +146,6 @@ function NumberBaseConverterInner() {
               size="sm"
               onClick={() => copyToClipboard(binary, "binary")}
               disabled={!binary}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "binary" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -177,7 +176,6 @@ function NumberBaseConverterInner() {
               size="sm"
               onClick={() => copyToClipboard(octal, "octal")}
               disabled={!octal}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "octal" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -203,7 +201,6 @@ function NumberBaseConverterInner() {
               size="sm"
               onClick={() => copyToClipboard(decimal, "decimal")}
               disabled={!decimal}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "decimal" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -234,7 +231,6 @@ function NumberBaseConverterInner() {
               size="sm"
               onClick={() => copyToClipboard(hexadecimal, "hex")}
               disabled={!hexadecimal}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "hex" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />

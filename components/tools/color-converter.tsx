@@ -151,7 +151,6 @@ function ColorConverterInner() {
             variant="ghost" 
             size="icon" 
             onClick={() => copy(hex, "hex")}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "hex" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>
@@ -195,7 +194,6 @@ function ColorConverterInner() {
             variant="ghost" 
             size="icon" 
             onClick={() => copy(rgbString, "rgb")}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "rgb" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>
@@ -240,7 +238,6 @@ function ColorConverterInner() {
             variant="ghost" 
             size="icon" 
             onClick={() => copy(hslString, "hsl")}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
           >
             {copied === "hsl" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
           </Button>

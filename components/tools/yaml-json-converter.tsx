@@ -193,7 +193,6 @@ function YamlJsonConverterInner() {
               size="sm" 
               onClick={copyYaml} 
               disabled={!yamlInput}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "yaml" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -220,7 +219,6 @@ function YamlJsonConverterInner() {
               size="sm" 
               onClick={copyJson} 
               disabled={!jsonInput}
-              className="hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "json" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />

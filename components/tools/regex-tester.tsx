@@ -72,12 +72,7 @@ function RegexTesterInner() {
       <div className="space-y-3">
         <div className="flex items-center justify-between">
           <label className="text-xs font-medium tracking-wide text-muted-foreground">正则表达式</label>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            onClick={copyPattern} 
-            className="h-7 px-2 gap-1.5 hover:bg-accent/50 dark:hover:bg-accent/30"
-          >
+          <Button variant="ghost" size="sm" onClick={copyPattern}>
             {copied ? (
               <>
                 <Check className="h-3.5 w-3.5 text-signal-ok" />

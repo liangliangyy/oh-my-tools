@@ -252,7 +252,7 @@ function KeyGeneratorInner() {
       )}
 
       {/* 生成按钮 */}
-      <Button onClick={generate} disabled={generating} className="w-full">
+      <Button variant="accent" onClick={generate} disabled={generating} className="w-full">
         <Key className="h-4 w-4 mr-2" />
         {generating ? "生成中..." : "生成密钥"}
       </Button>
@@ -267,7 +267,6 @@ function KeyGeneratorInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyText(publicKey, "public")}
-                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "public" ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -290,7 +289,6 @@ function KeyGeneratorInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copyText(privateKey, "private")}
-                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
               >
                 {copied === "private" ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
@@ -317,7 +315,6 @@ function KeyGeneratorInner() {
               variant="ghost"
               size="sm"
               onClick={() => copyText(output, "output")}
-              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
             >
               {copied === "output" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />

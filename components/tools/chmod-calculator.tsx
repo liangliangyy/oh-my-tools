@@ -118,10 +118,10 @@ function ChmodCalculatorInner() {
                 </Button>
               </div>
               <div className="flex gap-2 text-sm text-muted-foreground">
-                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs" onClick={() => copyToClipboard(`chmod ${octal} filename`)}>
+                <Button variant="ghost" size="sm" onClick={() => copyToClipboard(`chmod ${octal} filename`)}>
                   复制 chmod {octal} ...
                 </Button>
-                <Button variant="ghost" size="sm" className="h-6 px-2 text-xs" onClick={() => copyToClipboard(`chmod -R ${octal} directory`)}>
+                <Button variant="ghost" size="sm" onClick={() => copyToClipboard(`chmod -R ${octal} directory`)}>
                   复制 chmod -R {octal} ...
                 </Button>
               </div>

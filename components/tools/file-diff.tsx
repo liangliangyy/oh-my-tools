@@ -202,20 +202,10 @@ function FileDiffInner() {
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-muted-foreground">原始文件</span>
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2"
-              onClick={() => handleClear("original")}
-            >
+            <Button variant="ghost" size="sm" onClick={() => handleClear("original")}>
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-              onClick={() => handleCopy("original")}
-            >
+            <Button variant="ghost" size="sm" onClick={() => handleCopy("original")}>
               {copied === "original" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (
@@ -227,20 +217,10 @@ function FileDiffInner() {
         <div className="flex items-center justify-between">
           <span className="text-sm font-medium text-muted-foreground">修改后文件</span>
           <div className="flex items-center gap-1">
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2"
-              onClick={() => handleClear("modified")}
-            >
+            <Button variant="ghost" size="sm" onClick={() => handleClear("modified")}>
               <Trash2 className="h-3.5 w-3.5" />
             </Button>
-            <Button
-              variant="ghost"
-              size="sm"
-              className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-              onClick={() => handleCopy("modified")}
-            >
+            <Button variant="ghost" size="sm" onClick={() => handleCopy("modified")}>
               {copied === "modified" ? (
                 <Check className="h-3.5 w-3.5 text-signal-ok" />
               ) : (

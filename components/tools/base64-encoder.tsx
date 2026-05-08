@@ -78,12 +78,7 @@ function Base64EncoderInner() {
               {mode === "encode" ? "Base64 结果" : "解码结果"}
             </label>
             {output && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={copyOutput} 
-                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-              >
+              <Button variant="ghost" size="sm" onClick={copyOutput}>
                 {copied ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (

@@ -185,7 +185,7 @@ function UuidGeneratorInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => copy(uuid, uuid)}
-                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity hover:bg-accent/50 dark:hover:bg-accent/30"
+                className="opacity-0 group-hover:opacity-100 transition-opacity"
               >
                 {copied === uuid ? <Check className="h-3.5 w-3.5 text-signal-ok" /> : <Copy className="h-3.5 w-3.5" />}
               </Button>
@@ -193,7 +193,7 @@ function UuidGeneratorInner() {
                 variant="ghost"
                 size="sm"
                 onClick={() => remove(index)}
-                className="h-7 px-2 opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10 dark:hover:bg-destructive/20"
+                className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10"
               >
                 <Trash2 className="h-3.5 w-3.5" />
               </Button>

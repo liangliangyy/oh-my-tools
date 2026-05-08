@@ -218,13 +218,7 @@ function PasswordGeneratorInner() {
           >
             <RefreshCw className="h-4 w-4" />
           </Button>
-          <Button
-            onClick={() => copyPassword(password, "single")}
-            size="icon"
-            variant="ghost"
-            disabled={!password}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
-          >
+          <Button onClick={() => copyPassword(password, "single")} size="icon" variant="ghost" disabled={!password}>
             {copied === "single" ? (
               <Check className="h-4 w-4 text-signal-ok" />
             ) : (
@@ -261,12 +255,7 @@ function PasswordGeneratorInner() {
             {passwords.map((pwd, index) => (
               <div key={index} className="flex items-center gap-2 p-2 rounded-lg border border-border bg-secondary/30">
                 <code className="flex-1 text-sm font-mono">{pwd}</code>
-                <Button
-                  onClick={() => copyPassword(pwd, index)}
-                  size="icon"
-                  variant="ghost"
-                  className="h-7 w-7 hover:bg-accent/50 dark:hover:bg-accent/30"
-                >
+                <Button onClick={() => copyPassword(pwd, index)} size="icon-sm" variant="ghost">
                   {copied === index ? (
                     <Check className="h-3.5 w-3.5 text-signal-ok" />
                   ) : (

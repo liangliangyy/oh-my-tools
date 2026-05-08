@@ -229,12 +229,7 @@ function AesEncryptionInner() {
             onChange={(e) => setSecretKey(e.target.value)}
             className="font-mono text-xs"
           />
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={generateKey}
-            className="hover:bg-accent/50 dark:hover:bg-accent/30"
-          >
+          <Button variant="ghost" size="sm" onClick={generateKey}>
             <Key className="h-4 w-4 mr-2" />
             生成
           </Button>

@@ -68,12 +68,7 @@ function UrlEncoderInner() {
           <div className="flex items-center justify-between">
             <label className="text-xs font-medium tracking-wide text-muted-foreground">输出</label>
             {output && (
-              <Button 
-                variant="ghost" 
-                size="sm" 
-                onClick={copyOutput} 
-                className="h-7 px-2 hover:bg-accent/50 dark:hover:bg-accent/30"
-              >
+              <Button variant="ghost" size="sm" onClick={copyOutput}>
                 {copied ? (
                   <Check className="h-3.5 w-3.5 text-signal-ok" />
                 ) : (
