@@ -32,7 +32,7 @@ export function DiffEditor({
   const [theme, setTheme] = useState<"dark" | "light">("dark")
   const containerRef = useRef<HTMLDivElement>(null)
   const viewRef = useRef<MergeView | null>(null)
-  const [langExtensions, setLangExtensions] = useState<Extension[]>([])
+  const [langExtensions, setLangExtensions] = useState<Extension[] | null>(null)
 
   useEffect(() => {
     // 检测当前主题
@@ -92,10 +92,10 @@ export function DiffEditor({
 
   // 初始化编辑器（只在必要时重新创建）
   useEffect(() => {
-    if (!containerRef.current || langExtensions.length === 0) return
+    if (!containerRef.current || langExtensions === null) return
 
     const extensions = [
-      ...langExtensions,
+      ...(langExtensions ?? []),
       theme === "dark" ? oneDark : [],
       EditorView.lineWrapping,
     ]
