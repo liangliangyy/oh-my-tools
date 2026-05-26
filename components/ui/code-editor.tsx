@@ -223,7 +223,7 @@ const lightTheme = EditorView.theme({
 interface CodeEditorProps {
   value: string
   onChange?: (value: string) => void
-  language?: "json" | "javascript" | "typescript" | "yaml" | "text"
+  language?: "json" | "javascript" | "typescript" | "yaml" | "sql" | "xml" | "html" | "css" | "text"
   readOnly?: boolean
   className?: string
   height?: string
@@ -282,6 +282,26 @@ export function CodeEditor({
           case "yaml": {
             const { yaml } = await import("@codemirror/lang-yaml")
             ext = [yaml()]
+            break
+          }
+          case "sql": {
+            const { sql } = await import("@codemirror/lang-sql")
+            ext = [sql()]
+            break
+          }
+          case "xml": {
+            const { xml } = await import("@codemirror/lang-xml")
+            ext = [xml()]
+            break
+          }
+          case "html": {
+            const { html } = await import("@codemirror/lang-html")
+            ext = [html()]
+            break
+          }
+          case "css": {
+            const { css } = await import("@codemirror/lang-css")
+            ext = [css()]
             break
           }
           default:

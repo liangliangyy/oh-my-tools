@@ -14,7 +14,7 @@ export const siteConfig = {
   name: 'oh-my-tools',
 
   // 网站描述
-  description: '免费在线程序员工具集合，包含JSON格式化、正则表达式测试、编码解码、时间戳转换等实用工具',
+  description: '免费在线程序员工具集合，包含 JSON/SQL/XML 格式化、HTML/CSS/JS 美化、Base64/Unicode/HTML 实体编解码、AES/RSA 加密、正则测试、图片格式转换与 EXIF 查看等 35+ 实用工具',
 
   // 作者信息
   author: {

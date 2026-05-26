@@ -35,6 +35,12 @@ import {
   ShieldAlert,
   KeySquare,
   LockKeyhole,
+  Database,
+  SquareCode,
+  Languages,
+  Sparkles,
+  Camera,
+  ImageDown,
 } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Input } from "@/components/ui/input"
@@ -44,11 +50,14 @@ import { tools as toolsConfig, categories as categoriesConfig } from "@/lib/tool
 // 从 tools-config 映射首页需要的展示字段和图标
 const iconMap: Record<string, any> = {
   json: Braces, json2code: FileCode, markdown: FileText, yaml: ArrowLeftRight, diff: GitCompare,
+  sql: Database, xml: Code2, beautifier: Sparkles,
   base64: Binary, url: Link2, hash: Hash, "image-base64": Image, jwt: KeyRound,
+  "html-entities": SquareCode, unicode: Languages,
   aes: Lock, rsa: ShieldCheck, hmac: ShieldAlert, md5: Fingerprint, "key-gen": KeySquare,
   uuid: Fingerprint, password: LockKeyhole, qrcode: QrCode,
-  regex: Regex, cron: CalendarClock,
+  regex: Regex, cron: CalendarClock, exif: Camera,
   timestamp: Clock, color: Palette, "base-converter": Calculator, "date-calc": CalendarDays, unit: Scale,
+  "image-convert": ImageDown,
   cidr: Network, chmod: Shield, "port-check": PcCase,
 }
 
@@ -136,7 +145,7 @@ export default function HomePage() {
               集合 {TOOL_COUNT} 个常用开发工具，一站式解决日常开发需求
             </p>
             <p className="text-base text-muted-foreground text-balance mb-10 max-w-2xl mx-auto">
-              JSON 格式化、代码生成、正则测试、Base64 编解码、AES/RSA 加密、HMAC/MD5 哈希、UUID 生成、二维码生成、Markdown 预览、时间戳转换、单位转换、CIDR 计算等
+              JSON / SQL / XML 格式化、HTML/CSS/JS 美化、Base64 / Unicode / HTML 实体编解码、AES/RSA 加密、UUID/二维码生成、图片格式转换与 EXIF 查看、CIDR 子网计算等
             </p>
             <Link
               href="/tools"
@@ -190,7 +199,7 @@ export default function HomePage() {
                 <div>
                   <h3 className="font-semibold mb-2">日常开发</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    JSON 格式化验证、代码转类型、正则测试、Cron 表达式生成等，提升编码效率
+                    JSON/SQL/XML 格式化、HTML/CSS/JS 美化、代码转类型、正则测试、Cron 表达式生成，提升编码效率
                   </p>
                 </div>
               </div>
@@ -218,7 +227,7 @@ export default function HomePage() {
                 <div>
                   <h3 className="font-semibold mb-2">数据转换</h3>
                   <p className="text-sm text-muted-foreground leading-relaxed">
-                    Base64/URL 编解码、单位转换、进制转换、颜色转换、时间戳、图片转 Base64 等
+                    Base64/URL/HTML 实体/Unicode 编解码、XML↔JSON、单位与进制转换、颜色/时间戳、图片格式转换
                   </p>
                 </div>
               </div>

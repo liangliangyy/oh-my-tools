@@ -31,24 +31,29 @@
 
 ## 🧰 功能列表
 
-> 共 **28 个工具**，覆盖开发者日常所需的各类场景。
+> 共 **35 个工具**，覆盖开发者日常所需的各类场景。
 
-### 📄 格式化工具 (5个)
+### 📄 格式化工具 (8个)
 
 | 工具 | 描述 |
 |------|------|
 | **JSON 格式化** | 格式化、压缩、验证 JSON 数据，支持语法高亮 |
 | **JSON 转代码** | 将 JSON 转换为 TypeScript、Go、Python、Java、Rust 类型定义 |
+| **SQL 格式化** | SQL 美化与压缩，支持 MySQL / PostgreSQL / SQLite / SQL Server / BigQuery 等 11 种方言 |
+| **XML 工具** | XML 格式化以及 XML ↔ JSON 双向互转 |
+| **HTML/CSS/JS 美化** | 前端代码美化与压缩，基于 js-beautify，支持自定义缩进 |
 | **Markdown 预览** | 实时预览 Markdown 渲染效果，支持 GFM 和 Mermaid 流程图 |
 | **YAML ↔ JSON** | YAML 与 JSON 格式双向转换，支持语法高亮编辑 |
 | **文件 Diff** | 对比两段文本/文件的差异，支持并排/内联视图 |
 
-### 🔐 编码解码 (5个)
+### 🔐 编码解码 (7个)
 
 | 工具 | 描述 |
 |------|------|
 | **Base64 编解码** | Base64 编码与解码转换，支持文本和文件 |
 | **URL 编解码** | URL 编码与解码处理，支持批量转换 |
+| **HTML 实体** | HTML 实体编解码，支持命名实体、十进制、十六进制三种方式 |
+| **Unicode 转义** | Unicode 字符与转义序列互转，支持 `\u`、`\x`、`&#dec;`、`U+` 等多种格式 |
 | **Hash 生成** | 生成 SHA-1、SHA-256、SHA-384、SHA-512 哈希值 |
 | **图片转 Base64** | 图片文件转 Base64 编码，支持拖拽上传，预览原图 |
 | **JWT 解码器** | 解析 JWT Token，查看 Header、Payload 内容，验证签名结构 |
@@ -71,7 +76,7 @@
 | **密码生成器** | 生成安全的随机密码，支持自定义长度、字符集和规则 |
 | **二维码生成** | 生成自定义二维码图片，可调整颜色、尺寸，支持下载 |
 
-### 🔄 转换器 (5个)
+### 🔄 转换器 (6个)
 
 | 工具 | 描述 |
 |------|------|
@@ -80,6 +85,7 @@
 | **进制转换** | 二进制、八进制、十进制、十六进制互转 |
 | **日期计算器** | 日期差计算、日期加减运算、工作日统计 |
 | **单位转换** | 长度、重量、温度等常用单位互转 |
+| **图片格式转换** | JPG / PNG / WebP 互转，支持质量调整与尺寸缩放，本地 Canvas 处理 |
 
 ### 🌐 网络工具 (3个)
 
@@ -89,12 +95,13 @@
 | **Chmod 计算** | Linux 文件权限数字与符号互转，直观权限选择器 |
 | **端口检测** | 生成 TCP/UDP 端口连通性检测命令 |
 
-### 💡 开发工具 (2个)
+### 💡 开发工具 (3个)
 
 | 工具 | 描述 |
 |------|------|
 | **正则测试** | 实时测试正则表达式匹配结果，支持标志位选择与匹配高亮 |
 | **Cron 表达式** | 可视化生成和解析 Cron 定时任务表达式，展示下次执行时间 |
+| **图片 EXIF** | 查看图片元数据（设备、拍摄参数、GPS 等），支持地图链接跳转 |
 
 ---
 
@@ -112,6 +119,10 @@
 | [next-themes](https://github.com/pacocoursey/next-themes) | latest | 深色/浅色主题切换 |
 | [Mermaid](https://mermaid.js.org/) | 11.x | Markdown 中的流程图渲染 |
 | [qrcode](https://github.com/soldair/node-qrcode) | 1.x | 二维码生成 |
+| [sql-formatter](https://github.com/sql-formatter-org/sql-formatter) | 15.x | SQL 多方言格式化 |
+| [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) | 5.x | XML 解析与构建 |
+| [js-beautify](https://github.com/beautifier/js-beautify) | 1.x | HTML / CSS / JS 美化 |
+| [exifr](https://github.com/MikeKovarik/exifr) | 7.x | 图片 EXIF 元数据解析 |
 
 ---
 
@@ -179,15 +190,17 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_SITE_URL=https://your-domain.com oh-my-to
 
 ## 🔧 添加新工具
 
-1. 在 `components/tools/` 目录下创建新工具组件文件（如 `my-tool.tsx`）
-2. 在 `app/page.tsx` 的工具列表中注册（首页展示），指定 `category` 分类
-3. 在 `app/tools/page.tsx` 中注册（工具详情页），指定 `category` 分类
-4. 遵循统一的按钮样式规范：
+1. 在 `components/tools/` 目录下创建新工具组件文件（如 `my-tool.tsx`），导出命名组件
+2. 在 `lib/tools-config.ts` 中以 `lazy()` 注册组件，添加工具条目（id、name、icon、description、category、keywords 等）
+3. 若需要在首页显示自定义图标，在 `app/page.tsx` 的 `iconMap` 中补充映射
+4. 遵循统一的设计系统规范（详见 `.interface-design/system.md`）：
 
    | 场景 | variant |
    |------|---------|
-   | 操作按钮（执行、复制等） | `"ghost"` |
-   | 切换按钮（选中态） | `"default"` |
+   | 主操作按钮（格式化、转换、生成等） | `"accent"` |
+   | 次要操作（压缩、下载等） | `"outline"` |
+   | 工具栏 / 清空 / 复制 | `"ghost"` |
+   | 切换按钮（选中态） | `"secondary"` |
    | 切换按钮（未选中态） | `"ghost"` |
 
 **示例组件：**
@@ -196,34 +209,61 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_SITE_URL=https://your-domain.com oh-my-to
 // components/tools/my-tool.tsx
 "use client"
 
-import { useState } from "react"
+import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
+import { Wand2 } from "lucide-react"
 
-export function MyTool() {
-  const [mode, setMode] = useState("encode")
+function MyToolInner() {
+  const [mode, setMode] = useState<"encode" | "decode">("encode")
 
   return (
     <div className="space-y-4">
       {/* 切换按钮组 */}
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30 w-fit">
         <Button
-          variant={mode === "encode" ? "default" : "ghost"}
+          variant={mode === "encode" ? "secondary" : "ghost"}
+          size="sm"
           onClick={() => setMode("encode")}
         >
           编码
         </Button>
         <Button
-          variant={mode === "decode" ? "default" : "ghost"}
+          variant={mode === "decode" ? "secondary" : "ghost"}
+          size="sm"
           onClick={() => setMode("decode")}
         >
           解码
         </Button>
       </div>
 
-      {/* 操作按钮 */}
-      <Button variant="ghost">执行操作</Button>
+      {/* 主操作按钮 */}
+      <Button variant="accent">
+        <Wand2 className="h-4 w-4" />
+        执行操作
+      </Button>
     </div>
   )
+}
+
+export const MyTool = memo(MyToolInner)
+```
+
+注册到 `lib/tools-config.ts`：
+
+```ts
+const MyTool = lazy(() =>
+  import("@/components/tools/my-tool").then((m) => ({ default: m.MyTool }))
+)
+
+// 在 tools 数组中添加：
+{
+  id: "my-tool",
+  name: "我的工具",
+  icon: Wand2,
+  component: MyTool,
+  description: "工具简介",
+  category: "tool",
+  keywords: ["关键词1", "关键词2"],
 }
 ```
 
@@ -246,35 +286,7 @@ oh-my-tools/
 │       └── [toolId]/            # 动态路由：各工具页面
 ├── components/
 │   ├── ui/                      # 基础 UI 组件（shadcn/ui）
-│   ├── tools/                   # 工具组件（28个）
-│   │   ├── json-formatter.tsx
-│   │   ├── json-to-code.tsx
-│   │   ├── markdown-preview.tsx
-│   │   ├── yaml-json-converter.tsx
-│   │   ├── file-diff.tsx
-│   │   ├── base64-encoder.tsx
-│   │   ├── url-encoder.tsx
-│   │   ├── hash-generator.tsx
-│   │   ├── image-to-base64.tsx
-│   │   ├── jwt-decoder.tsx
-│   │   ├── aes-encryption.tsx
-│   │   ├── rsa-encryption.tsx
-│   │   ├── hmac-generator.tsx
-│   │   ├── md5-generator.tsx
-│   │   ├── key-generator.tsx
-│   │   ├── uuid-generator.tsx
-│   │   ├── password-generator.tsx
-│   │   ├── qrcode-generator.tsx
-│   │   ├── timestamp-converter.tsx
-│   │   ├── color-converter.tsx
-│   │   ├── number-base-converter.tsx
-│   │   ├── date-calculator.tsx
-│   │   ├── unit-converter.tsx
-│   │   ├── cidr-calculator.tsx
-│   │   ├── chmod-calculator.tsx
-│   │   ├── port-check-generator.tsx
-│   │   ├── regex-tester.tsx
-│   │   └── cron-expression.tsx
+│   ├── tools/                   # 工具组件（35个，详见 lib/tools-config.ts）
 │   ├── theme-provider.tsx       # 主题 Provider
 │   └── theme-toggle.tsx         # 主题切换按钮
 ├── hooks/                        # 自定义 React Hooks

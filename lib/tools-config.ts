@@ -28,6 +28,13 @@ import {
   ShieldAlert,
   KeySquare,
   LockKeyhole,
+  Database,
+  Code2,
+  SquareCode,
+  Languages,
+  Sparkles,
+  Camera,
+  ImageDown,
 } from "lucide-react"
 
 // 动态导入所有工具组件 - 按需加载，只在用户访问时才下载对应 JS
@@ -59,6 +66,13 @@ const RsaEncryption = lazy(() => import("@/components/tools/rsa-encryption").the
 const HmacGenerator = lazy(() => import("@/components/tools/hmac-generator").then(m => ({ default: m.HmacGenerator })))
 const Md5Generator = lazy(() => import("@/components/tools/md5-generator").then(m => ({ default: m.Md5Generator })))
 const KeyGenerator = lazy(() => import("@/components/tools/key-generator").then(m => ({ default: m.KeyGenerator })))
+const SqlFormatter = lazy(() => import("@/components/tools/sql-formatter").then(m => ({ default: m.SqlFormatter })))
+const XmlFormatter = lazy(() => import("@/components/tools/xml-formatter").then(m => ({ default: m.XmlFormatter })))
+const HtmlEntities = lazy(() => import("@/components/tools/html-entities").then(m => ({ default: m.HtmlEntities })))
+const UnicodeEscape = lazy(() => import("@/components/tools/unicode-escape").then(m => ({ default: m.UnicodeEscape })))
+const CodeBeautifier = lazy(() => import("@/components/tools/code-beautifier").then(m => ({ default: m.CodeBeautifier })))
+const ImageExif = lazy(() => import("@/components/tools/image-exif").then(m => ({ default: m.ImageExif })))
+const ImageConverter = lazy(() => import("@/components/tools/image-converter").then(m => ({ default: m.ImageConverter })))
 
 export interface Tool {
   id: string
@@ -126,6 +140,39 @@ export const tools: Tool[] = [
     keywords: ["diff", "对比", "文件"],
   },
   {
+    id: "sql",
+    name: "SQL 格式化",
+    icon: Database,
+    component: SqlFormatter,
+    description: "SQL 美化与压缩",
+    fullDescription: "在线 SQL 格式化工具，支持 MySQL、PostgreSQL、SQLite、SQL Server、BigQuery 等 11 种 SQL 方言。一键美化、压缩、关键字大写。本地处理，数据安全可靠。",
+    category: "format",
+    color: "from-emerald-500/20 to-emerald-500/5",
+    keywords: ["sql", "格式化", "美化", "mysql", "postgresql", "sql formatter"],
+  },
+  {
+    id: "xml",
+    name: "XML 工具",
+    icon: Code2,
+    component: XmlFormatter,
+    description: "XML 格式化与 JSON 互转",
+    fullDescription: "在线 XML 工具，支持 XML 格式化、XML 转 JSON、JSON 转 XML。适用于 SOAP API、配置文件、数据交换等场景。本地处理，保护数据隐私。",
+    category: "format",
+    color: "from-orange-500/20 to-orange-500/5",
+    keywords: ["xml", "json", "格式化", "转换", "xml to json"],
+  },
+  {
+    id: "beautifier",
+    name: "HTML/CSS/JS 美化",
+    icon: Sparkles,
+    component: CodeBeautifier,
+    description: "前端代码美化压缩",
+    fullDescription: "在线 HTML/CSS/JavaScript 代码美化压缩工具，基于 js-beautify。一键格式化或压缩前端代码，支持自定义缩进，本地处理无需上传。",
+    category: "format",
+    color: "from-purple-500/20 to-purple-500/5",
+    keywords: ["html", "css", "javascript", "美化", "压缩", "minify", "beautify"],
+  },
+  {
     id: "base64",
     name: "Base64",
     icon: Binary,
@@ -175,6 +222,28 @@ export const tools: Tool[] = [
     category: "encode",
     color: "from-sky-500/20 to-sky-500/5",
     keywords: ["jwt", "token", "解码"],
+  },
+  {
+    id: "html-entities",
+    name: "HTML 实体",
+    icon: SquareCode,
+    component: HtmlEntities,
+    description: "HTML 实体编码/解码",
+    fullDescription: "在线 HTML 实体编解码工具，支持命名实体、十进制、十六进制三种编码方式。快速处理特殊字符转义，适用于 HTML 模板、富文本处理等场景。",
+    category: "encode",
+    color: "from-yellow-500/20 to-yellow-500/5",
+    keywords: ["html", "实体", "entities", "编码", "解码", "转义"],
+  },
+  {
+    id: "unicode",
+    name: "Unicode 转义",
+    icon: Languages,
+    component: UnicodeEscape,
+    description: "Unicode 字符转义/还原",
+    fullDescription: "在线 Unicode 转义工具，支持 \\u4F60、\\xFF、&#20320; 等多种格式互转。调试日志中的转义字符、JSON 字符串处理、跨语言字符编码必备。",
+    category: "encode",
+    color: "from-lime-500/20 to-lime-500/5",
+    keywords: ["unicode", "转义", "escape", "字符编码", "中文转义"],
   },
   {
     id: "aes",
@@ -358,6 +427,28 @@ export const tools: Tool[] = [
     category: "network",
     color: "from-orange-600/20 to-orange-600/5",
     keywords: ["端口", "检测", "telnet"],
+  },
+  {
+    id: "exif",
+    name: "图片 EXIF",
+    icon: Camera,
+    component: ImageExif,
+    description: "查看图片元数据",
+    fullDescription: "在线图片 EXIF 元数据查看工具，解析照片的拍摄设备、参数、GPS 位置等信息。支持 JPG、TIFF、HEIC 等格式，本地解析保护隐私。",
+    category: "tool",
+    color: "from-fuchsia-500/20 to-fuchsia-500/5",
+    keywords: ["exif", "元数据", "图片", "metadata", "gps"],
+  },
+  {
+    id: "image-convert",
+    name: "图片格式转换",
+    icon: ImageDown,
+    component: ImageConverter,
+    description: "JPG/PNG/WebP 互转压缩",
+    fullDescription: "在线图片格式转换与压缩工具，支持 JPG、PNG、WebP 互转。可调整质量、限制最大宽度，浏览器本地处理无需上传。WebP 同等质量下体积更小。",
+    category: "converter",
+    color: "from-rose-500/20 to-rose-500/5",
+    keywords: ["图片", "压缩", "转换", "webp", "jpg", "png", "image converter"],
   },
 ]
 
