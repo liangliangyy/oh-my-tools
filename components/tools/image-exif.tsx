@@ -239,7 +239,7 @@ function ImageExifInner() {
                     target="_blank"
                     rel="noopener noreferrer"
                   >
-                    <MapPin className="h-3.5 w-3.5" />
+                    <MapPin />
                     在地图查看
                   </a>
                 </Button>
@@ -247,18 +247,18 @@ function ImageExifInner() {
               <Button variant="ghost" size="sm" onClick={copyAll}>
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-signal-ok" />
+                    <Check className="text-signal-ok" />
                     <span className="text-xs font-medium text-signal-ok">已复制</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy />
                     <span className="text-xs font-medium">复制全部</span>
                   </>
                 )}
               </Button>
               <Button variant="ghost" size="sm" onClick={clear}>
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 />
               </Button>
             </div>
           </div>

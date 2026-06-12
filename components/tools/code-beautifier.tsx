@@ -176,12 +176,12 @@ function CodeBeautifierInner() {
                 <Button variant="ghost" size="sm" onClick={copyOutput}>
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-signal-ok" />
+                      <Check className="text-signal-ok" />
                       <span className="text-xs font-medium text-signal-ok">已复制</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy />
                       <span className="text-xs font-medium">复制</span>
                     </>
                   )}
@@ -207,15 +207,15 @@ function CodeBeautifierInner() {
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Button variant="accent" onClick={beautify}>
-          <Wand2 className="h-4 w-4" />
+          <Wand2 />
           美化
         </Button>
         <Button variant="outline" onClick={minify}>
-          <Minimize2 className="h-4 w-4" />
+          <Minimize2 />
           压缩
         </Button>
-        <Button variant="ghost" onClick={clearAll}>
-          <Trash2 className="h-4 w-4" />
+        <Button variant="ghost" size="sm" onClick={clearAll}>
+          <Trash2 />
           清空
         </Button>
       </div>

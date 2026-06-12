@@ -3,6 +3,7 @@
 import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, Check, Trash2 } from "lucide-react"
 
 type Mode = "encode" | "decode"
@@ -103,46 +104,32 @@ function UnicodeEscapeInner() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30 w-fit">
-        <Button
-          variant={mode === "encode" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("encode")}
-        >
-          编码
-        </Button>
-        <Button
-          variant={mode === "decode" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("decode")}
-        >
-          解码
-        </Button>
-      </div>
+      <SegmentedControl<Mode>
+        ariaLabel="编解码模式"
+        value={mode}
+        onValueChange={setMode}
+        items={[
+          { value: "encode", label: "编码" },
+          { value: "decode", label: "解码" },
+        ]}
+      />
 
       {mode === "encode" && (
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="flex flex-wrap items-center gap-3">
           <span className="text-xs font-medium tracking-wide text-muted-foreground">
             输出格式
           </span>
-          <div className="flex items-center gap-1 p-1 rounded-md bg-secondary/50 dark:bg-secondary/30">
-            {([
-              { id: "u", name: "\\u (仅非ASCII)" },
-              { id: "uHex", name: "\\u (全部)" },
-              { id: "x", name: "\\x" },
-              { id: "all", name: "&#dec;" },
-            ] as { id: Format; name: string }[]).map((f) => (
-              <Button
-                key={f.id}
-                variant={format === f.id ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setFormat(f.id)}
-                className="h-7 text-xs font-mono"
-              >
-                {f.name}
-              </Button>
-            ))}
-          </div>
+          <SegmentedControl<Format>
+            ariaLabel="输出格式"
+            value={format}
+            onValueChange={setFormat}
+            items={[
+              { value: "u", label: <span className="font-mono">\u (仅非ASCII)</span> },
+              { value: "uHex", label: <span className="font-mono">\u (全部)</span> },
+              { value: "x", label: <span className="font-mono">\x</span> },
+              { value: "all", label: <span className="font-mono">&#dec;</span> },
+            ]}
+          />
         </div>
       )}
 
@@ -171,12 +158,12 @@ function UnicodeEscapeInner() {
               <Button variant="ghost" size="sm" onClick={copyOutput}>
                 {copied ? (
                   <>
-                    <Check className="h-3.5 w-3.5 text-signal-ok" />
+                    <Check className="text-signal-ok" />
                     <span className="text-xs font-medium text-signal-ok">已复制</span>
                   </>
                 ) : (
                   <>
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy />
                     <span className="text-xs font-medium">复制</span>
                   </>
                 )}
@@ -203,8 +190,8 @@ function UnicodeEscapeInner() {
         <Button variant="accent" onClick={process}>
           {mode === "encode" ? "转义" : "还原"}
         </Button>
-        <Button variant="ghost" onClick={clearAll}>
-          <Trash2 className="h-4 w-4" />
+        <Button variant="ghost" size="sm" onClick={clearAll}>
+          <Trash2 />
           清空
         </Button>
       </div>

@@ -179,7 +179,7 @@ function HmacGeneratorInner() {
             size="sm"
             onClick={generateKey}
           >
-            <Key className="h-4 w-4 mr-2" />
+            <Key />
             生成
           </Button>
         </div>
@@ -205,9 +205,9 @@ function HmacGeneratorInner() {
           <Label>HMAC 结果</Label>
           <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
             {copied ? (
-              <Check className="h-3.5 w-3.5 text-signal-ok" />
+              <Check className="text-signal-ok" />
             ) : (
-              <Copy className="h-3.5 w-3.5" />
+              <Copy />
             )}
           </Button>
         </div>
@@ -229,13 +229,13 @@ function HmacGeneratorInner() {
       {/* 操作按钮 */}
       <div className="flex flex-wrap gap-2">
         <Button variant="accent" onClick={generate}>
-          <Wand2 className="h-4 w-4 mr-2" />
+          <Wand2 />
           生成 HMAC
         </Button>
-        <Button variant="ghost" onClick={verify} disabled={!output}>
+        <Button variant="ghost" size="sm" onClick={verify} disabled={!output}>
           验证 HMAC
         </Button>
-        <Button variant="ghost" onClick={clear}>
+        <Button variant="ghost" size="sm" onClick={clear}>
           清空
         </Button>
       </div>

@@ -288,17 +288,17 @@ function ImageConverterInner() {
       {originalPreview && (
         <div className="flex flex-wrap gap-2">
           <Button variant="accent" onClick={convert} disabled={processing}>
-            <Wand2 className="h-4 w-4" />
+            <Wand2 />
             {processing ? "处理中..." : "转换"}
           </Button>
           {convertedUrl && (
             <Button variant="outline" onClick={download}>
-              <Download className="h-4 w-4" />
+              <Download />
               下载
             </Button>
           )}
-          <Button variant="ghost" onClick={clear}>
-            <Trash2 className="h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={clear}>
+            <Trash2 />
             清空
           </Button>
         </div>

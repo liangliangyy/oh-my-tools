@@ -195,9 +195,9 @@ function YamlJsonConverterInner() {
               disabled={!yamlInput}
             >
               {copied === "yaml" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -221,9 +221,9 @@ function YamlJsonConverterInner() {
               disabled={!jsonInput}
             >
               {copied === "json" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -238,16 +238,16 @@ function YamlJsonConverterInner() {
       </div>
 
       <div className="flex flex-wrap gap-2 justify-center">
-        <Button variant="accent" onClick={convertYamlToJson} className="gap-2">
+        <Button variant="accent" onClick={convertYamlToJson}>
           YAML → JSON
-          <ArrowLeftRight className="h-4 w-4" />
+          <ArrowLeftRight />
         </Button>
-        <Button variant="accent" onClick={convertJsonToYaml} className="gap-2">
+        <Button variant="accent" onClick={convertJsonToYaml}>
           JSON → YAML
-          <ArrowLeftRight className="h-4 w-4" />
+          <ArrowLeftRight />
         </Button>
-        <Button variant="ghost" onClick={clear}>
-          <Trash2 className="h-4 w-4 mr-1" />
+        <Button variant="ghost" size="sm" onClick={clear}>
+          <Trash2 />
           清空
         </Button>
       </div>

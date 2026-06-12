@@ -4,6 +4,7 @@ import { useState, useEffect, useRef, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Copy, Check, Trash2, Eye, EyeOff } from "lucide-react"
 import { Textarea } from "@/components/ui/textarea"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { cn } from "@/lib/utils"
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -128,27 +129,16 @@ function MarkdownPreviewInner() {
   return (
     <div className="space-y-4">
       {/* Controls */}
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
-          <Button
-            variant={showPreview ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => setShowPreview(true)}
-            className="gap-2 transition-colors duration-150"
-          >
-            <Eye className="h-4 w-4" />
-            预览
-          </Button>
-          <Button
-            variant={!showPreview ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => setShowPreview(false)}
-            className="gap-2 transition-colors duration-150"
-          >
-            <EyeOff className="h-4 w-4" />
-            HTML
-          </Button>
-        </div>
+      <div className="flex items-center justify-between gap-3">
+        <SegmentedControl<"preview" | "html">
+          ariaLabel="显示模式"
+          value={showPreview ? "preview" : "html"}
+          onValueChange={(v) => setShowPreview(v === "preview")}
+          items={[
+            { value: "preview", label: "预览", icon: Eye },
+            { value: "html", label: "HTML", icon: EyeOff },
+          ]}
+        />
         <div className="flex items-center gap-2">
           <Button
             variant="ghost"
@@ -156,9 +146,9 @@ function MarkdownPreviewInner() {
             onClick={() => copyToClipboard(input, "md")}
           >
             {copied === "md" ? (
-              <Check className="h-4 w-4 text-signal-ok mr-1" />
+              <Check className="text-signal-ok" />
             ) : (
-              <Copy className="h-4 w-4 mr-1" />
+              <Copy />
             )}
             复制 Markdown
           </Button>
@@ -168,9 +158,9 @@ function MarkdownPreviewInner() {
             onClick={() => copyToClipboard(getHtmlContent(), "html")}
           >
             {copied === "html" ? (
-              <Check className="h-4 w-4 text-signal-ok mr-1" />
+              <Check className="text-signal-ok" />
             ) : (
-              <Copy className="h-4 w-4 mr-1" />
+              <Copy />
             )}
             复制 HTML
           </Button>
@@ -179,7 +169,7 @@ function MarkdownPreviewInner() {
             size="sm" 
             onClick={clear}
           >
-            <Trash2 className="h-4 w-4 mr-1" />
+            <Trash2 />
             清空
           </Button>
         </div>

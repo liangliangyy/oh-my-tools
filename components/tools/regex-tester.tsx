@@ -75,12 +75,12 @@ function RegexTesterInner() {
           <Button variant="ghost" size="sm" onClick={copyPattern}>
             {copied ? (
               <>
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
                 <span className="text-xs text-signal-ok">已复制</span>
               </>
             ) : (
               <>
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
                 <span className="text-xs">复制</span>
               </>
             )}
@@ -164,11 +164,11 @@ function RegexTesterInner() {
 
       <div className="flex gap-2 pt-2">
         <Button
-          variant="ghost"
+          variant="ghost" size="sm"
           onClick={() => { setPattern(""); setTestString(""); }}
           className="gap-2"
         >
-          <Trash2 className="h-4 w-4" />
+          <Trash2 />
           清空
         </Button>
       </div>

@@ -6,6 +6,7 @@ import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeftRight, Copy } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { toast } from "sonner"
 import { Card, CardContent } from "@/components/ui/card"
 
@@ -142,17 +143,13 @@ function UnitConverterInner() {
   return (
     <div className="space-y-6">
       {/* Type Selection */}
-      <div className="flex flex-wrap gap-2">
-        {UNIT_TYPES.map(t => (
-            <Button
-                key={t.value}
-                variant={type === t.value ? "secondary" : "ghost"}
-                size="sm"
-                onClick={() => setType(t.value)}
-            >
-                {t.label}
-            </Button>
-        ))}
+      <div className="overflow-x-auto">
+        <SegmentedControl<UnitType>
+          ariaLabel="单位类型"
+          value={type}
+          onValueChange={setType}
+          items={UNIT_TYPES.map(t => ({ value: t.value, label: t.label }))}
+        />
       </div>
 
       <Card>
@@ -187,36 +184,31 @@ function UnitConverterInner() {
 
                 {/* Swap Button */}
                 <div className="flex shrink-0 self-center">
-                     <Button 
-                        variant="ghost" 
-                        size="icon" 
-                        onClick={handleSwap} 
-                        className="rounded-md h-10 w-10 hover:bg-secondary/50 text-muted-foreground hover:text-foreground transition-colors duration-150"
-                     >
-                        <ArrowLeftRight className="h-5 w-5" />
-                     </Button>
+                  <Button variant="ghost" size="icon-lg" onClick={handleSwap}>
+                    <ArrowLeftRight />
+                  </Button>
                 </div>
 
                 {/* Target Output Group */}
                  <div className="flex-1 w-full space-y-2">
                     <Label className="text-muted-foreground ml-1 text-xs">结果 ({UNITS[type].find(u => u.value === toUnit)?.label})</Label>
-                    <div className="flex gap-0 relative rounded-md border bg-muted/30 ring-offset-background group hover:bg-muted/40 transition-colors">
+                    <div className="flex gap-0 relative rounded-md border bg-muted/30 ring-offset-background hover:bg-muted/40 transition-colors">
                          <div className="flex-1">
-                            <Input 
-                                value={outputValue} 
-                                readOnly 
+                            <Input
+                                value={outputValue}
+                                readOnly
                                 className="text-xl h-14 font-bold bg-transparent text-primary border-0 focus-visible:ring-0 shadow-none rounded-r-none px-4 cursor-pointer"
                                 onClick={copyToClipboard}
                             />
                         </div>
                         <Button
-                                size="icon"
-                                variant="ghost"
-                                className="absolute right-24 top-2 h-10 w-10 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity z-10"
-                                onClick={copyToClipboard}
-                            >
-                                <Copy className="h-4 w-4" />
-                            </Button>
+                          size="icon-sm"
+                          variant="ghost"
+                          className="absolute right-24 top-1/2 -translate-y-1/2 z-10"
+                          onClick={copyToClipboard}
+                        >
+                          <Copy />
+                        </Button>
                         <div className="bg-muted/10 border-l flex items-center px-1">
                              <Select value={toUnit} onValueChange={setToUnit}>
                                 <SelectTrigger className="w-[85px] h-10 border-0 bg-transparent focus:ring-0 text-sm gap-1 shadow-none">

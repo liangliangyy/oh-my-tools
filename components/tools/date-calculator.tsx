@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Calendar, Plus, Minus, Calculator } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 type CalculateMode = "diff" | "add" | "subtract"
 
@@ -106,35 +106,16 @@ function DateCalculatorInner() {
   return (
     <div className="space-y-6">
       {/* Mode Selection */}
-      <div className="flex gap-2 p-1 bg-secondary rounded-lg">
-        <Button
-          variant={mode === "diff" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("diff")}
-          className="flex-1 transition-colors duration-150"
-        >
-          <Calculator className="h-4 w-4 mr-2" />
-          日期差计算
-        </Button>
-        <Button
-          variant={mode === "add" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("add")}
-          className="flex-1 transition-colors duration-150"
-        >
-          <Plus className="h-4 w-4 mr-2" />
-          日期加法
-        </Button>
-        <Button
-          variant={mode === "subtract" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("subtract")}
-          className="flex-1 transition-colors duration-150"
-        >
-          <Minus className="h-4 w-4 mr-2" />
-          日期减法
-        </Button>
-      </div>
+      <SegmentedControl<CalculateMode>
+        ariaLabel="计算模式"
+        value={mode}
+        onValueChange={setMode}
+        items={[
+          { value: "diff", label: "日期差计算", icon: Calculator },
+          { value: "add", label: "日期加法", icon: Plus },
+          { value: "subtract", label: "日期减法", icon: Minus },
+        ]}
+      />
 
       {/* Date Diff Calculator */}
       {mode === "diff" && (
@@ -172,7 +153,7 @@ function DateCalculatorInner() {
           </div>
 
           <Button variant="accent" onClick={calculateDiff}>
-            <Calculator className="h-4 w-4 mr-2" />
+            <Calculator />
             计算日期差
           </Button>
 
@@ -258,7 +239,7 @@ function DateCalculatorInner() {
           </div>
 
           <Button variant="accent" onClick={calculateAddSub}>
-            {mode === "add" ? <Plus className="h-4 w-4 mr-2" /> : <Minus className="h-4 w-4 mr-2" />}
+            {mode === "add" ? <Plus /> : <Minus />}
             计算结果
           </Button>
 

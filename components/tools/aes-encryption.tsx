@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, Check, Lock, Unlock, Key, RefreshCw } from "lucide-react"
 import {
   Select,
@@ -183,26 +184,15 @@ function AesEncryptionInner() {
   return (
     <div className="space-y-4">
       {/* 模式切换 */}
-      <div className="flex items-center gap-2 p-1.5 rounded-lg bg-secondary/50 dark:bg-secondary/30">
-        <Button
-          variant={mode === "encrypt" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("encrypt")}
-          className="transition-colors duration-150"
-        >
-          <Lock className="h-4 w-4 mr-2" />
-          加密
-        </Button>
-        <Button
-          variant={mode === "decrypt" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("decrypt")}
-          className="transition-colors duration-150"
-        >
-          <Unlock className="h-4 w-4 mr-2" />
-          解密
-        </Button>
-      </div>
+      <SegmentedControl<"encrypt" | "decrypt">
+        ariaLabel="加解密模式"
+        value={mode}
+        onValueChange={setMode}
+        items={[
+          { value: "encrypt", label: "加密", icon: Lock },
+          { value: "decrypt", label: "解密", icon: Unlock },
+        ]}
+      />
 
       {/* 密钥配置 */}
       <div className="space-y-3 p-4 border rounded-lg">
@@ -230,7 +220,7 @@ function AesEncryptionInner() {
             className="font-mono text-xs"
           />
           <Button variant="ghost" size="sm" onClick={generateKey}>
-            <Key className="h-4 w-4 mr-2" />
+            <Key />
             生成
           </Button>
         </div>
@@ -269,38 +259,38 @@ function AesEncryptionInner() {
       )}
 
       {/* 操作按钮 */}
-      <div className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center gap-2">
         <Button variant="accent" onClick={process}>
           {mode === "encrypt" ? (
             <>
-              <Lock className="h-4 w-4 mr-2" />
+              <Lock />
               加密
             </>
           ) : (
             <>
-              <Unlock className="h-4 w-4 mr-2" />
+              <Unlock />
               解密
             </>
           )}
         </Button>
-        <Button variant="ghost" onClick={copyOutput} disabled={!output}>
+        <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
           {copied ? (
             <>
-              <Check className="h-4 w-4 mr-2 text-signal-ok" />
+              <Check className="text-signal-ok" />
               <span className="text-signal-ok">已复制</span>
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4 mr-2" />
+              <Copy />
               复制结果
             </>
           )}
         </Button>
-        <Button variant="ghost" onClick={swap} disabled={!output}>
-          <RefreshCw className="h-4 w-4 mr-2" />
+        <Button variant="ghost" size="sm" onClick={swap} disabled={!output}>
+          <RefreshCw />
           交换
         </Button>
-        <Button variant="ghost" onClick={clear}>
+        <Button variant="ghost" size="sm" onClick={clear}>
           清空
         </Button>
       </div>

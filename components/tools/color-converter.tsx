@@ -152,7 +152,7 @@ function ColorConverterInner() {
             size="icon" 
             onClick={() => copy(hex, "hex")}
           >
-            {copied === "hex" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+            {copied === "hex" ? <Check className="text-signal-ok" /> : <Copy />}
           </Button>
         </div>
       </div>
@@ -195,7 +195,7 @@ function ColorConverterInner() {
             size="icon" 
             onClick={() => copy(rgbString, "rgb")}
           >
-            {copied === "rgb" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+            {copied === "rgb" ? <Check className="text-signal-ok" /> : <Copy />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{rgbString}</code>
@@ -239,7 +239,7 @@ function ColorConverterInner() {
             size="icon" 
             onClick={() => copy(hslString, "hsl")}
           >
-            {copied === "hsl" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+            {copied === "hsl" ? <Check className="text-signal-ok" /> : <Copy />}
           </Button>
         </div>
         <code className="text-xs text-muted-foreground font-mono">{hslString}</code>

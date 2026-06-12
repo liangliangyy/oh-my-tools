@@ -11,6 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, RotateCcw, ArrowLeftRight, FileText, Check, Trash2 } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -147,35 +148,26 @@ function FileDiffInner() {
 
         <div className="flex items-center gap-2">
           <Label>视图:</Label>
-          <div className="flex gap-2">
-            <Button
-              variant={renderSideBySide ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setRenderSideBySide(true)}
-              className="transition-colors duration-150"
-            >
-              并排
-            </Button>
-            <Button
-              variant={!renderSideBySide ? "secondary" : "ghost"}
-              size="sm"
-              onClick={() => setRenderSideBySide(false)}
-              className="transition-colors duration-150"
-            >
-              内联
-            </Button>
-          </div>
+          <SegmentedControl<"side" | "inline">
+            ariaLabel="视图模式"
+            value={renderSideBySide ? "side" : "inline"}
+            onValueChange={(v) => setRenderSideBySide(v === "side")}
+            items={[
+              { value: "side", label: "并排" },
+              { value: "inline", label: "内联" },
+            ]}
+          />
         </div>
 
         <div className="flex-1" />
 
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={handleSwap}>
-            <ArrowLeftRight className="h-4 w-4 mr-1.5" />
+            <ArrowLeftRight />
             交换
           </Button>
           <Button variant="ghost" size="sm" onClick={handleReset}>
-            <RotateCcw className="h-4 w-4 mr-1.5" />
+            <RotateCcw />
             重置
           </Button>
         </div>
@@ -203,13 +195,13 @@ function FileDiffInner() {
           <span className="text-sm font-medium text-muted-foreground">原始文件</span>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="sm" onClick={() => handleClear("original")}>
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash2 />
             </Button>
             <Button variant="ghost" size="sm" onClick={() => handleCopy("original")}>
               {copied === "original" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -218,13 +210,13 @@ function FileDiffInner() {
           <span className="text-sm font-medium text-muted-foreground">修改后文件</span>
           <div className="flex items-center gap-1">
             <Button variant="ghost" size="sm" onClick={() => handleClear("modified")}>
-              <Trash2 className="h-3.5 w-3.5" />
+              <Trash2 />
             </Button>
             <Button variant="ghost" size="sm" onClick={() => handleCopy("modified")}>
               {copied === "modified" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>

@@ -83,7 +83,7 @@ function JwtDecoderInner() {
         <div className="flex items-center justify-between">
           <label className="text-xs font-medium tracking-wide text-muted-foreground">JWT Token</label>
           <Button variant="ghost" size="sm" onClick={clear}>
-            <Trash2 className="h-4 w-4 mr-1" />
+            <Trash2 />
             清空
           </Button>
         </div>
@@ -95,7 +95,7 @@ function JwtDecoderInner() {
         />
       </div>
 
-      <Button variant="accent" onClick={decodeJWT} className="w-full">
+      <Button variant="accent" onClick={decodeJWT}>
         解码
       </Button>
 
@@ -118,9 +118,9 @@ function JwtDecoderInner() {
                 onClick={() => copyToClipboard(JSON.stringify(decoded.header, null, 2), "header")}
               >
                 {copiedPart === "header" ? (
-                  <Check className="h-3.5 w-3.5 text-signal-ok" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-3.5 w-3.5" />
+                  <Copy />
                 )}
               </Button>
             </div>
@@ -139,9 +139,9 @@ function JwtDecoderInner() {
                 onClick={() => copyToClipboard(JSON.stringify(decoded.payload, null, 2), "payload")}
               >
                 {copiedPart === "payload" ? (
-                  <Check className="h-3.5 w-3.5 text-signal-ok" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-3.5 w-3.5" />
+                  <Copy />
                 )}
               </Button>
             </div>
@@ -176,9 +176,9 @@ function JwtDecoderInner() {
                 onClick={() => copyToClipboard(decoded.signature, "signature")}
               >
                 {copiedPart === "signature" ? (
-                  <Check className="h-3.5 w-3.5 text-signal-ok" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-3.5 w-3.5" />
+                  <Copy />
                 )}
               </Button>
             </div>

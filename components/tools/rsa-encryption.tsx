@@ -13,6 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { cn } from "@/lib/utils"
 
 const KEY_SIZES = [
@@ -219,26 +220,15 @@ function RsaEncryptionInner() {
   return (
     <div className="space-y-4">
       {/* 模式切换 */}
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
-        <Button
-          variant={mode === "encrypt" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("encrypt")}
-          className="transition-colors duration-150"
-        >
-          <Lock className="h-4 w-4 mr-2" />
-          加密
-        </Button>
-        <Button
-          variant={mode === "decrypt" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("decrypt")}
-          className="transition-colors duration-150"
-        >
-          <Unlock className="h-4 w-4 mr-2" />
-          解密
-        </Button>
-      </div>
+      <SegmentedControl<"encrypt" | "decrypt">
+        ariaLabel="加解密模式"
+        value={mode}
+        onValueChange={setMode}
+        items={[
+          { value: "encrypt", label: "加密", icon: Lock },
+          { value: "decrypt", label: "解密", icon: Unlock },
+        ]}
+      />
 
       {/* 密钥管理 */}
       <Tabs defaultValue="generate" className="w-full">
@@ -262,7 +252,7 @@ function RsaEncryptionInner() {
               </SelectContent>
             </Select>
             <Button variant="accent" onClick={generateKeyPair} disabled={generating}>
-              <Key className="h-4 w-4 mr-2" />
+              <Key />
               {generating ? "生成中..." : "生成密钥对"}
             </Button>
           </div>
@@ -278,9 +268,9 @@ function RsaEncryptionInner() {
                     onClick={() => copyText(publicKey, "public")}
                   >
                     {copied === "public" ? (
-                      <Check className="h-3.5 w-3.5 text-signal-ok" />
+                      <Check className="text-signal-ok" />
                     ) : (
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy />
                     )}
                   </Button>
                 </div>
@@ -300,9 +290,9 @@ function RsaEncryptionInner() {
                     onClick={() => copyText(privateKey, "private")}
                   >
                     {copied === "private" ? (
-                      <Check className="h-3.5 w-3.5 text-signal-ok" />
+                      <Check className="text-signal-ok" />
                     ) : (
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy />
                     )}
                   </Button>
                 </div>
@@ -378,38 +368,38 @@ function RsaEncryptionInner() {
         <Button variant="accent" onClick={process}>
           {mode === "encrypt" ? (
             <>
-              <Lock className="h-4 w-4 mr-2" />
+              <Lock />
               加密
             </>
           ) : (
             <>
-              <Unlock className="h-4 w-4 mr-2" />
+              <Unlock />
               解密
             </>
           )}
         </Button>
         <Button
-          variant="ghost"
+          variant="ghost" size="sm"
           onClick={() => copyText(output, "output")}
           disabled={!output}
         >
           {copied === "output" ? (
             <>
-              <Check className="h-4 w-4 mr-2" />
+              <Check />
               已复制
             </>
           ) : (
             <>
-              <Copy className="h-4 w-4 mr-2" />
+              <Copy />
               复制结果
             </>
           )}
         </Button>
-        <Button variant="ghost" onClick={swap} disabled={!output}>
-          <RefreshCw className="h-4 w-4 mr-2" />
+        <Button variant="ghost" size="sm" onClick={swap} disabled={!output}>
+          <RefreshCw />
           交换
         </Button>
-        <Button variant="ghost" onClick={clear}>
+        <Button variant="ghost" size="sm" onClick={clear}>
           清空
         </Button>
       </div>

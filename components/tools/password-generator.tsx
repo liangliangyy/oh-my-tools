@@ -216,13 +216,13 @@ function PasswordGeneratorInner() {
             size="icon"
             variant="accent"
           >
-            <RefreshCw className="h-4 w-4" />
+            <RefreshCw />
           </Button>
           <Button onClick={() => copyPassword(password, "single")} size="icon" variant="ghost" disabled={!password}>
             {copied === "single" ? (
-              <Check className="h-4 w-4 text-signal-ok" />
+              <Check className="text-signal-ok" />
             ) : (
-              <Copy className="h-4 w-4" />
+              <Copy />
             )}
           </Button>
         </div>
@@ -257,9 +257,9 @@ function PasswordGeneratorInner() {
                 <code className="flex-1 text-sm font-mono">{pwd}</code>
                 <Button onClick={() => copyPassword(pwd, index)} size="icon-sm" variant="ghost">
                   {copied === index ? (
-                    <Check className="h-3.5 w-3.5 text-signal-ok" />
+                    <Check className="text-signal-ok" />
                   ) : (
-                    <Copy className="h-3.5 w-3.5" />
+                    <Copy />
                   )}
                 </Button>
               </div>

@@ -148,17 +148,17 @@ function UuidGeneratorInner() {
         )}
 
         <div className="flex gap-2 items-center">
-          <Button variant="accent" onClick={generate} className="gap-2">
-            <RefreshCw className="h-4 w-4" />
+          <Button variant="accent" onClick={generate}>
+            <RefreshCw />
             生成 UUID
           </Button>
           {uuids.length > 0 && (
             <>
-              <Button variant="ghost" onClick={copyAll} className="gap-2">
-                {copied === "all" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+              <Button variant="ghost" size="sm" onClick={copyAll}>
+                {copied === "all" ? <Check className="text-signal-ok" /> : <Copy />}
                 复制全部
               </Button>
-              <Button variant="ghost" onClick={() => setUuids([])}>
+              <Button variant="ghost" size="sm" onClick={() => setUuids([])}>
                 清空
               </Button>
             </>
@@ -179,23 +179,18 @@ function UuidGeneratorInner() {
       {uuids.length > 0 && (
         <div className="space-y-2 max-h-96 overflow-y-auto">
           {uuids.map((uuid, index) => (
-            <div key={`${uuid}-${index}`} className="flex items-center gap-2 p-2 rounded-lg bg-secondary border border-border group">
+            <div key={`${uuid}-${index}`} className="flex items-center gap-2 p-2 rounded-lg bg-secondary border border-border">
               <code className="flex-1 font-mono text-sm">{uuid}</code>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={() => copy(uuid, uuid)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity"
-              >
-                {copied === uuid ? <Check className="h-3.5 w-3.5 text-signal-ok" /> : <Copy className="h-3.5 w-3.5" />}
+              <Button variant="ghost" size="icon-sm" onClick={() => copy(uuid, uuid)}>
+                {copied === uuid ? <Check className="text-signal-ok" /> : <Copy />}
               </Button>
               <Button
                 variant="ghost"
-                size="sm"
+                size="icon-sm"
                 onClick={() => remove(index)}
-                className="opacity-0 group-hover:opacity-100 transition-opacity text-muted-foreground hover:text-destructive hover:bg-destructive/10"
+                className="text-muted-foreground hover:text-destructive hover:bg-destructive/10"
               >
-                <Trash2 className="h-3.5 w-3.5" />
+                <Trash2 />
               </Button>
             </div>
           ))}

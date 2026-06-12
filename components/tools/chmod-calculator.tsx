@@ -114,7 +114,7 @@ function ChmodCalculatorInner() {
               <div className="flex gap-2">
                 <Input value={octal} readOnly className="font-mono text-lg bg-secondary/50 cursor-default" />
                 <Button variant="ghost" size="icon" onClick={() => copyToClipboard(octal)}>
-                  <Copy className="h-4 w-4" />
+                  <Copy />
                 </Button>
               </div>
               <div className="flex gap-2 text-sm text-muted-foreground">
@@ -132,7 +132,7 @@ function ChmodCalculatorInner() {
               <div className="flex gap-2">
                 <Input value={symbolic} readOnly className="font-mono text-lg bg-secondary/50 cursor-default" />
                 <Button variant="ghost" size="icon" onClick={() => copyToClipboard(symbolic)}>
-                  <Copy className="h-4 w-4" />
+                  <Copy />
                 </Button>
               </div>
             </div>

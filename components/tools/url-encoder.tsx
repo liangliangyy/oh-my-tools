@@ -3,8 +3,8 @@
 import { useState, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, Check } from "lucide-react"
-import { cn } from "@/lib/utils"
 
 function UrlEncoderInner() {
   const [input, setInput] = useState("")
@@ -35,24 +35,15 @@ function UrlEncoderInner() {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30">
-        <Button
-          variant={mode === "encode" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("encode")}
-          className="transition-colors duration-150"
-        >
-          编码
-        </Button>
-        <Button
-          variant={mode === "decode" ? "secondary" : "ghost"}
-          size="sm"
-          onClick={() => setMode("decode")}
-          className="transition-colors duration-150"
-        >
-          解码
-        </Button>
-      </div>
+      <SegmentedControl<"encode" | "decode">
+        ariaLabel="编解码模式"
+        value={mode}
+        onValueChange={setMode}
+        items={[
+          { value: "encode", label: "编码" },
+          { value: "decode", label: "解码" },
+        ]}
+      />
 
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
@@ -70,9 +61,9 @@ function UrlEncoderInner() {
             {output && (
               <Button variant="ghost" size="sm" onClick={copyOutput}>
                 {copied ? (
-                  <Check className="h-3.5 w-3.5 text-signal-ok" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-3.5 w-3.5" />
+                  <Copy />
                 )}
               </Button>
             )}
@@ -88,11 +79,11 @@ function UrlEncoderInner() {
 
       {error && <p className="text-sm text-destructive">{error}</p>}
 
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Button variant="accent" onClick={process}>
           {mode === "encode" ? "编码" : "解码"}
         </Button>
-        <Button variant="ghost" onClick={() => { setInput(""); setOutput(""); setError("") }}>
+        <Button variant="ghost" size="sm" onClick={() => { setInput(""); setOutput(""); setError("") }}>
           清空
         </Button>
       </div>

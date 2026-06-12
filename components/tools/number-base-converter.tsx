@@ -148,9 +148,9 @@ function NumberBaseConverterInner() {
               disabled={!binary}
             >
               {copied === "binary" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -178,9 +178,9 @@ function NumberBaseConverterInner() {
               disabled={!octal}
             >
               {copied === "octal" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -203,9 +203,9 @@ function NumberBaseConverterInner() {
               disabled={!decimal}
             >
               {copied === "decimal" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -233,9 +233,9 @@ function NumberBaseConverterInner() {
               disabled={!hexadecimal}
             >
               {copied === "hex" ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>
@@ -253,8 +253,8 @@ function NumberBaseConverterInner() {
         </div>
       </div>
 
-      <Button onClick={clear} variant="ghost" className="w-full">
-        <Trash2 className="h-4 w-4 mr-2" />
+      <Button onClick={clear} variant="ghost" size="sm">
+        <Trash2 />
         清空
       </Button>
 
@@ -265,7 +265,7 @@ function NumberBaseConverterInner() {
           {commonNumbers.map((num) => (
             <Button
               key={num.decimal}
-              variant="ghost"
+              variant="outline"
               size="sm"
               onClick={() => handleDecimalChange(num.decimal)}
               className="font-mono"

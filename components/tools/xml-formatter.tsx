@@ -4,6 +4,7 @@ import { useState, memo } from "react"
 import { XMLParser, XMLBuilder } from "fast-xml-parser"
 import { Button } from "@/components/ui/button"
 import { CodeEditor } from "@/components/ui/code-editor"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, Check, Wand2, Minimize2, Trash2, ArrowLeftRight } from "lucide-react"
 
 type Mode = "format" | "xml2json" | "json2xml"
@@ -108,22 +109,16 @@ function XmlFormatterInner() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center gap-2 p-2 rounded-lg bg-secondary/50 dark:bg-secondary/30 w-fit">
-        {modes.map((m) => (
-          <Button
-            key={m.id}
-            variant={mode === m.id ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => {
-              setMode(m.id)
-              setOutput("")
-              setError("")
-            }}
-          >
-            {m.name}
-          </Button>
-        ))}
-      </div>
+      <SegmentedControl<Mode>
+        ariaLabel="处理模式"
+        value={mode}
+        onValueChange={(v) => {
+          setMode(v)
+          setOutput("")
+          setError("")
+        }}
+        items={modes.map((m) => ({ value: m.id, label: m.name }))}
+      />
 
       <div className="grid gap-6 lg:grid-cols-2">
         <div className="space-y-3">
@@ -156,12 +151,12 @@ function XmlFormatterInner() {
                 <Button variant="ghost" size="sm" onClick={copyOutput}>
                   {copied ? (
                     <>
-                      <Check className="h-3.5 w-3.5 text-signal-ok" />
+                      <Check className="text-signal-ok" />
                       <span className="text-xs font-medium text-signal-ok">已复制</span>
                     </>
                   ) : (
                     <>
-                      <Copy className="h-3.5 w-3.5" />
+                      <Copy />
                       <span className="text-xs font-medium">复制</span>
                     </>
                   )}
@@ -187,17 +182,17 @@ function XmlFormatterInner() {
 
       <div className="flex flex-wrap gap-3 pt-2">
         <Button variant="accent" onClick={process}>
-          <Wand2 className="h-4 w-4" />
+          <Wand2 />
           {mode === "format" ? "格式化" : "转换"}
         </Button>
         {mode !== "format" && output && (
           <Button variant="outline" onClick={swap}>
-            <ArrowLeftRight className="h-4 w-4" />
+            <ArrowLeftRight />
             反向转换
           </Button>
         )}
-        <Button variant="ghost" onClick={clearAll}>
-          <Trash2 className="h-4 w-4" />
+        <Button variant="ghost" size="sm" onClick={clearAll}>
+          <Trash2 />
           清空
         </Button>
       </div>

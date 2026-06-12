@@ -100,17 +100,17 @@ function CommandCard({ title, command, onCopy }: { title: string, command: strin
       <div className="flex items-center justify-between">
         <Label className="text-xs font-medium text-muted-foreground">{title}</Label>
       </div>
-      <div className="relative group">
+      <div className="relative">
         <div className="min-h-[3rem] w-full rounded-md border border-border bg-secondary/30 px-3 py-3 text-sm font-mono flex items-center pr-10">
           {command}
         </div>
-        <Button 
-          variant="ghost" 
-          size="icon" 
-          className="absolute right-1 top-1 h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity"
+        <Button
+          variant="ghost"
+          size="icon-sm"
+          className="absolute right-1.5 top-1.5"
           onClick={onCopy}
         >
-          <Copy className="h-4 w-4" />
+          <Copy />
         </Button>
       </div>
     </div>

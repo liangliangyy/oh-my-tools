@@ -3,6 +3,7 @@
 import { useState, useMemo, memo } from "react"
 import { Button } from "@/components/ui/button"
 import { CodeEditor } from "@/components/ui/code-editor"
+import { SegmentedControl } from "@/components/ui/segmented-control"
 import { Copy, Check, AlertCircle } from "lucide-react"
 import { cn } from "@/lib/utils"
 
@@ -350,17 +351,13 @@ function JsonToCodeInner() {
   return (
     <div className="space-y-4">
       {/* Language Selector */}
-      <div className="flex flex-wrap gap-2">
-        {languages.map((lang) => (
-          <Button
-            key={lang.id}
-            variant={language === lang.id ? "secondary" : "ghost"}
-            size="sm"
-            onClick={() => setLanguage(lang.id)}
-          >
-            {lang.name}
-          </Button>
-        ))}
+      <div className="overflow-x-auto">
+        <SegmentedControl<Language>
+          ariaLabel="目标语言"
+          value={language}
+          onValueChange={setLanguage}
+          items={languages.map((l) => ({ value: l.id, label: l.name }))}
+        />
       </div>
 
       <div className="grid lg:grid-cols-2 gap-4">
@@ -392,16 +389,15 @@ function JsonToCodeInner() {
               size="sm"
               onClick={handleCopy}
               disabled={!output}
-              className="h-7 gap-1.5"
             >
               {copied ? (
                 <>
-                  <Check className="h-3.5 w-3.5" />
+                  <Check />
                   已复制
                 </>
               ) : (
                 <>
-                  <Copy className="h-3.5 w-3.5" />
+                  <Copy />
                   复制
                 </>
               )}
@@ -409,7 +405,7 @@ function JsonToCodeInner() {
           </div>
           <CodeEditor
             value={output || "// 等待输入有效的 JSON..."}
-            language={currentLang?.id === "typescript" || currentLang?.id === "javascript" ? "typescript" : "text"}
+            language={currentLang?.id === "typescript" ? "typescript" : "text"}
             readOnly
             height="400px"
           />

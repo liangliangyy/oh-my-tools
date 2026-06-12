@@ -179,9 +179,9 @@ function ImageToBase64Inner() {
                 onClick={() => copyToClipboard(base64, "base64")}
               >
                 {copied === "base64" ? (
-                  <Check className="h-4 w-4 text-signal-ok mr-1" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-4 w-4 mr-1" />
+                  <Copy />
                 )}
                 复制
               </Button>
@@ -198,9 +198,9 @@ function ImageToBase64Inner() {
               <Label>Data URL（可直接用于 img src）</Label>
               <Button variant="ghost" size="sm" onClick={() => copyToClipboard(dataUrl, "dataurl")}>
                 {copied === "dataurl" ? (
-                  <Check className="h-4 w-4 text-signal-ok mr-1" />
+                  <Check className="text-signal-ok" />
                 ) : (
-                  <Copy className="h-4 w-4 mr-1" />
+                  <Copy />
                 )}
                 复制
               </Button>
@@ -212,8 +212,8 @@ function ImageToBase64Inner() {
             />
           </div>
 
-          <Button variant="ghost" onClick={clear} className="w-full gap-2">
-            <Trash2 className="h-4 w-4" />
+          <Button variant="ghost" size="sm" onClick={clear}>
+            <Trash2 />
             清空
           </Button>
         </>

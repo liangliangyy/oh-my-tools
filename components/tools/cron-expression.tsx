@@ -332,7 +332,7 @@ function CronExpressionInner() {
             onClick={() => calculateNextExecutions(customInput)}
             disabled={!customInput}
           >
-            <Clock className="h-4 w-4 mr-1" />
+            <Clock />
             解析
           </Button>
           <Button
@@ -342,7 +342,7 @@ function CronExpressionInner() {
             disabled={!customInput}
             title="加载到生成器"
           >
-            <ArrowUpDown className="h-4 w-4" />
+            <ArrowUpDown />
           </Button>
         </div>
         <p className="text-xs text-muted-foreground">
@@ -360,14 +360,14 @@ function CronExpressionInner() {
               size="sm"
               onClick={() => calculateNextExecutions(cronExpression)}
             >
-              <Clock className="h-3.5 w-3.5 mr-1" />
+              <Clock />
               计算执行时间
             </Button>
             <Button variant="ghost" size="sm" onClick={copyExpression}>
               {copied ? (
-                <Check className="h-3.5 w-3.5 text-signal-ok" />
+                <Check className="text-signal-ok" />
               ) : (
-                <Copy className="h-3.5 w-3.5" />
+                <Copy />
               )}
             </Button>
           </div>

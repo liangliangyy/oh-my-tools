@@ -217,7 +217,7 @@ function CidrCalculatorInner() {
                 className="h-[200px] font-mono text-sm"
               />
             </div>
-            <Button variant="accent" onClick={checkIpInSubnets} className="w-full">
+            <Button variant="accent" onClick={checkIpInSubnets}>
               检测归属
             </Button>
           </div>
@@ -258,12 +258,12 @@ export const CidrCalculator = memo(CidrCalculatorInner)
 
 function ResultCard({ title, value, onCopy }: { title: string, value: string, onCopy: () => void }) {
   return (
-    <div className="p-4 rounded-lg border border-border bg-card flex flex-col justify-between space-y-2 group relative hover:border-accent/40 transition-colors duration-150">
+    <div className="p-4 rounded-lg border border-border bg-card flex flex-col justify-between space-y-2 hover:border-accent/40 transition-colors duration-150">
       <span className="text-sm font-medium text-muted-foreground">{title}</span>
-      <div className="flex items-center justify-between">
-        <span className="text-lg font-bold font-mono truncate mr-2" title={value}>{value}</span>
-        <Button variant="ghost" size="icon" className="h-8 w-8 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" onClick={onCopy}>
-          <Copy className="h-4 w-4" />
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-lg font-bold font-mono truncate" title={value}>{value}</span>
+        <Button variant="ghost" size="icon-sm" className="flex-shrink-0" onClick={onCopy}>
+          <Copy />
         </Button>
       </div>
     </div>

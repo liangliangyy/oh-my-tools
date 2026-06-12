@@ -142,8 +142,8 @@ function QrcodeGeneratorInner() {
           </div>
 
           <div className="flex gap-2">
-            <Button variant="ghost" onClick={clear} className="gap-2">
-              <Trash2 className="h-4 w-4" />
+            <Button variant="ghost" size="sm" onClick={clear}>
+              <Trash2 />
               清空
             </Button>
           </div>
@@ -168,8 +168,8 @@ function QrcodeGeneratorInner() {
                     style={{ maxWidth: `${Math.min(size, 400)}px` }}
                   />
                 )}
-                <Button variant="accent" onClick={downloadQrCode} className="gap-2" disabled={!qrCodeUrl}>
-                  <Download className="h-4 w-4" />
+                <Button variant="accent" onClick={downloadQrCode} disabled={!qrCodeUrl}>
+                  <Download />
                   下载二维码
                 </Button>
               </div>

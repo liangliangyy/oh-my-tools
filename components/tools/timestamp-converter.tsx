@@ -68,7 +68,7 @@ function TimestampConverterInner() {
         <div className="flex items-center justify-between mb-2">
           <span className="text-sm text-muted-foreground">当前时间</span>
           <Button variant="ghost" size="sm" onClick={() => setCurrentTimestamp(Math.floor(Date.now() / 1000))}>
-            <RefreshCw className="h-3.5 w-3.5" />
+            <RefreshCw />
           </Button>
         </div>
         <div className="grid gap-2 md:grid-cols-2">
@@ -79,7 +79,7 @@ function TimestampConverterInner() {
               size="sm" 
               onClick={() => copy(currentTimestamp.toString(), "current-ts")} 
             >
-              {copied === "current-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+              {copied === "current-ts" ? <Check className="text-signal-ok" /> : <Copy />}
             </Button>
           </div>
           <div className="flex items-center gap-2">
@@ -89,7 +89,7 @@ function TimestampConverterInner() {
               size="sm" 
               onClick={() => copy(formatCurrentDate(), "current-date")} 
             >
-              {copied === "current-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+              {copied === "current-date" ? <Check className="text-signal-ok" /> : <Copy />}
             </Button>
           </div>
         </div>
@@ -116,7 +116,7 @@ function TimestampConverterInner() {
               size="sm" 
               onClick={() => copy(convertedDate, "converted-date")} 
             >
-              {copied === "converted-date" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+              {copied === "converted-date" ? <Check className="text-signal-ok" /> : <Copy />}
             </Button>
           </div>
         )}
@@ -142,7 +142,7 @@ function TimestampConverterInner() {
               size="sm" 
               onClick={() => copy(convertedTimestamp, "converted-ts")} 
             >
-              {copied === "converted-ts" ? <Check className="h-4 w-4 text-signal-ok" /> : <Copy className="h-4 w-4" />}
+              {copied === "converted-ts" ? <Check className="text-signal-ok" /> : <Copy />}
             </Button>
           </div>
         )}
