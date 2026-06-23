@@ -13,8 +13,22 @@ export const siteConfig = {
   // 网站名称
   name: 'oh-my-tools',
 
-  // 网站描述
-  description: '免费在线程序员工具集合，包含 JSON/SQL/XML 格式化、HTML/CSS/JS 美化、Base64/Unicode/HTML 实体编解码、AES/RSA 加密、正则测试、图片格式转换与 EXIF 查看等 35+ 实用工具',
+  // 工具总数 / 分类数（与 lib/tools-config.ts 保持一致，仅用于 SEO 文案；功能页一律以 tools-config 为准）
+  toolCount: 35,
+  categoryCount: 7,
+
+  // 标题（用于 <title> / OG / Twitter）
+  title: 'oh-my-tools - 程序员工具箱 | 35+ 免费在线开发者工具',
+
+  // 网站描述（用于 description / OG / Twitter / JSON-LD）
+  description: '免费在线程序员工具集合，35+ 实用开发工具：JSON/SQL/XML 格式化、HTML/CSS/JS 美化、Base64/Unicode 编解码、AES/RSA 加密、UUID/二维码生成、图片格式转换与 EXIF、CIDR 子网计算等。100% 浏览器本地处理，支持 PWA 安装到桌面离线使用。',
+
+  // 简短描述（用于 Twitter Card 等字符受限场景）
+  shortDescription: '35+ 实用开发工具，100% 本地处理，支持 PWA 离线安装',
+
+  // SEO 关键词
+  keywords:
+    'JSON格式化,SQL格式化,XML转JSON,HTML美化,Base64编码,Unicode转义,AES加密,RSA加密,正则表达式,UUID生成,时间戳转换,二维码生成,图片格式转换,CIDR子网计算,JWT解码,PWA,离线工具,程序员工具,开发者工具,开发工具箱',
 
   // 作者信息
   author: {

@@ -11,8 +11,10 @@
 [![React](https://img.shields.io/badge/React-19-61DAFB?logo=react)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6?logo=typescript)](https://www.typescriptlang.org/)
 [![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-v4-38BDF8?logo=tailwindcss)](https://tailwindcss.com/)
+[![Tools](https://img.shields.io/badge/Tools-35%2B-14b8a6)](#-功能列表)
+[![PWA](https://img.shields.io/badge/PWA-Ready-success?logo=pwa)](#-pwa-安装)
 
-[🌐 在线体验](https://tools.lylinux.net/) | [🧰 功能列表](#-功能列表) | [🚀 本地开发](#-本地开发) | [🤝 贡献](#-贡献)
+[🌐 在线体验](https://tools.lylinux.net/) · [🧰 功能列表](#-功能列表) · [🎨 设计系统](#-设计系统) · [🚀 本地开发](#-本地开发) · [🤝 贡献](#-贡献)
 
 </div>
 
@@ -20,24 +22,24 @@
 
 ## ✨ 特性
 
-- 🔒 **隐私优先** - 所有数据处理均在浏览器本地完成，不上传到任何服务器
-- 🚀 **即开即用** - 无需安装、注册，打开即可使用
-- 🎨 **现代化界面** - 支持深色/浅色主题切换，响应式设计，适配桌面和移动端
-- 💻 **离线可用** - 核心功能支持离线使用，随时随地完成工作
-- ⚡ **高性能** - 基于 Next.js App Router + React 19，极速加载
-- 🌐 **完全免费** - 开源项目，永久免费，无广告
+- 🔒 **隐私优先** — 数据全程留在浏览器，不上传、不收集、不分析
+- ⚡ **极速响应** — 纯浏览器执行，无服务往返，操作即出结果
+- 📱 **PWA 离线** — 可安装到桌面，断网也能用，与原生应用体验一致
+- 🎨 **开发者审美** — 深色优先精确美学、分类配色、Geist Mono 等宽字体
+- 🧩 **35+ 工具，7 大分类** — 覆盖格式化、编解码、加密、生成、转换、网络、开发场景
+- 🌐 **完全免费开源** — MIT 协议，无广告、无登录、永久免费
 
 ---
 
 ## 🧰 功能列表
 
-> 共 **35 个工具**，覆盖开发者日常所需的各类场景。
+> 共 **35 个工具**，按场景分为 **7 大分类**，命名与 `lib/tools-config.ts` 保持一致。
 
-### 📄 格式化工具 (8个)
+### 📄 格式化工具 · 8 个
 
 | 工具 | 描述 |
 |------|------|
-| **JSON 格式化** | 格式化、压缩、验证 JSON 数据，支持语法高亮 |
+| **JSON 格式化** | 格式化、压缩、验证 JSON 数据，基于 CodeMirror，支持语法高亮 |
 | **JSON 转代码** | 将 JSON 转换为 TypeScript、Go、Python、Java、Rust 类型定义 |
 | **SQL 格式化** | SQL 美化与压缩，支持 MySQL / PostgreSQL / SQLite / SQL Server / BigQuery 等 11 种方言 |
 | **XML 工具** | XML 格式化以及 XML ↔ JSON 双向互转 |
@@ -46,7 +48,7 @@
 | **YAML ↔ JSON** | YAML 与 JSON 格式双向转换，支持语法高亮编辑 |
 | **文件 Diff** | 对比两段文本/文件的差异，支持并排/内联视图 |
 
-### 🔐 编码解码 (7个)
+### 🔐 编码解码 · 7 个
 
 | 工具 | 描述 |
 |------|------|
@@ -58,7 +60,7 @@
 | **图片转 Base64** | 图片文件转 Base64 编码，支持拖拽上传，预览原图 |
 | **JWT 解码器** | 解析 JWT Token，查看 Header、Payload 内容，验证签名结构 |
 
-### 🔑 加密工具 (5个)
+### 🔑 加密工具 · 5 个
 
 | 工具 | 描述 |
 |------|------|
@@ -68,7 +70,7 @@
 | **MD5 生成器** | MD5 哈希值生成，支持文本和文件输入 |
 | **密钥生成器** | 生成十六进制、Base64、随机字符串及 RSA 密钥对 |
 
-### 🎲 生成器 (3个)
+### 🎲 生成器 · 3 个
 
 | 工具 | 描述 |
 |------|------|
@@ -76,7 +78,7 @@
 | **密码生成器** | 生成安全的随机密码，支持自定义长度、字符集和规则 |
 | **二维码生成** | 生成自定义二维码图片，可调整颜色、尺寸，支持下载 |
 
-### 🔄 转换器 (6个)
+### 🔄 转换器 · 6 个
 
 | 工具 | 描述 |
 |------|------|
@@ -87,7 +89,7 @@
 | **单位转换** | 长度、重量、温度等常用单位互转 |
 | **图片格式转换** | JPG / PNG / WebP 互转，支持质量调整与尺寸缩放，本地 Canvas 处理 |
 
-### 🌐 网络工具 (3个)
+### 🌐 网络工具 · 3 个
 
 | 工具 | 描述 |
 |------|------|
@@ -95,7 +97,7 @@
 | **Chmod 计算** | Linux 文件权限数字与符号互转，直观权限选择器 |
 | **端口检测** | 生成 TCP/UDP 端口连通性检测命令 |
 
-### 💡 开发工具 (3个)
+### 💡 开发工具 · 3 个
 
 | 工具 | 描述 |
 |------|------|
@@ -107,22 +109,58 @@
 
 ## 🚀 技术栈
 
-| 技术 | 版本 | 说明 |
+### 核心框架
+
+| 技术 | 版本 | 用途 |
 |------|------|------|
-| [Next.js](https://nextjs.org/) | 16.x | 全栈框架，使用 App Router |
+| [Next.js](https://nextjs.org/) | 16.x | 全栈框架，App Router |
 | [React](https://reactjs.org/) | 19.x | UI 框架 |
 | [TypeScript](https://www.typescriptlang.org/) | 5.x | 类型安全 |
-| [Tailwind CSS](https://tailwindcss.com/) | v4 | 原子化 CSS 样式 |
+
+### UI 与样式
+
+| 技术 | 版本 | 用途 |
+|------|------|------|
+| [Tailwind CSS](https://tailwindcss.com/) | v4 | 原子化 CSS，使用 OKLch 色彩空间 |
 | [shadcn/ui](https://ui.shadcn.com/) + [Radix UI](https://www.radix-ui.com/) | latest | 无障碍 UI 组件库 |
-| [CodeMirror 6](https://codemirror.net/) | 6.x | 代码编辑器，支持语法高亮与 Diff 视图 |
 | [Lucide Icons](https://lucide.dev/) | latest | 图标库 |
 | [next-themes](https://github.com/pacocoursey/next-themes) | latest | 深色/浅色主题切换 |
-| [Mermaid](https://mermaid.js.org/) | 11.x | Markdown 中的流程图渲染 |
-| [qrcode](https://github.com/soldair/node-qrcode) | 1.x | 二维码生成 |
+| Geist / Geist Mono | — | 正文与代码字体（next/font） |
+
+### 工具与依赖
+
+| 技术 | 版本 | 用途 |
+|------|------|------|
+| [CodeMirror 6](https://codemirror.net/) | 6.x | 代码编辑器，语法高亮 + Diff 视图 |
 | [sql-formatter](https://github.com/sql-formatter-org/sql-formatter) | 15.x | SQL 多方言格式化 |
 | [fast-xml-parser](https://github.com/NaturalIntelligence/fast-xml-parser) | 5.x | XML 解析与构建 |
 | [js-beautify](https://github.com/beautifier/js-beautify) | 1.x | HTML / CSS / JS 美化 |
 | [exifr](https://github.com/MikeKovarik/exifr) | 7.x | 图片 EXIF 元数据解析 |
+| [qrcode](https://github.com/soldair/node-qrcode) | 1.x | 二维码生成 |
+| [Mermaid](https://mermaid.js.org/) | 11.x | Markdown 中的流程图渲染 |
+
+### PWA 与分析
+
+| 技术 | 用途 |
+|------|------|
+| Service Worker (`public/sw.js`) | 离线缓存，断网可用 |
+| Web App Manifest (`public/manifest.json`) | 可安装到桌面，原生应用体验 |
+| Google Analytics + AdSense | 流量统计与项目维护支持（仅生产环境注入） |
+
+---
+
+## 🎨 设计系统
+
+oh-my-tools 不是堆功能的工具站，而是**带设计观点的工具站**。完整规范见 [`.interface-design/system.md`](.interface-design/system.md)，核心原则：
+
+- **深色优先精确美学** — 终端感、低饱和、高对比，避免装饰性渐变
+- **Borders-only depth** — 全站不用 shadow，仅靠 border / `bg-secondary` / `bg-card` 区分层级
+- **分类色系统** — 7 大分类各有一个 OKLch 色相（`--cat-format` 185、`--cat-encode` 70、`--cat-crypto` 30、`--cat-generator` 145、`--cat-converter` 280、`--cat-tool` 200、`--cat-network` 220），通过 `var(--cat-${categoryId})` 用于工具卡角标、底边线
+- **Accent = teal-cyan @ hue 160** — 主交互色，仅用于"主操作"（Transform / Generate / Calculate）
+- **数据值用 Geist Mono** — 所有数字、token、hash、cron 表达式等用等宽字体强调"数据感"
+- **按钮 variant 语义化** — `accent` = 主操作、`outline` = 次要、`ghost` = 工具栏、`secondary` = 选中态
+
+新增任何 UI 时请优先复用已有 token，不要引入 shadow 或新的色相。
 
 ---
 
@@ -168,7 +206,7 @@ NEXT_PUBLIC_SITE_URL=https://your-domain.com pnpm build
 pnpm start
 ```
 
-### 环境变量配置
+### 环境变量
 
 复制 `.env.example` 为 `.env.local` 并按需修改：
 
@@ -188,12 +226,24 @@ docker run -p 3000:3000 -e NEXT_PUBLIC_SITE_URL=https://your-domain.com oh-my-to
 
 ---
 
+## 📱 PWA 安装
+
+oh-my-tools 已注册 Service Worker 并提供 Web App Manifest，可作为 PWA 安装到桌面：
+
+- **桌面浏览器（Chrome / Edge）**：访问站点后，地址栏右侧会出现 "安装" 图标，点击即可安装到桌面，启动后无浏览器边框，独立窗口运行
+- **iOS Safari**：分享菜单 → "添加到主屏幕"
+- **Android Chrome**：菜单 → "添加到主屏幕" / "安装应用"
+
+安装后即使断网也能继续使用所有本地处理类工具（除少数依赖图片格式转换 / EXIF 解析的页面需要首次访问预缓存）。
+
+---
+
 ## 🔧 添加新工具
 
 1. 在 `components/tools/` 目录下创建新工具组件文件（如 `my-tool.tsx`），导出命名组件
 2. 在 `lib/tools-config.ts` 中以 `lazy()` 注册组件，添加工具条目（id、name、icon、description、category、keywords 等）
 3. 若需要在首页显示自定义图标，在 `app/page.tsx` 的 `iconMap` 中补充映射
-4. 遵循统一的设计系统规范（详见 `.interface-design/system.md`）：
+4. 遵循统一的设计系统规范（详见 [`.interface-design/system.md`](.interface-design/system.md)）：
 
    | 场景 | variant |
    |------|---------|
@@ -262,10 +312,12 @@ const MyTool = lazy(() =>
   icon: Wand2,
   component: MyTool,
   description: "工具简介",
-  category: "tool",
+  category: "tool", // format / encode / crypto / generator / converter / tool / network
   keywords: ["关键词1", "关键词2"],
 }
 ```
+
+> 💡 **分类配色会自动生效**：工具卡的角标和底边线会读取 `var(--cat-${category})`，无需额外配色。
 
 ---
 
@@ -275,31 +327,35 @@ const MyTool = lazy(() =>
 oh-my-tools/
 ├── app/                          # Next.js App Router
 │   ├── page.tsx                 # 首页（工具导航）
-│   ├── layout.tsx               # 根布局（SEO、主题、字体）
+│   ├── layout.tsx               # 根布局（SEO、主题、字体、PWA 注册）
 │   ├── loading.tsx              # 全局加载状态
-│   ├── globals.css              # 全局样式（Tailwind v4）
+│   ├── globals.css              # 全局样式 + 设计 token（Tailwind v4）
 │   ├── robots.ts                # robots.txt 生成
 │   ├── sitemap.ts               # sitemap.xml 生成
 │   └── tools/                   # 工具详情页
-│       ├── page.tsx             # 工具列表页
+│       ├── page.tsx             # 工具列表入口（重定向到第一个工具）
 │       ├── loading.tsx          # 工具页加载状态
 │       └── [toolId]/            # 动态路由：各工具页面
 ├── components/
 │   ├── ui/                      # 基础 UI 组件（shadcn/ui）
-│   ├── tools/                   # 工具组件（35个，详见 lib/tools-config.ts）
+│   ├── tools/                   # 35 个工具组件（详见 lib/tools-config.ts）
 │   ├── theme-provider.tsx       # 主题 Provider
-│   └── theme-toggle.tsx         # 主题切换按钮
+│   ├── theme-toggle.tsx         # 主题切换按钮
+│   └── google-scripts.tsx       # Google Analytics / AdSense 注入
 ├── hooks/                        # 自定义 React Hooks
 ├── lib/
+│   ├── tools-config.ts          # 工具注册中心（单一事实源）
+│   ├── site-config.ts           # 站点级元数据（title / description / keywords）
 │   └── utils.ts                 # 工具函数（cn 等）
-├── styles/                       # 额外样式文件
-├── public/                       # 静态资源
-│   ├── logo.png
-│   └── favicon.ico
+├── public/
+│   ├── manifest.json            # PWA Web App Manifest
+│   ├── sw.js                    # Service Worker（离线缓存）
+│   ├── icons/                   # PWA 应用图标
+│   └── logo.png / favicon.ico
+├── .interface-design/system.md   # 设计系统规范（不参与构建）
 ├── Dockerfile                    # Docker 镜像构建
 ├── nginx.conf                    # Nginx 配置
 ├── next.config.mjs               # Next.js 配置
-├── tailwind.config              # Tailwind 配置（内联于 CSS）
 └── .env.example                  # 环境变量示例
 ```
 
@@ -325,6 +381,8 @@ oh-my-tools/
 | `style` | 代码格式调整 |
 | `refactor` | 重构 |
 | `chore` | 构建/工具链更新 |
+| `perf` | 性能优化 |
+| `design` | 设计系统调整 |
 
 ---
 

@@ -12,19 +12,19 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'oh-my-tools - 程序员工具箱 | 28+免费在线开发者工具',
-  description: '免费在线程序员工具集合，包含JSON格式化、Base64编解码、AES/RSA加密、正则表达式测试、UUID生成、时间戳转换等28+实用开发工具。100%本地处理，保护数据隐私。',
-  keywords: 'JSON格式化,Base64编码,在线工具,程序员工具,开发者工具,AES加密,正则表达式,UUID生成,时间戳转换,开发工具箱',
+  title: siteConfig.title,
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
   manifest: '/manifest.json',
   appleWebApp: {
     capable: true,
     statusBarStyle: 'black-translucent',
     title: 'oh-my-tools',
   },
-  generator: 'v0.app',
-  authors: [{ name: 'oh-my-tools', url: 'https://github.com/liangliangyy/oh-my-tools' }],
-  creator: 'oh-my-tools',
-  publisher: 'oh-my-tools',
+  applicationName: 'oh-my-tools',
+  authors: [{ name: siteConfig.author.name, url: siteConfig.author.url }],
+  creator: siteConfig.author.name,
+  publisher: siteConfig.author.name,
   robots: {
     index: true,
     follow: true,
@@ -37,14 +37,14 @@ export const metadata: Metadata = {
     type: 'website',
     locale: 'zh_CN',
     url: siteConfig.baseUrl,
-    title: 'oh-my-tools - 程序员工具箱 | 28+免费在线开发者工具',
-    description: '免费在线程序员工具集合，包含JSON格式化、Base64编解码、AES/RSA加密、正则表达式测试、UUID生成、时间戳转换等28+实用开发工具。100%本地处理，保护数据隐私。',
-    siteName: 'oh-my-tools',
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.name,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'oh-my-tools - 程序员工具箱',
-    description: '免费在线程序员工具集合，28+实用开发工具，100%本地处理',
+    title: siteConfig.title,
+    description: siteConfig.shortDescription,
   },
   icons: {
     icon: [
