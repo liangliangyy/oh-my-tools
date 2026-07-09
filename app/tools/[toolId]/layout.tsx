@@ -158,9 +158,9 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
           {/* Sidebar */}
           <aside
             className={cn(
-              "fixed lg:relative inset-y-0 left-0 z-40 bg-background lg:bg-transparent p-4 lg:p-0 transform transition-[transform,width] duration-200 ease-out lg:transform-none border-r lg:border-r-0 border-border flex-shrink-0",
+              "fixed lg:relative inset-y-0 left-0 z-40 bg-sidebar lg:bg-transparent p-4 lg:p-0 transform transition-[transform,width] duration-200 ease-out lg:transform-none border-r lg:border-r-0 border-sidebar-border flex-shrink-0",
               sidebarOpen ? "translate-x-0 w-72" : "-translate-x-full lg:translate-x-0",
-              collapsed ? "lg:w-14" : "lg:w-60",
+              collapsed ? "lg:w-14" : "lg:w-64",
               !sidebarOpen && "w-72"
             )}
           >
@@ -189,13 +189,23 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                 </button>
               ) : (
                 <div className="relative">
-                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
                   <Input
                     placeholder="搜索工具..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-9 bg-secondary border-border"
+                    className="pl-9 pr-8 bg-secondary/60 border-border focus:border-accent/40 focus:bg-background transition-colors duration-150 text-sm h-9 rounded-lg"
                   />
+                  {searchQuery && (
+                    <button
+                      type="button"
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-2.5 top-1/2 -translate-y-1/2 flex items-center justify-center w-4 h-4 rounded-full bg-muted-foreground/20 hover:bg-muted-foreground/30 transition-colors"
+                      aria-label="清除搜索"
+                    >
+                      <span className="text-muted-foreground text-[10px] leading-none">✕</span>
+                    </button>
+                  )}
                 </div>
               )}
 
@@ -237,10 +247,11 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                   </div>
                 ) : searchQuery ? (
                   // 搜索：扁平列表
-                  <div className="space-y-1">
+                  <div className="space-y-0.5">
                     {filteredTools.map((tool) => {
                       const Icon = tool.icon
                       const isActive = currentToolId === tool.id
+                      const catColorVar = `var(--cat-${tool.category})`
                       return (
                         <Link
                           key={tool.id}
@@ -248,17 +259,25 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                           href={`/tools/${tool.id}`}
                           onClick={() => setSidebarOpen(false)}
                           className={cn(
-                            "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative",
+                            "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all duration-150 relative text-sm",
                             isActive
-                              ? "bg-accent/15 text-accent"
-                              : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                              ? "font-medium"
+                              : "text-muted-foreground hover:text-foreground hover:bg-secondary hover:translate-x-0.5"
                           )}
+                          style={isActive ? {
+                            backgroundColor: `color-mix(in oklch, ${catColorVar} 12%, transparent)`,
+                            color: catColorVar,
+                          } : undefined}
                         >
                           {isActive && (
-                            <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
+                            <div
+                              className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-r-full"
+                              style={{ backgroundColor: catColorVar }}
+                              aria-hidden="true"
+                            />
                           )}
-                          <Icon className="h-4 w-4 flex-shrink-0" />
-                          <span className="font-medium text-sm truncate">{tool.name}</span>
+                          <Icon className="h-3.5 w-3.5 flex-shrink-0" />
+                          <span className="truncate">{tool.name}</span>
                         </Link>
                       )
                     })}
@@ -268,30 +287,43 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                   toolsByCategory.map((category) => {
                     const CategoryIcon = category.icon
                     const isExpanded = expandedCategories.has(category.id)
+                    const catColorVar = `var(--cat-${category.id})`
 
                     return (
-                      <div key={category.id} className="space-y-1">
+                      <div key={category.id} className="space-y-0.5">
                         <button
                           onClick={() => toggleCategory(category.id)}
-                          className="w-full flex items-center justify-between px-2 py-1.5 text-sm font-medium text-muted-foreground hover:text-foreground hover:bg-secondary rounded-md transition-colors"
+                          className="w-full flex items-center justify-between px-2 py-1.5 text-xs font-semibold uppercase tracking-wider hover:bg-secondary rounded-md transition-colors group"
+                          style={{ color: catColorVar }}
                         >
                           <div className="flex items-center gap-2">
-                            <CategoryIcon className="h-3.5 w-3.5" />
+                            <div
+                              className="w-1 h-3.5 rounded-full flex-shrink-0"
+                              style={{ backgroundColor: catColorVar }}
+                              aria-hidden="true"
+                            />
+                            <CategoryIcon className="h-3 w-3" />
                             <span>{category.name}</span>
-                            <span className="text-xs bg-secondary px-1.5 py-0.5 rounded">
+                            <span
+                              className="text-[10px] px-1.5 py-0.5 rounded-full font-mono font-medium"
+                              style={{
+                                backgroundColor: `color-mix(in oklch, ${catColorVar} 15%, transparent)`,
+                                color: catColorVar,
+                              }}
+                            >
                               {category.tools.length}
                             </span>
                           </div>
                           <ChevronDown
                             className={cn(
-                              "h-4 w-4 transition-transform",
+                              "h-3.5 w-3.5 transition-transform duration-200 text-muted-foreground",
                               isExpanded && "rotate-180"
                             )}
                           />
                         </button>
 
                         {isExpanded && (
-                          <div className="space-y-0.5 pl-2">
+                          <div className="space-y-0.5 pl-1">
                             {category.tools.map((tool) => {
                               const Icon = tool.icon
                               const isActive = currentToolId === tool.id
@@ -302,17 +334,25 @@ export default function ToolsLayout({ children }: { children: ReactNode }) {
                                   href={`/tools/${tool.id}`}
                                   onClick={() => setSidebarOpen(false)}
                                   className={cn(
-                                    "w-full flex items-center gap-3 px-3 py-2 rounded-md transition-colors relative",
+                                    "w-full flex items-center gap-2.5 px-3 py-1.5 rounded-md transition-all duration-150 relative text-sm",
                                     isActive
-                                      ? "bg-accent/15 text-accent"
-                                      : "text-muted-foreground hover:text-foreground hover:bg-secondary"
+                                      ? "font-medium"
+                                      : "text-muted-foreground hover:text-foreground hover:bg-secondary hover:translate-x-0.5"
                                   )}
+                                  style={isActive ? {
+                                    backgroundColor: `color-mix(in oklch, ${catColorVar} 12%, transparent)`,
+                                    color: catColorVar,
+                                  } : undefined}
                                 >
                                   {isActive && (
-                                    <div className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-5 bg-accent rounded-r-full" />
+                                    <div
+                                      className="absolute left-0 top-1/2 -translate-y-1/2 w-0.5 h-4 rounded-r-full"
+                                      style={{ backgroundColor: catColorVar }}
+                                      aria-hidden="true"
+                                    />
                                   )}
-                                  <Icon className="h-4 w-4 flex-shrink-0" />
-                                  <span className="font-medium text-sm truncate">{tool.name}</span>
+                                  <Icon className="h-3.5 w-3.5 flex-shrink-0" />
+                                  <span className="truncate">{tool.name}</span>
                                 </Link>
                               )
                             })}
